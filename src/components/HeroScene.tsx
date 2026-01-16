@@ -1,8 +1,6 @@
-'use client';
-
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, ContactShadows, PresentationControls, useGLTF, useTexture } from '@react-three/drei';
+import { Environment, ContactShadows, PresentationControls, useGLTF, useTexture, Loader } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -13,6 +11,7 @@ if (typeof window !== "undefined") {
 }
 
 useGLTF.preload('/models/laptop/scene.gltf');
+useTexture.preload('/textures/screen1.png');
 
 const LaptopGroup = () => {
     const groupRef = useRef<THREE.Group>(null);
@@ -57,7 +56,7 @@ const LaptopGroup = () => {
         gsap.set([leftScreen1.current.position, leftScreen2.current.position, rightScreen1.current.position, rightScreen2.current.position], { x: 0, z: -0.1 });
 
         const isScrolled = window.scrollY > 100;
-        const introDuration = isScrolled ? 0 : 1.5; 
+        const introDuration = isScrolled ? 0 : 1.5;
 
         // A. INTRO TIMELINE
         const introTl = gsap.timeline({
@@ -69,17 +68,17 @@ const LaptopGroup = () => {
         introTl
             .to(groupRef.current.position, { y: -1.9, duration: introDuration, ease: 'power3.out' }) // 1. Laptop Up
             .to(lidRef.current.rotation, { x: -0.2, duration: introDuration, ease: 'power2.inOut' }, isScrolled ? "<" : "-=1.0") // 2. Lid Open
-            
+
             // 3. EXPAND SCREENS
             .to(leftScreen1.current.position, { x: -30, z: 0.5, duration: 0.8, ease: 'power2.out' }, isScrolled ? "<" : "-=0.5")
             .to(leftScreen1.current.rotation, { y: 0.2, duration: 0.8, ease: 'power2.out' }, "<")
-            
+
             .to(rightScreen1.current.position, { x: 30, z: 0.5, duration: 0.8, ease: 'power2.out' }, "<")
             .to(rightScreen1.current.rotation, { y: -0.2, duration: 0.8, ease: 'power2.out' }, "<")
 
             .to(leftScreen2.current.position, { x: -56, z: 2, duration: 1, ease: 'power2.out' }, "<+0.1")
             .to(leftScreen2.current.rotation, { y: 0.35, duration: 1, ease: 'power2.out' }, "<")
-            
+
             .to(rightScreen2.current.position, { x: 56, z: 2, duration: 1, ease: 'power2.out' }, "<")
             .to(rightScreen2.current.rotation, { y: -0.35, duration: 1, ease: 'power2.out' }, "<");
 
@@ -93,7 +92,7 @@ const LaptopGroup = () => {
                     start: "top top",
                     end: "500px top",
                     scrub: 1,
-                    invalidateOnRefresh: true, 
+                    invalidateOnRefresh: true,
                 }
             });
 
@@ -122,7 +121,7 @@ const LaptopGroup = () => {
 
             {/* LID GROUP */}
             <group ref={lidRef} position={[0, 0.65, -10.3]} rotation={[1.57, 0, 0]}>
-                
+
                 {/* ORIGINAL BEZEL */}
                 <mesh
                     geometry={nodes.Screen_ComputerScreen_0.geometry}
@@ -175,11 +174,19 @@ const HeroScene = () => {
                     azimuth={[-0.4, 0.4]}
                     cursor={true}
                 >
-                    <LaptopGroup />
+                    <Suspense fallback={null}>
+                        <LaptopGroup />
+                    </Suspense>
                 </PresentationControls>
 
                 <ContactShadows position={[0, -2, 0]} opacity={0.4} scale={10} blur={2.5} far={4} color="#8a7e70" />
             </Canvas>
+            <Loader
+                containerStyles={{ background: 'transparent' }}
+                innerStyles={{ background: 'rgba(255, 255, 255, 0.5)', width: '200px', height: '10px' }}
+                barStyles={{ background: '#C6A87C', height: '10px' }}
+                dataStyles={{ display: 'none' }}
+            />
         </div>
     );
 };
