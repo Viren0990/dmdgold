@@ -1,0 +1,187 @@
+'use client';
+
+import React, { useRef, useEffect, useMemo } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Environment, ContactShadows, PresentationControls, useGLTF, useTexture } from '@react-three/drei';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import * as THREE from 'three';
+
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+}
+
+useGLTF.preload('/models/laptop/scene.gltf');
+
+const LaptopGroup = () => {
+    const groupRef = useRef<THREE.Group>(null);
+    const lidRef = useRef<THREE.Group>(null);
+
+    // REFS FOR THE 4 NEW SCREENS
+    const leftScreen1 = useRef<THREE.Mesh>(null);
+    const leftScreen2 = useRef<THREE.Mesh>(null);
+    const rightScreen1 = useRef<THREE.Mesh>(null);
+    const rightScreen2 = useRef<THREE.Mesh>(null);
+
+    const { nodes, materials } = useGLTF('/models/laptop/scene.gltf') as any;
+
+    // --- 1. ROSE GOLD TINT ---
+    useEffect(() => {
+        if (materials.ComputerFrame) {
+            materials.ComputerFrame.color.set('#e8b594');
+            materials.ComputerFrame.metalness = 0.8;
+            materials.ComputerFrame.roughness = 0.2;
+            materials.ComputerFrame.needsUpdate = true;
+        }
+    }, [materials]);
+
+    // --- 2. TEXTURES ---
+    const tex1 = useTexture('/textures/screen1.png');
+    tex1.flipY = false;
+    tex1.colorSpace = THREE.SRGBColorSpace;
+
+    const screenMat = useMemo(() => {
+        return new THREE.MeshBasicMaterial({
+            map: tex1,
+            toneMapped: false,
+            side: THREE.DoubleSide
+        });
+    }, [tex1]);
+
+    // --- 3. ANIMATION LOGIC ---
+    useGSAP(() => {
+        if (!groupRef.current || !lidRef.current || !leftScreen1.current || !leftScreen2.current || !rightScreen1.current || !rightScreen2.current) return;
+
+        // Reset positions initially
+        gsap.set([leftScreen1.current.position, leftScreen2.current.position, rightScreen1.current.position, rightScreen2.current.position], { x: 0, z: -0.1 });
+
+        const isScrolled = window.scrollY > 100;
+        const introDuration = isScrolled ? 0 : 1.5; 
+
+        // A. INTRO TIMELINE
+        const introTl = gsap.timeline({
+            onComplete: () => {
+                initScrollAnimation();
+            }
+        });
+
+        introTl
+            .to(groupRef.current.position, { y: -1.9, duration: introDuration, ease: 'power3.out' }) // 1. Laptop Up
+            .to(lidRef.current.rotation, { x: -0.2, duration: introDuration, ease: 'power2.inOut' }, isScrolled ? "<" : "-=1.0") // 2. Lid Open
+            
+            // 3. EXPAND SCREENS
+            .to(leftScreen1.current.position, { x: -30, z: 0.5, duration: 0.8, ease: 'power2.out' }, isScrolled ? "<" : "-=0.5")
+            .to(leftScreen1.current.rotation, { y: 0.2, duration: 0.8, ease: 'power2.out' }, "<")
+            
+            .to(rightScreen1.current.position, { x: 30, z: 0.5, duration: 0.8, ease: 'power2.out' }, "<")
+            .to(rightScreen1.current.rotation, { y: -0.2, duration: 0.8, ease: 'power2.out' }, "<")
+
+            .to(leftScreen2.current.position, { x: -56, z: 2, duration: 1, ease: 'power2.out' }, "<+0.1")
+            .to(leftScreen2.current.rotation, { y: 0.35, duration: 1, ease: 'power2.out' }, "<")
+            
+            .to(rightScreen2.current.position, { x: 56, z: 2, duration: 1, ease: 'power2.out' }, "<")
+            .to(rightScreen2.current.rotation, { y: -0.35, duration: 1, ease: 'power2.out' }, "<");
+
+        // Function to initialize ScrollTrigger
+        function initScrollAnimation() {
+            ScrollTrigger.getAll().forEach(t => t.kill());
+
+            const scrollTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: "top top",
+                    end: "500px top",
+                    scrub: 1,
+                    invalidateOnRefresh: true, 
+                }
+            });
+
+            scrollTl
+                .to([leftScreen1.current!.position, rightScreen1.current!.position], { x: 0, z: -0.1, duration: 0.5 })
+                .to([leftScreen2.current!.position, rightScreen2.current!.position], { x: 0, z: -0.1, duration: 0.5 }, "<")
+                .to([leftScreen1.current!.rotation, rightScreen1.current!.rotation, leftScreen2.current!.rotation, rightScreen2.current!.rotation], { y: 0, duration: 0.5 }, "<")
+                .to(lidRef.current!.rotation, { x: 1.57, duration: 1 }, ">")
+                .to(groupRef.current!.position, { y: -6, duration: 1 }, "<")
+                .to(groupRef.current!.rotation, { x: 0.2 }, "<");
+        }
+
+    }, []);
+
+    return (
+        // CHANGE HERE: Changed starting position from -5 to -3
+        // This makes it start closer to the viewport so it appears immediately
+        <group ref={groupRef} position={[0, -3, 0]} scale={0.08}>
+            {/* BASE */}
+            <mesh
+                geometry={nodes.Frame_ComputerFrame_0.geometry}
+                material={materials.ComputerFrame}
+                rotation={[-Math.PI / 2, 0, 0]}
+                scale={100}
+            />
+
+            {/* LID GROUP */}
+            <group ref={lidRef} position={[0, 0.65, -10.3]} rotation={[1.57, 0, 0]}>
+                
+                {/* ORIGINAL BEZEL */}
+                <mesh
+                    geometry={nodes.Screen_ComputerScreen_0.geometry}
+                    material={materials.ComputerScreen}
+                    position={[0, 0, 0]}
+                    rotation={[Math.PI, 0, -Math.PI]}
+                    scale={[100, 100, 88.235]}
+                />
+
+                {/* --- MAIN CENTER SCREEN --- */}
+                <mesh
+                    rotation={[Math.PI, Math.PI, Math.PI]}
+                    position={[0, 10.5, 0.15]}
+                    scale={[1, -1, 1]}
+                    material={screenMat}
+                >
+                    <planeGeometry args={[29, 16]} />
+                </mesh>
+
+                {/* --- EMERGING SIDE SCREENS --- */}
+                <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                    <planeGeometry args={[26, 14]} />
+                </mesh>
+                <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                    <planeGeometry args={[24, 13]} />
+                </mesh>
+                <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                    <planeGeometry args={[26, 14]} />
+                </mesh>
+                <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                    <planeGeometry args={[24, 13]} />
+                </mesh>
+            </group>
+        </group>
+    );
+};
+
+const HeroScene = () => {
+    return (
+        <div className="fixed top-0 left-0 w-full h-full z-0 bg-[#FAF9F6]">
+            {/* PERFORMANCE FIX: Added 'dpr' to prevent lag on high-res screens */}
+            <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 1.5, 7], fov: 40 }} gl={{ antialias: true }}>
+                <ambientLight intensity={1} />
+                <spotLight position={[10, 10, 10]} intensity={1.5} castShadow />
+                <Environment preset="city" environmentIntensity={1} />
+
+                <PresentationControls
+                    global
+                    polar={[-0.2, 0.2]}
+                    azimuth={[-0.4, 0.4]}
+                    cursor={true}
+                >
+                    <LaptopGroup />
+                </PresentationControls>
+
+                <ContactShadows position={[0, -2, 0]} opacity={0.4} scale={10} blur={2.5} far={4} color="#8a7e70" />
+            </Canvas>
+        </div>
+    );
+};
+
+export default HeroScene;
