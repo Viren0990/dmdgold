@@ -25,6 +25,28 @@ const LaptopGroup = () => {
 
     const { nodes, materials } = useGLTF('/models/laptop/scene.gltf') as any;
 
+    // --- RESPONSIVE LOGIC ---
+    const [screenMode, setScreenMode] = React.useState(0); // 0 = laptop only, 2 = 2 screens, 4 = 4 screens
+
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth;
+            if (width >= 1024) {
+                setScreenMode(4);
+            } else if (width >= 768) {
+                setScreenMode(2);
+            } else {
+                setScreenMode(0);
+            }
+        };
+
+        // Initial check
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // --- 1. ROSE GOLD TINT ---
     useEffect(() => {
         if (materials.ComputerFrame) {
@@ -50,10 +72,13 @@ const LaptopGroup = () => {
 
     // --- 3. ANIMATION LOGIC ---
     useGSAP(() => {
-        if (!groupRef.current || !lidRef.current || !leftScreen1.current || !leftScreen2.current || !rightScreen1.current || !rightScreen2.current) return;
+        if (!groupRef.current || !lidRef.current) return;
 
-        // Reset positions initially
-        gsap.set([leftScreen1.current.position, leftScreen2.current.position, rightScreen1.current.position, rightScreen2.current.position], { x: 0, z: -0.1 });
+        // Reset positions initially (checking if refs exist)
+        if (leftScreen1.current) gsap.set(leftScreen1.current.position, { x: 0, z: -0.1 });
+        if (leftScreen2.current) gsap.set(leftScreen2.current.position, { x: 0, z: -0.1 });
+        if (rightScreen1.current) gsap.set(rightScreen1.current.position, { x: 0, z: -0.1 });
+        if (rightScreen2.current) gsap.set(rightScreen2.current.position, { x: 0, z: -0.1 });
 
         const isScrolled = window.scrollY > 100;
         const introDuration = isScrolled ? 0 : 1.5;
@@ -67,24 +92,44 @@ const LaptopGroup = () => {
 
         introTl
             .to(groupRef.current.position, { y: -1.9, duration: introDuration, ease: 'power3.out' }) // 1. Laptop Up
-            .to(lidRef.current.rotation, { x: -0.2, duration: introDuration, ease: 'power2.inOut' }, isScrolled ? "<" : "-=1.0") // 2. Lid Open
+            .to(lidRef.current.rotation, { x: -0.2, duration: introDuration, ease: 'power2.inOut' }, isScrolled ? "<" : "-=1.0"); // 2. Lid Open
 
-            // 3. EXPAND SCREENS
-            .to(leftScreen1.current.position, { x: -30, z: 0.5, duration: 0.8, ease: 'power2.out' }, isScrolled ? "<" : "-=0.5")
-            .to(leftScreen1.current.rotation, { y: 0.2, duration: 0.8, ease: 'power2.out' }, "<")
+        // 3. EXPAND SCREENS (Conditional)
+        if (screenMode >= 2) {
+            if (leftScreen1.current) {
+                introTl.to(leftScreen1.current.position, { x: -30, z: 0.5, duration: 0.8, ease: 'power2.out' }, isScrolled ? "<" : "-=0.5")
+                    .to(leftScreen1.current.rotation, { y: 0.2, duration: 0.8, ease: 'power2.out' }, "<");
+            }
+            if (rightScreen1.current) {
+                introTl.to(rightScreen1.current.position, { x: 30, z: 0.5, duration: 0.8, ease: 'power2.out' }, "<")
+                    .to(rightScreen1.current.rotation, { y: -0.2, duration: 0.8, ease: 'power2.out' }, "<");
+            }
+        }
 
-            .to(rightScreen1.current.position, { x: 30, z: 0.5, duration: 0.8, ease: 'power2.out' }, "<")
-            .to(rightScreen1.current.rotation, { y: -0.2, duration: 0.8, ease: 'power2.out' }, "<")
+        if (screenMode >= 4) {
+            if (leftScreen2.current) {
+                introTl.to(leftScreen2.current.position, { x: -56, z: 2, duration: 1, ease: 'power2.out' }, "<+0.1")
+                    .to(leftScreen2.current.rotation, { y: 0.35, duration: 1, ease: 'power2.out' }, "<");
+            }
+            if (rightScreen2.current) {
+                introTl.to(rightScreen2.current.position, { x: 56, z: 2, duration: 1, ease: 'power2.out' }, "<")
+                    .to(rightScreen2.current.rotation, { y: -0.35, duration: 1, ease: 'power2.out' }, "<");
+            }
+        }
 
-            .to(leftScreen2.current.position, { x: -56, z: 2, duration: 1, ease: 'power2.out' }, "<+0.1")
-            .to(leftScreen2.current.rotation, { y: 0.35, duration: 1, ease: 'power2.out' }, "<")
-
-            .to(rightScreen2.current.position, { x: 56, z: 2, duration: 1, ease: 'power2.out' }, "<")
-            .to(rightScreen2.current.rotation, { y: -0.35, duration: 1, ease: 'power2.out' }, "<");
 
         // Function to initialize ScrollTrigger
         function initScrollAnimation() {
             ScrollTrigger.getAll().forEach(t => t.kill());
+
+            // Collect available screens for the scroll timeline
+            const screensPos: THREE.Vector3[] = [];
+            const screensRot: THREE.Euler[] = [];
+
+            if (leftScreen1.current) { screensPos.push(leftScreen1.current.position); screensRot.push(leftScreen1.current.rotation); }
+            if (rightScreen1.current) { screensPos.push(rightScreen1.current.position); screensRot.push(rightScreen1.current.rotation); }
+            if (leftScreen2.current) { screensPos.push(leftScreen2.current.position); screensRot.push(leftScreen2.current.rotation); }
+            if (rightScreen2.current) { screensPos.push(rightScreen2.current.position); screensRot.push(rightScreen2.current.rotation); }
 
             const scrollTl = gsap.timeline({
                 scrollTrigger: {
@@ -96,16 +141,24 @@ const LaptopGroup = () => {
                 }
             });
 
-            scrollTl
-                .to([leftScreen1.current!.position, rightScreen1.current!.position], { x: 0, z: -0.1, duration: 0.5 })
-                .to([leftScreen2.current!.position, rightScreen2.current!.position], { x: 0, z: -0.1, duration: 0.5 }, "<")
-                .to([leftScreen1.current!.rotation, rightScreen1.current!.rotation, leftScreen2.current!.rotation, rightScreen2.current!.rotation], { y: 0, duration: 0.5 }, "<")
-                .to(lidRef.current!.rotation, { x: 1.57, duration: 1 }, ">")
-                .to(groupRef.current!.position, { y: -6, duration: 1 }, "<")
+            // Base animation
+            const tl = scrollTl;
+
+            // Only animate screens if we have any
+            if (screensPos.length > 0) {
+                tl.to(screensPos, { x: 0, z: -0.1, duration: 0.5 });
+                tl.to(screensRot, { y: 0, duration: 0.5 }, "<");
+                tl.to(lidRef.current!.rotation, { x: 1.57, duration: 1 }, ">");
+            } else {
+                // Just close the lid directly if no screens
+                tl.to(lidRef.current!.rotation, { x: 1.57, duration: 1 });
+            }
+
+            tl.to(groupRef.current!.position, { y: -6, duration: 1 }, "<")
                 .to(groupRef.current!.rotation, { x: 0.2 }, "<");
         }
 
-    }, []);
+    }, [screenMode]); // Re-run if screenMode changes
 
     return (
         // CHANGE HERE: Changed starting position from -5 to -3
@@ -141,19 +194,32 @@ const LaptopGroup = () => {
                     <planeGeometry args={[29, 16]} />
                 </mesh>
 
-                {/* --- EMERGING SIDE SCREENS --- */}
-                <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                    <planeGeometry args={[26, 14]} />
-                </mesh>
-                <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                    <planeGeometry args={[24, 13]} />
-                </mesh>
-                <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                    <planeGeometry args={[26, 14]} />
-                </mesh>
-                <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                    <planeGeometry args={[24, 13]} />
-                </mesh>
+                {/* --- EMERGING SIDE SCREENS (CONDITIONAL) --- */}
+
+                {/* 2 Screens Mode (Medium + Large) */}
+                {screenMode >= 2 && (
+                    <>
+                        <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                            <planeGeometry args={[26, 14]} />
+                        </mesh>
+                        <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                            <planeGeometry args={[26, 14]} />
+                        </mesh>
+                    </>
+                )}
+
+                {/* 4 Screens Mode (Large only) */}
+                {screenMode >= 4 && (
+                    <>
+                        <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                            <planeGeometry args={[24, 13]} />
+                        </mesh>
+                        <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
+                            <planeGeometry args={[24, 13]} />
+                        </mesh>
+                    </>
+                )}
+
             </group>
         </group>
     );

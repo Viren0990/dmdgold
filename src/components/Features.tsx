@@ -3,20 +3,20 @@
 import React from 'react';
 
 // Reusable Card Component for consistent "Luxury Glass" feel
-const BentoCard = ({ 
-  title, 
-  subtitle, 
-  description, 
+const BentoCard = ({
+  title,
+  subtitle,
+  description,
   className = "",
-  delay = "0ms" 
-}: { 
-  title: string, 
-  subtitle: string, 
-  description: string, 
+  delay = "0ms"
+}: {
+  title: string,
+  subtitle: string,
+  description: string,
   className?: string,
   delay?: string
 }) => (
-  <div 
+  <div
     className={`
       group relative overflow-hidden rounded-3xl p-8 
       bg-[#FAF9F6] border border-[#C6A87C]/20 
@@ -28,7 +28,7 @@ const BentoCard = ({
   >
     {/* Hover Gradient Effect */}
     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#C6A87C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    
+
     <div className="relative z-10 flex flex-col h-full justify-between space-y-4">
       <div>
         <h4 className="text-[#C6A87C] text-xs font-bold tracking-[0.2em] uppercase mb-2">
@@ -48,7 +48,7 @@ const BentoCard = ({
 export default function Features() {
   return (
     <div className="relative z-20 bg-white w-full py-24 px-6 md:px-12 shadow-[0_-50px_100px_rgba(0,0,0,0.05)] rounded-t-[3rem]">
-      
+
       <div className="max-w-7xl mx-auto">
         {/* SECTION HEADER */}
         <div className="text-center mb-20 space-y-4">
@@ -58,8 +58,8 @@ export default function Features() {
           <h3 className="text-4xl md:text-5xl font-serif text-[#2C2C2C]">
             Everything You Need to Shine
           </h3>
-          <p className="text-gray-500 max-w-lg mx-auto">
-            From the artisan's bench to the customer's hand, manage your entire jewelry lifecycle with precision and elegance.
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
+            From tracking every gram of gold to printing GST bills in seconds—DMD Gold is the easy-to-use software built by jewelers, for jewelers.
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default function Features() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(250px,auto)]">
 
           {/* 1. RFID INVENTORY (Large) */}
-          <BentoCard 
+          <BentoCard
             className="md:col-span-2"
             subtitle="Inventory Management"
             title="RFID & QR Precision Stock"
@@ -75,7 +75,7 @@ export default function Features() {
           />
 
           {/* 2. MOBILE APP (Standard) */}
-          <BentoCard 
+          <BentoCard
             className="md:col-span-1"
             subtitle="Mobile Access"
             title="Business on the Go"
@@ -83,7 +83,7 @@ export default function Features() {
           />
 
           {/* 3. CRM (Standard) */}
-          <BentoCard 
+          <BentoCard
             className="md:col-span-1"
             subtitle="CRM Suite"
             title="Client Relationships"
@@ -91,7 +91,7 @@ export default function Features() {
           />
 
           {/* 4. KARIGAR MGMT (Large) */}
-          <BentoCard 
+          <BentoCard
             className="md:col-span-2"
             subtitle="Manufacturing"
             title="Karigar & Artisan Tracking"
@@ -99,7 +99,7 @@ export default function Features() {
           />
 
           {/* 5. BILLING (Large) */}
-          <BentoCard 
+          <BentoCard
             className="md:col-span-2"
             subtitle="Finance"
             title="Smart Invoicing & GST"
@@ -107,7 +107,7 @@ export default function Features() {
           />
 
           {/* 6. B2B WHOLESALE (Standard) */}
-          <BentoCard 
+          <BentoCard
             className="md:col-span-1"
             subtitle="B2B & Catalog"
             title="Wholesale Orders"
@@ -115,7 +115,7 @@ export default function Features() {
           />
 
         </div>
-        
+
         {/* Bottom Spacing */}
         <div className="h-24"></div>
       </div>
