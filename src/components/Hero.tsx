@@ -38,7 +38,7 @@ export default function Hero() {
           {/* MAIN TITLE */}
           <h1
             className={`
-              text-[#2C2C2C] text-5xl md:text-6xl font-serif font-medium leading-tight
+              text-[#2C2C2C] text-4xl md:text-6xl font-serif font-medium leading-tight
               transition-all duration-700 ease-out
               ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
             `}
