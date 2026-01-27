@@ -10,7 +10,7 @@ if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-useGLTF.preload('/models/laptop/scene.gltf');
+useGLTF.preload('/models/laptop/scene.glb');
 useTexture.preload('/textures/screen1.png');
 
 const LaptopGroup = () => {
@@ -23,7 +23,7 @@ const LaptopGroup = () => {
     const rightScreen1 = useRef<THREE.Mesh>(null);
     const rightScreen2 = useRef<THREE.Mesh>(null);
 
-    const { nodes, materials } = useGLTF('/models/laptop/scene.gltf') as any;
+    const { nodes, materials } = useGLTF('/models/laptop/scene.glb') as any;
 
     // --- RESPONSIVE LOGIC ---
     const [screenMode, setScreenMode] = React.useState(0); // 0 = laptop only, 2 = 2 screens, 4 = 4 screens
