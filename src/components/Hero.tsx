@@ -2,21 +2,33 @@
 
 import { useEffect, useState } from 'react';
 import HeroScene from './HeroScene';
+import LoadingScreen from './LoadingScreen';
 
 export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
-    // Trigger almost immediately after mount
+    // 1. Start the "slide up" animation after 1.5 seconds
     const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 50);
+      setShowLoader(false);
+    }, 1500);
 
-    return () => clearTimeout(timer);
+    // 2. Trigger text animations slightly after the curtain starts lifting
+    const textTimer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 1900); // 1500ms + 400ms delay
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(textTimer);
+    };
   }, []);
 
   return (
     <section className="relative h-screen w-full">
+      {/* LOADER CURTAIN */}
+      <LoadingScreen isLoading={showLoader} />
 
       {/* 1. HERO TEXT LAYER */}
       <div className="relative h-full w-full flex flex-col items-center pt-24 z-10 pointer-events-none mb-4">

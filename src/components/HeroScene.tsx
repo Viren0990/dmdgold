@@ -31,7 +31,7 @@ const LaptopGroup = () => {
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
-            if (width >= 1024) {
+            if (width >= 1060) {
                 setScreenMode(4);
             } else if (width >= 768) {
                 setScreenMode(2);
