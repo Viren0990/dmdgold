@@ -6,11 +6,7 @@ export default function Contact() {
   const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  // YOUR GOOGLE SCRIPT URL HERE
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeEmbIAVjy1j9agw5IcLsCQo3OWsXB6mKxNsmlTl_H1aXUBDlixG5BOxQzMaszjbqwKw/exec";
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Note: Keys must match Google Sheet Headers exactly
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
@@ -18,18 +14,19 @@ export default function Contact() {
     e.preventDefault();
     setStatus('submitting');
 
-    const formData = new FormData();
-    formData.append('Name', formState.Name);
-    formData.append('Business', formState.Business);
-    formData.append('Phone', formState.Phone);
-    formData.append('Email', formState.Email);
-
     try {
-      await fetch(GOOGLE_SCRIPT_URL, {
+      const response = await fetch('/api/contact', {
         method: "POST",
-        body: formData,
-        mode: "no-cors" // Important for Google Sheets
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formState)
       });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
       setStatus('success');
       setFormState({ Name: '', Business: '', Phone: '', Email: '' });
     } catch (error) {

@@ -1,23 +1,23 @@
 import React, { useRef, useEffect, useMemo, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, ContactShadows, PresentationControls, useGLTF, useTexture, Loader } from '@react-three/drei';
+import { Environment, ContactShadows, PresentationControls, useGLTF, Loader } from '@react-three/drei';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import * as THREE from 'three';
+import { useScreenTexture, paintOrderTracking, paintInventory, paintDashboard, paintBilling, paintProduct } from './ScreenTextures';
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger);
 }
 
 useGLTF.preload('/models/laptop/scene.glb');
-useTexture.preload('/textures/screen1.png');
 
 const LaptopGroup = () => {
     const groupRef = useRef<THREE.Group>(null);
     const lidRef = useRef<THREE.Group>(null);
 
-    // REFS FOR THE 4 NEW SCREENS
+    // REFS FOR THE 4 SIDE SCREENS
     const leftScreen1 = useRef<THREE.Mesh>(null);
     const leftScreen2 = useRef<THREE.Mesh>(null);
     const rightScreen1 = useRef<THREE.Mesh>(null);
@@ -26,7 +26,7 @@ const LaptopGroup = () => {
     const { nodes, materials } = useGLTF('/models/laptop/scene.glb') as any;
 
     // --- RESPONSIVE LOGIC ---
-    const [screenMode, setScreenMode] = React.useState(0); // 0 = laptop only, 2 = 2 screens, 4 = 4 screens
+    const [screenMode, setScreenMode] = React.useState(0);
 
     useEffect(() => {
         const handleResize = () => {
@@ -39,15 +39,12 @@ const LaptopGroup = () => {
                 setScreenMode(0);
             }
         };
-
-        // Initial check
         handleResize();
-
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // --- 1. ROSE GOLD TINT ---
+    // --- ROSE GOLD TINT ---
     useEffect(() => {
         if (materials.ComputerFrame) {
             materials.ComputerFrame.color.set('#e8b594');
@@ -57,72 +54,92 @@ const LaptopGroup = () => {
         }
     }, [materials]);
 
-    // --- 2. TEXTURES ---
-    const tex1 = useTexture('/textures/screen1.png');
-    tex1.flipY = false;
-    tex1.colorSpace = THREE.SRGBColorSpace;
+    // --- CANVAS TEXTURES (coded UI screens) ---
+    const texCenter = useScreenTexture(paintDashboard, 960, 540);
+    const texInnerLeft = useScreenTexture(paintInventory, 860, 500);
+    const texInnerRight = useScreenTexture(paintBilling, 860, 500);
+    const texFarLeft = useScreenTexture(paintOrderTracking, 800, 470);
+    const texFarRight = useScreenTexture(paintProduct, 800, 470);
 
-    const screenMat = useMemo(() => {
-        return new THREE.MeshBasicMaterial({
-            map: tex1,
-            toneMapped: false,
-            side: THREE.DoubleSide
-        });
-    }, [tex1]);
+    const matCenter = useMemo(() => new THREE.MeshBasicMaterial({ map: texCenter, toneMapped: false, side: THREE.DoubleSide }), [texCenter]);
+    const matInnerLeft = useMemo(() => new THREE.MeshBasicMaterial({ map: texInnerLeft, toneMapped: false, side: THREE.DoubleSide }), [texInnerLeft]);
+    const matInnerRight = useMemo(() => new THREE.MeshBasicMaterial({ map: texInnerRight, toneMapped: false, side: THREE.DoubleSide }), [texInnerRight]);
+    const matFarLeft = useMemo(() => new THREE.MeshBasicMaterial({ map: texFarLeft, toneMapped: false, side: THREE.DoubleSide }), [texFarLeft]);
+    const matFarRight = useMemo(() => new THREE.MeshBasicMaterial({ map: texFarRight, toneMapped: false, side: THREE.DoubleSide }), [texFarRight]);
 
-    // --- 3. ANIMATION LOGIC ---
+    // --- ANIMATION LOGIC ---
     useGSAP(() => {
         if (!groupRef.current || !lidRef.current) return;
 
-        // Reset positions initially (checking if refs exist)
+        // --- Robust scroll lock during intro animation ---
+        // Blocks wheel, touch, and keyboard scroll so user can't
+        // scroll past the ScrollTrigger zone before it's set up
+        const preventScroll = (e: Event) => e.preventDefault();
+        const preventScrollKeys = (e: KeyboardEvent) => {
+            const keys = ['ArrowDown', 'ArrowUp', 'Space', 'PageDown', 'PageUp', 'Home', 'End'];
+            if (keys.includes(e.code)) e.preventDefault();
+        };
+
+        window.scrollTo(0, 0);
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+        window.addEventListener('wheel', preventScroll, { passive: false });
+        window.addEventListener('touchmove', preventScroll, { passive: false });
+        window.addEventListener('keydown', preventScrollKeys, { passive: false });
+
+        const unlockScroll = () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            window.removeEventListener('wheel', preventScroll);
+            window.removeEventListener('touchmove', preventScroll);
+            window.removeEventListener('keydown', preventScrollKeys);
+        };
+
         if (leftScreen1.current) gsap.set(leftScreen1.current.position, { x: 0, z: -0.1 });
         if (leftScreen2.current) gsap.set(leftScreen2.current.position, { x: 0, z: -0.1 });
         if (rightScreen1.current) gsap.set(rightScreen1.current.position, { x: 0, z: -0.1 });
         if (rightScreen2.current) gsap.set(rightScreen2.current.position, { x: 0, z: -0.1 });
 
         const isScrolled = window.scrollY > 100;
-        const introDuration = isScrolled ? 0 : 1.5;
+        const introDuration = isScrolled ? 0 : 2.0;
 
-        // A. INTRO TIMELINE
         const introTl = gsap.timeline({
             onComplete: () => {
+                // Unlock scroll now that ScrollTrigger is about to be set up
+                unlockScroll();
                 initScrollAnimation();
             }
         });
 
         introTl
-            .to(groupRef.current.position, { y: -1.9, duration: introDuration, ease: 'power3.out' }) // 1. Laptop Up
-            .to(lidRef.current.rotation, { x: -0.2, duration: introDuration, ease: 'power2.inOut' }, isScrolled ? "<" : "-=1.0"); // 2. Lid Open
+            .to(groupRef.current.position, { y: -1.9, duration: introDuration, ease: 'power3.out' })
+            .to(lidRef.current.rotation, { x: -0.2, duration: introDuration, ease: 'power2.inOut' }, isScrolled ? "<" : "-=1.2");
 
-        // 3. EXPAND SCREENS (Conditional)
         if (screenMode >= 2) {
             if (leftScreen1.current) {
-                introTl.to(leftScreen1.current.position, { x: -30, z: 0.5, duration: 0.8, ease: 'power2.out' }, isScrolled ? "<" : "-=0.5")
-                    .to(leftScreen1.current.rotation, { y: 0.2, duration: 0.8, ease: 'power2.out' }, "<");
+                introTl.to(leftScreen1.current.position, { x: -30, z: 0.5, duration: 1.0, ease: 'power2.out' }, isScrolled ? "<" : "-=0.5")
+                    .to(leftScreen1.current.rotation, { y: 0.2, duration: 1.0, ease: 'power2.out' }, "<");
             }
             if (rightScreen1.current) {
-                introTl.to(rightScreen1.current.position, { x: 30, z: 0.5, duration: 0.8, ease: 'power2.out' }, "<")
-                    .to(rightScreen1.current.rotation, { y: -0.2, duration: 0.8, ease: 'power2.out' }, "<");
+                introTl.to(rightScreen1.current.position, { x: 30, z: 0.5, duration: 1.0, ease: 'power2.out' }, "<")
+                    .to(rightScreen1.current.rotation, { y: -0.2, duration: 1.0, ease: 'power2.out' }, "<");
             }
         }
 
         if (screenMode >= 4) {
             if (leftScreen2.current) {
-                introTl.to(leftScreen2.current.position, { x: -56, z: 2, duration: 1, ease: 'power2.out' }, "<+0.1")
-                    .to(leftScreen2.current.rotation, { y: 0.35, duration: 1, ease: 'power2.out' }, "<");
+                introTl.to(leftScreen2.current.position, { x: -56, z: 2, duration: 1.0, ease: 'power2.out' }, "<+0.1")
+                    .to(leftScreen2.current.rotation, { y: 0.35, duration: 1.0, ease: 'power2.out' }, "<");
             }
             if (rightScreen2.current) {
-                introTl.to(rightScreen2.current.position, { x: 56, z: 2, duration: 1, ease: 'power2.out' }, "<")
-                    .to(rightScreen2.current.rotation, { y: -0.35, duration: 1, ease: 'power2.out' }, "<");
+                introTl.to(rightScreen2.current.position, { x: 56, z: 2, duration: 1.0, ease: 'power2.out' }, "<")
+                    .to(rightScreen2.current.rotation, { y: -0.35, duration: 1.0, ease: 'power2.out' }, "<");
             }
         }
 
-
-        // Function to initialize ScrollTrigger
         function initScrollAnimation() {
             ScrollTrigger.getAll().forEach(t => t.kill());
 
-            // Collect available screens for the scroll timeline
             const screensPos: THREE.Vector3[] = [];
             const screensRot: THREE.Euler[] = [];
 
@@ -141,16 +158,13 @@ const LaptopGroup = () => {
                 }
             });
 
-            // Base animation
             const tl = scrollTl;
 
-            // Only animate screens if we have any
             if (screensPos.length > 0) {
                 tl.to(screensPos, { x: 0, z: -0.1, duration: 0.5 });
                 tl.to(screensRot, { y: 0, duration: 0.5 }, "<");
                 tl.to(lidRef.current!.rotation, { x: 1.57, duration: 1 }, ">");
             } else {
-                // Just close the lid directly if no screens
                 tl.to(lidRef.current!.rotation, { x: 1.57, duration: 1 });
             }
 
@@ -158,11 +172,13 @@ const LaptopGroup = () => {
                 .to(groupRef.current!.rotation, { x: 0.2 }, "<");
         }
 
-    }, [screenMode]); // Re-run if screenMode changes
+        // Cleanup: ensure scroll is unlocked on unmount or re-run
+        return () => {
+            unlockScroll();
+        };
+    }, [screenMode]);
 
     return (
-        // CHANGE HERE: Changed starting position from -5 to -3
-        // This makes it start closer to the viewport so it appears immediately
         <group ref={groupRef} position={[0, -3, 0]} scale={0.08}>
             {/* BASE */}
             <mesh
@@ -189,35 +205,39 @@ const LaptopGroup = () => {
                     rotation={[Math.PI, Math.PI, Math.PI]}
                     position={[0, 10.5, 0.15]}
                     scale={[1, -1, 1]}
-                    material={screenMat}
+                    material={matCenter}
                 >
                     <planeGeometry args={[29, 16]} />
                 </mesh>
 
-                {/* --- EMERGING SIDE SCREENS (CONDITIONAL) --- */}
+                {/* --- SIDE SCREENS (CONDITIONAL) --- */}
 
-                {/* 2 Screens Mode (Medium + Large) */}
+                {/* Inner Left - Inventory */}
                 {screenMode >= 2 && (
-                    <>
-                        <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                            <planeGeometry args={[26, 14]} />
-                        </mesh>
-                        <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                            <planeGeometry args={[26, 14]} />
-                        </mesh>
-                    </>
+                    <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matInnerLeft}>
+                        <planeGeometry args={[24, 14]} />
+                    </mesh>
                 )}
 
-                {/* 4 Screens Mode (Large only) */}
+                {/* Inner Right - Billing */}
+                {screenMode >= 2 && (
+                    <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matInnerRight}>
+                        <planeGeometry args={[24, 14]} />
+                    </mesh>
+                )}
+
+                {/* Far Left - Order Tracking */}
                 {screenMode >= 4 && (
-                    <>
-                        <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                            <planeGeometry args={[24, 13]} />
-                        </mesh>
-                        <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={screenMat}>
-                            <planeGeometry args={[24, 13]} />
-                        </mesh>
-                    </>
+                    <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matFarLeft}>
+                        <planeGeometry args={[22, 13]} />
+                    </mesh>
+                )}
+
+                {/* Far Right - Product */}
+                {screenMode >= 4 && (
+                    <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matFarRight}>
+                        <planeGeometry args={[22, 13]} />
+                    </mesh>
                 )}
 
             </group>
@@ -228,7 +248,6 @@ const LaptopGroup = () => {
 const HeroScene = () => {
     return (
         <div className="fixed top-0 left-0 w-full h-full z-0 bg-[#FAF9F6]">
-            {/* PERFORMANCE FIX: Added 'dpr' to prevent lag on high-res screens */}
             <Canvas shadows dpr={[1, 1.5]} camera={{ position: [0, 1.5, 7], fov: 40 }} gl={{ antialias: true }}>
                 <ambientLight intensity={1} />
                 <spotLight position={[10, 10, 10]} intensity={1.5} castShadow />
