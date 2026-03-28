@@ -54,61 +54,94 @@ const LoginVisual = () => (
   </div>
 );
 
-const InventoryVisual = () => (
-  <div className="w-full h-full bg-[#FAF9F6] rounded-3xl border border-[#C6A87C]/20 p-8 flex flex-col relative overflow-hidden shadow-2xl">
-    <div className="absolute top-0 left-0 w-full h-1 bg-[#C6A87C]/30" />
-    <div className="flex justify-between items-center mb-8">
-      <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">Live Stock View</div>
-      <div className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active Scanner</div>
-    </div>
-    <div className="grid grid-cols-4 gap-4">
-       {[...Array(12)].map((_, i) => (
-         <div key={i} className={`h-24 rounded-xl border flex items-center justify-center transition-all duration-500 ${i < 8 ? 'bg-[#C6A87C] border-[#C6A87C] shadow-md shadow-[#C6A87C]/20' : 'bg-white border-dashed border-gray-300'}`}>
-            {i < 8 && <div className="text-white font-serif text-xl">Au</div>}
+const InventoryVisual = () => {
+  const stockCategories = [
+    { name: "Gold", symbol: "Au" },
+    { name: "Diamond", symbol: "Di" },
+    { name: "Gemstones", symbol: "Gm" },
+    { name: "Platinum", symbol: "Pt" },
+    { name: "Silver", symbol: "Ag" },
+    { name: "Titanium", symbol: "Ti" },
+    { name: "Semi Prec.", symbol: "Sp" },
+  ];
+
+  return (
+    <div className="w-full h-full bg-[#FAF9F6] rounded-3xl border border-[#C6A87C]/20 p-8 flex flex-col relative overflow-hidden shadow-2xl">
+      <div className="absolute top-0 left-0 w-full h-1 bg-[#C6A87C]/30" />
+      <div className="flex justify-between items-center mb-8">
+        <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">Live Stock View</div>
+        <div className="px-3 py-1 bg-[#1A1A1A] text-[#C6A87C] text-[10px] tracking-wider font-bold rounded-full border border-[#C6A87C]/30 shadow-sm uppercase">Active Scanner</div>
+      </div>
+      <div className="grid grid-cols-4 gap-3">
+         {stockCategories.map((cat, i) => (
+           <div key={i} className="h-24 rounded-xl border border-[#C6A87C]/20 bg-white flex flex-col items-center justify-center shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group cursor-pointer p-1 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#C6A87C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="text-2xl mb-1 font-serif text-[#C6A87C] group-hover:scale-110 transition-transform duration-300 z-10">{cat.symbol}</div>
+              <div className="text-gray-500 group-hover:text-[#2C2C2C] transition-colors text-[9px] font-bold uppercase tracking-wider text-center z-10">{cat.name}</div>
+           </div>
+         ))}
+         {[...Array(5)].map((_, i) => (
+           <div key={`empty-${i}`} className="h-24 rounded-xl border border-dashed border-gray-200 bg-gray-50/50 flex flex-col items-center justify-center">
+              <div className="text-gray-300 font-light text-xl">+</div>
+           </div>
+         ))}
+      </div>
+      <div className="mt-auto flex justify-between items-center text-sm text-gray-500 bg-white p-4 rounded-xl border shadow-sm">
+         <div>
+           <div className="text-xs uppercase font-bold text-gray-400">Total Pieces</div>
+           <div className="font-bold text-[#2C2C2C] text-lg">570</div>
          </div>
-       ))}
+         <div className="text-right">
+           <div className="text-xs uppercase font-bold text-gray-400">Stock Value</div>
+           <div className="font-bold text-[#C6A87C] text-lg">₹4.2 Cr</div>
+         </div>
+      </div>
     </div>
-    <div className="mt-auto flex justify-between items-center text-sm text-gray-500 bg-white p-4 rounded-xl border shadow-sm">
-       <div>
-         <div className="text-xs uppercase font-bold text-gray-400">Total Pieces</div>
-         <div className="font-bold text-[#2C2C2C] text-lg">570</div>
-       </div>
-       <div className="text-right">
-         <div className="text-xs uppercase font-bold text-gray-400">Stock Value</div>
-         <div className="font-bold text-[#C6A87C] text-lg">₹4.2 Cr</div>
-       </div>
-    </div>
-  </div>
-);
+  );
+};
 
 const DetailsVisual = () => (
   <div className="w-full h-full bg-[#1A1A1A] rounded-3xl border border-white/10 p-8 flex flex-col shadow-2xl">
     <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase mb-6">Product Specifications</div>
     <div className="flex gap-6 items-center mb-8">
-      <div className="w-24 h-24 rounded-full border-2 border-[#C6A87C] border-dashed flex items-center justify-center">
-        <div className="w-20 h-20 rounded-full bg-gray-800" />
+      <div className="w-24 h-24 rounded-full border-2 border-[#C6A87C] border-dashed flex items-center justify-center relative">
+        <div className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center text-3xl">💍</div>
+        <div className="absolute -bottom-2 -right-2 bg-[#C6A87C] text-[#1A1A1A] text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Custom</div>
       </div>
       <div>
         <div className="text-xl text-white font-serif">Bridal Choker Set</div>
-        <div className="text-xs text-[#C6A87C] mt-1 font-mono bg-[#C6A87C]/10 inline-block px-2 py-1 rounded">HUID: ABCD56</div>
+        <div className="text-xs text-[#C6A87C] mt-2 font-mono bg-[#C6A87C]/10 inline-block px-2 py-1 rounded border border-[#C6A87C]/30">HUID: ABCD56</div>
       </div>
     </div>
-    <div className="grid grid-cols-2 gap-4 flex-1">
-      <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+    <div className="grid grid-cols-2 gap-4 flex-1 mt-2">
+      <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-[#C6A87C]/50 transition-colors">
         <div className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Purity</div>
-        <div className="text-white font-medium mt-1">22K (916)</div>
+        <div className="text-white font-medium mt-1 text-sm">22K (916)</div>
       </div>
-      <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+      <div className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-[#C6A87C]/50 transition-colors">
         <div className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Gross Weight</div>
-        <div className="text-white font-medium mt-1">45.500 g</div>
+        <div className="text-white font-medium mt-1 text-sm">45.500 g</div>
       </div>
-      <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-        <div className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Diamond Quality</div>
-        <div className="text-white font-medium mt-1">VVS / E-F</div>
-      </div>
-      <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-        <div className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Making Charge</div>
-        <div className="text-white font-medium mt-1">12% / gm</div>
+      <div className="bg-white/5 p-4 rounded-xl border border-white/10 col-span-2 hover:border-[#C6A87C]/50 transition-colors">
+        <div className="text-[10px] text-[#C6A87C] uppercase font-bold tracking-wider mb-2">Diamond 4C Specifications</div>
+        <div className="grid grid-cols-4 gap-2 text-xs">
+          <div className="bg-black/30 p-2 rounded text-center border border-white/5">
+            <div className="text-gray-500 mb-1 text-[10px] uppercase font-bold">Color</div>
+            <div className="text-white font-bold">D-E</div>
+          </div>
+          <div className="bg-black/30 p-2 rounded text-center border border-white/5">
+            <div className="text-gray-500 mb-1 text-[10px] uppercase font-bold">Cut</div>
+            <div className="text-white font-bold">Ideal</div>
+          </div>
+          <div className="bg-black/30 p-2 rounded text-center border border-white/5">
+            <div className="text-gray-500 mb-1 text-[10px] uppercase font-bold">Clarity</div>
+            <div className="text-white font-bold">VVS1</div>
+          </div>
+          <div className="bg-black/30 p-2 rounded text-center border border-white/5">
+            <div className="text-gray-500 mb-1 text-[10px] uppercase font-bold">Carat</div>
+            <div className="text-white font-bold">2.50 ct</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -215,15 +248,15 @@ const TrackingVisual = () => (
      <div className="space-y-8 relative z-10">
         <div className="flex gap-4 items-center">
            <div className="w-8 h-8 rounded-full bg-green-500 text-white font-bold flex items-center justify-center shadow-lg shadow-green-500/20">✓</div>
-           <div className="text-gray-300 font-medium">Order Placed & Advance</div>
+           <div className="text-gray-300 font-medium">Order Confirmed & Advance</div>
         </div>
         <div className="flex gap-4 items-center">
            <div className="w-8 h-8 rounded-full bg-[#C6A87C] text-[#1A1A1A] font-bold flex items-center justify-center animate-pulse shadow-lg shadow-[#C6A87C]/30">2</div>
-           <div className="text-white font-bold">With Karigar (Casting)</div>
+           <div className="text-white font-bold">In Production / Processing</div>
         </div>
         <div className="flex gap-4 items-center opacity-30">
            <div className="w-8 h-8 rounded-full border border-gray-500 flex items-center justify-center">3</div>
-           <div className="text-gray-500">Hallmarking (HUID)</div>
+           <div className="text-gray-500">Quality Inspection</div>
         </div>
         <div className="flex gap-4 items-center opacity-30">
            <div className="w-8 h-8 rounded-full border border-gray-500 flex items-center justify-center">4</div>
@@ -337,11 +370,11 @@ const BillingDeskVisual = () => (
 
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4 flex-1">
       <div className="flex justify-between text-xs text-gray-500 mb-2 font-medium"><span>Subtotal</span><span>₹2,45,000</span></div>
-      <div className="flex justify-between text-xs text-gray-500 mb-2 font-medium"><span>GST (3%)</span><span>₹7,350</span></div>
-      <div className="flex justify-between text-xs text-green-600 font-bold mb-3 border-b border-gray-100 pb-3"><span>Festive Discount</span><span>-₹2,350</span></div>
+      <div className="flex justify-between text-xs text-green-600 font-bold mb-2"><span>Festive Discount</span><span>-₹5,000</span></div>
+      <div className="flex justify-between text-xs text-gray-500 mb-3 border-b border-gray-100 pb-3 font-medium"><span>GST (3%) on ₹2.40L</span><span>₹7,200</span></div>
       <div className="flex justify-between items-center text-[#2C2C2C] pt-1">
         <span className="text-xs font-bold uppercase tracking-wider text-gray-400">Net Payable</span>
-        <span className="text-2xl font-black text-[#2C2C2C]">₹2,50,000</span>
+        <span className="text-2xl font-black text-[#2C2C2C]">₹2,47,200</span>
       </div>
     </div>
 
@@ -363,6 +396,40 @@ const BillingDeskVisual = () => (
 );
 
 
+const B2BCatalogVisual = () => (
+  <div className="w-full h-full bg-[#FAF9F6] rounded-3xl border border-[#C6A87C]/20 p-8 flex flex-col shadow-2xl relative overflow-hidden">
+    <div className="flex justify-between items-center mb-6 border-b border-[#C6A87C]/20 pb-4">
+      <div>
+        <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">Wholesale Portal</div>
+        <div className="text-xl font-serif text-[#2C2C2C] mt-1">Digital Catalog</div>
+      </div>
+      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow">
+        <span className="text-xl">🏬</span>
+      </div>
+    </div>
+    
+    <div className="grid grid-cols-2 gap-4 flex-1">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 flex flex-col group cursor-pointer hover:border-[#C6A87C] transition-colors">
+          <div className="h-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center mb-3">
+             <div className="w-12 h-12 rounded-full border border-dashed border-[#C6A87C]/50 flex items-center justify-center text-xl">💍</div>
+          </div>
+          <div className="text-sm font-bold text-[#2C2C2C]">Design #{1040 + i}</div>
+          <div className="flex justify-between items-center mt-auto pt-2">
+            <span className="text-[10px] text-gray-400 font-bold uppercase">In Stock: {i * 5 + 2}</span>
+            <span className="text-xs text-[#C6A87C] font-bold">View</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div className="mt-6 flex justify-center">
+      <div className="px-6 py-2 bg-[#2C2C2C] text-white text-xs font-bold tracking-wider rounded-full shadow-lg cursor-pointer hover:bg-black transition-colors">
+        Share Catalog Link
+      </div>
+    </div>
+  </div>
+);
+
 // --- MAIN COMPONENT ---
 
 const features = [
@@ -377,56 +444,63 @@ const features = [
     id: 2,
     title: "Track Stock Instantly",
     subtitle: "Zero Discrepancy",
-    description: "Know exactly how many rings, chains, or necklaces you have at any moment. Our system tracks every item from your safe vault to your display trays. When an item is sold, it gets removed from the stock automatically. You can always see the exact total value of your jewelry without manual counting.",
+    description: "Know exactly how many rings, chains, or necklaces you have at any moment. Our system tracks every item from your safe vault to your display trays. When an item is sold, it gets removed from the stock automatically.",
     visual: <InventoryVisual />
   },
   {
     id: 3,
-    title: "Full Jewelry Details",
-    subtitle: "Master Catalog",
-    description: "Store every important detail about your jewelry in one place. You can save the gold purity (like 18K, 22K, 24K), diamond quality (VVS, E-F color), exact HUID numbers required by the government, and the specific making charges for every single piece in your shop.",
-    visual: <DetailsVisual />
+    title: "B2B Digital Catalog",
+    subtitle: "Wholesale Showcase",
+    description: "Empower your wholesale business by freely showcasing your products to retailers. Let your B2B clients browse your latest designs, check real-time availability, and securely place orders from anywhere without exposing your pricing to the public.",
+    visual: <B2BCatalogVisual />
   },
   {
     id: 4,
+    title: "Full Jewelry Details",
+    subtitle: "Master Catalog",
+    description: "Store every important detail about your jewelry in one place. Fully customize and fill in exactly the details you need—tailored perfectly to your unique showroom requirements, whether that's gold purity, exact 4C diamond specifications, or HUID numbers.",
+    visual: <DetailsVisual />
+  },
+  {
+    id: 5,
     title: "Add New Items Fast",
     subtitle: "Easy Uploads",
     description: "Adding new jewelry from the karigar (maker) to your system is very fast and easy. Just take a picture from your phone or tablet, type in the total weight and pure net weight, select what type of jewelry it is, and it instantly shows up in your stock ready to be sold.",
     visual: <CreationVisual />
   },
   {
-    id: 5,
+    id: 6,
     title: "Old Gold Exchange & Purchase",
     subtitle: "Old Gold Handling",
     description: "Easily handle customers who bring in old gold to exchange or sell (URD purchases). The system helps you create the proper purchase receipt, calculates the exact melt value of the old gold based on today's rate, and automatically updates your pure fine gold balance.",
     visual: <URDVisual />
   },
   {
-    id: 6,
+    id: 7,
     title: "Track Customer Orders",
-    subtitle: "Manufacturing",
-    description: "Never lose track of a special customer order. You can track the order from the day the customer gives an advance payment, see when it goes to the karigar for making, track the melting loss (ghat), and know exactly when it goes for HUID hallmarking and is ready for the customer.",
+    subtitle: "Order Management",
+    description: "Never lose track of a special customer order again. Bring total transparency to your business by tracking every order's progress—from the initial advance payment, through processing and quality checks, right up to the moment it’s ready for the customer.",
     visual: <TrackingVisual />
   },
   {
-    id: 7,
+    id: 8,
     title: "Easy GST Invoices",
     subtitle: "100% GST Ready",
     description: "Create correct tax invoices that follow all Indian government rules. The software automatically calculates the right CGST, SGST, or IGST for cash memos and wholesale (B2B) bills. You can also send the data directly to the government portal for E-invoicing with one click.",
     visual: <EInvoiceVisual />
   },
   {
-    id: 8,
+    id: 9,
     title: "Excel Support",
     subtitle: "Tally Export",
     description: "Save time for yourself and your accountant (CA). You can quickly download all your daily sales, purchase bills, and stock reports in Excel format. These files are perfectly made so they can be directly uploaded into Tally software without any extra typing work.",
     visual: <ExcelVisual />
   },
   {
-    id: 9,
+    id: 10,
     title: "Quick Billing Desk",
     subtitle: "Invoice & Print",
-    description: "Make bills for your customers very easily. The system automatically takes today's live gold rate and calculates the total price including making charges and GST. You can make an estimate first, then change it to a final bill, and print it on large A4 paper or small thermal receipt paper.",
+    description: "Make bills for your customers very easily. You can enter your gold rate and the system automatically calculates the total price including making charges and GST. You can make an estimate first, then change it to a final bill, and print it on large A4 paper or small thermal receipt paper.",
     visual: <BillingDeskVisual />
   }
 ];

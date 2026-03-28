@@ -31,11 +31,15 @@ export default function AboutPage() {
       {/* 2. THE MISSION (Split Screen) */}
       <section className="py-20 px-6 md:px-12">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-          {/* Image Placeholder */}
+          {/* Image Section */}
           <div className="w-full md:w-1/2 h-[500px] bg-gray-200 rounded-3xl overflow-hidden relative shadow-2xl">
-            {/* You can replace this gray div with an actual <img> later */}
+            <img 
+              src="/images/file (1).png" 
+              alt="Built for Jewelers, by Jewelers" 
+              className="absolute inset-0 w-full h-full object-cover" 
+            />
             <div className="absolute inset-0 bg-gradient-to-tr from-gray-800 to-transparent opacity-20" />
-            <div className="absolute bottom-8 left-8 text-white">
+            <div className="absolute bottom-8 left-8 text-white z-10">
               <div className="text-xs uppercase tracking-widest mb-2">Established 2018</div>
               <div className="text-2xl font-serif">Built for Jewelers, by Jewelers.</div>
             </div>
@@ -58,6 +62,27 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      
+
+      {/* 3.5 B2B SOURCING REVOLUTION */}
+      <section className="py-24 px-6 md:px-12 bg-[#FAF9F6]">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <div className="text-[#C6A87C] text-xs font-bold tracking-[0.3em] uppercase">
+            The B2B Revolution
+          </div>
+          <h3 className="text-4xl font-serif text-[#2C2C2C]">
+            Sourcing Inventory, Simplified.
+          </h3>
+          <div className="w-16 h-1 bg-[#C6A87C] mx-auto mt-6 mb-8 rounded-full"></div>
+          <p className="text-gray-500 text-lg leading-relaxed">
+            Historically, jewelers across India had to undertake exhausting, frequent travels to wholesale metropolitan hubs just to source quality gold and fresh designs. It was a process defined by high risk, physical fatigue, and precious time spent away from the buisness.
+          </p>
+          <p className="text-gray-500 text-lg leading-relaxed">
+            We've changed the narrative. Through our platform, you now have immediate access to an expansive digital network of verified, trusted B2B wholesale vendors. Browse their entire master catalogs, check live stock availability, and securely restock your luxury inventory without ever leaving the comfort of your home or desk.
+          </p>
         </div>
       </section>
 
@@ -98,7 +123,7 @@ export default function AboutPage() {
               </div>
               <h4 className="text-xl font-serif text-[#2C2C2C] mb-3">Security First</h4>
               <p className="text-gray-500 text-sm leading-relaxed">
-                We understand the value of your data. We use bank-grade encryption to ensure your business secrets stay secret.
+                We understand the value of your data. We host our database and backend in our own dedicated and secure inhouse servers with firewalls and encryption to secure your sensitive data.
               </p>
             </div>
 

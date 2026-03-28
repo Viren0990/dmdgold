@@ -79,7 +79,7 @@ export default function Hero() {
           <p className={`hidden lg:block text-gray-500 max-w-2xl mx-auto leading-relaxed leading-tight
               transition-all duration-700 ease-out
               ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-            `}>From tracking gold grams to instant GST bills—DMD Gold: easy software by jewelers, for jewelers.</p>
+            `}>From tracking gold grams to instant E-invoices and GST bill, DMD Gold: easy software by jewelers, for jewelers.</p>
 
 
         </div>

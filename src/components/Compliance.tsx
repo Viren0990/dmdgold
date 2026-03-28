@@ -37,8 +37,8 @@ export default function Compliance() {
             <div className="flex gap-3">
               <CheckIcon />
               <div>
-                <h4 className="text-white font-medium text-base">HUID & Hallmark Integration</h4>
-                <p className="text-gray-500 text-sm">Seamless syncing with BIS portal for transparency.</p>
+                <h4 className="text-white font-medium text-base">Built with Your Security in Mind</h4>
+                <p className="text-gray-500 text-sm">Hosted on secure, privately managed in-house servers</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -74,9 +74,9 @@ export default function Compliance() {
 
           {/* 3. CARD 1: HUID READY (Top Right) */}
           <div className="absolute top-4 right-10 bg-white/5 border border-white/10 backdrop-blur-md p-5 rounded-2xl w-56 shadow-2xl transform hover:-translate-y-1 transition-transform duration-500">
-            <div className="text-[#C6A87C] text-[0.65rem] font-bold tracking-widest uppercase mb-2">Verified</div>
-            <div className="text-xl font-serif text-white mb-1">HUID Ready</div>
-            <div className="text-xs text-gray-400">BIS Portal Connected</div>
+            <div className="text-[#C6A87C] text-[0.60rem] font-bold tracking-widest uppercase mb-2">Verified</div>
+         <div className="text-xl font-serif text-white mb-1">Built with Your Security in Mind</div>
+
           </div>
 
           {/* 4. CARD 2: SYSTEM STATUS (Bottom Left) */}
