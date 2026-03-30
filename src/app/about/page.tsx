@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
+import Image from 'next/image';
 
 import { Metadata } from 'next';
 
@@ -33,11 +34,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
           {/* Image Section */}
           <div className="w-full md:w-1/2 h-[500px] bg-gray-200 rounded-3xl overflow-hidden relative shadow-2xl">
-            <img 
-              src="/images/file (1).png" 
-              alt="Built for Jewelers, by Jewelers" 
-              className="absolute inset-0 w-full h-full object-cover" 
-            />
+            <Image src="/images/jwl.png" alt="Founder" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-tr from-gray-800 to-transparent opacity-20" />
             <div className="absolute bottom-8 left-8 text-white z-10">
               <div className="text-xs uppercase tracking-widest mb-2">Established 2018</div>
