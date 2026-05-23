@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="relative w-full bg-[#FAF9F6]">
+    <main className="relative w-full overflow-x-hidden bg-[#FAF9F6]">
       <Navbar />
       <Hero />
       <ValueStatement />

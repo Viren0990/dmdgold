@@ -14,7 +14,7 @@ const pillars = [
 
 export default function ValueStatement() {
   return (
-    <section className="relative z-30 w-full bg-[#1A1A1A] py-16 md:py-20 px-6 md:px-12 -mt-1">
+    <section className="relative z-30 w-full overflow-hidden bg-[#1A1A1A] py-16 md:py-20 px-6 md:px-12 -mt-1">
       {/* Subtle glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[#C6A87C]/8 rounded-full blur-[100px] pointer-events-none"></div>
 
