@@ -12,7 +12,12 @@ import {
   ChevronRight,
   TrendingUp,
   CreditCard,
-  Package
+  Package,
+  Gem,
+  ShoppingCart,
+  UserCheck,
+  Layers,
+  Store
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -138,6 +143,173 @@ const B2BVisual = () => (
   </div>
 );
 
+// NEW: Multi-Category Product Visual — Periodic table style grid
+const MultiCategoryVisual = () => {
+  const metals = [
+    { sym: "Au", name: "Gold", color: "bg-[#C6A87C]", text: "text-white" },
+    { sym: "Di", name: "Diamond", color: "bg-[#1A1A1A]", text: "text-white" },
+    { sym: "Ag", name: "Silver", color: "bg-gray-300", text: "text-gray-800" },
+    { sym: "Pt", name: "Platinum", color: "bg-gray-500", text: "text-white" },
+    { sym: "Ti", name: "Titanium", color: "bg-slate-600", text: "text-white" },
+    { sym: "Gm", name: "Gems", color: "bg-emerald-600", text: "text-white" },
+  ];
+  return (
+    <div className="flex items-center justify-center h-full w-full">
+      <div className="grid grid-cols-3 gap-2 group-hover:scale-105 transition-transform duration-500">
+        {metals.map((m, i) => (
+          <div key={i} className={`w-16 h-16 ${m.color} ${m.text} rounded-xl shadow-md flex flex-col items-center justify-center group-hover:shadow-lg transition-all duration-300`}
+               style={{ transitionDelay: `${i * 50}ms` }}>
+            <div className="text-lg font-serif font-bold leading-none">{m.sym}</div>
+            <div className="text-[7px] uppercase tracking-wider mt-0.5 opacity-80">{m.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// NEW: Order Management Visual — Order lifecycle steps
+const OrderVisual = () => (
+  <div className="flex items-center justify-center h-full w-full">
+    <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-[200px] group-hover:-translate-y-2 transition-transform duration-500">
+      <div className="text-[10px] text-[#C6A87C] font-bold uppercase tracking-wider mb-3">Order #1042</div>
+      <div className="space-y-2">
+        {[
+          { label: "Rate Confirmed", done: true },
+          { label: "Payment Verified", done: true },
+          { label: "In Transit", active: true },
+          { label: "Delivered", done: false },
+        ].map((step, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold flex-shrink-0 ${
+              step.done ? 'bg-green-500 text-white' : 
+              step.active ? 'bg-[#C6A87C] text-white animate-pulse' : 
+              'border border-gray-300 text-gray-300'
+            }`}>
+              {step.done ? '✓' : i + 1}
+            </div>
+            <span className={`text-[10px] font-medium ${step.done ? 'text-gray-700' : step.active ? 'text-[#2C2C2C] font-bold' : 'text-gray-400'}`}>{step.label}</span>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 pt-2 border-t border-gray-100 flex justify-between text-[9px]">
+        <span className="text-gray-400">Fine Wt: 42.3g</span>
+        <span className="text-[#C6A87C] font-bold">₹3,12,000</span>
+      </div>
+    </div>
+  </div>
+);
+
+// NEW: Party Management Visual — Network nodes
+const PartyVisual = () => (
+  <div className="flex items-center justify-center h-full w-full relative">
+    <div className="relative group-hover:scale-105 transition-transform duration-500">
+      {/* Buyer node */}
+      <div className="absolute -left-6 top-0 w-14 h-14 rounded-xl bg-white shadow-md border border-gray-100 flex flex-col items-center justify-center">
+        <UserCheck className="w-4 h-4 text-[#C6A87C] mb-0.5" />
+        <div className="text-[7px] font-bold text-gray-600">Buyer</div>
+      </div>
+      {/* Center hub */}
+      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#C6A87C] to-[#b0956b] shadow-lg flex items-center justify-center text-white z-10 relative">
+        <Layers className="w-7 h-7" />
+      </div>
+      {/* Seller node */}
+      <div className="absolute -right-6 top-0 w-14 h-14 rounded-xl bg-[#1A1A1A] shadow-md flex flex-col items-center justify-center">
+        <Users className="w-4 h-4 text-[#C6A87C] mb-0.5" />
+        <div className="text-[7px] font-bold text-gray-400">Seller</div>
+      </div>
+      {/* Approval badge */}
+      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-green-100 text-green-700 text-[7px] font-bold px-2 py-0.5 rounded-full border border-green-200">
+        ✓ Approved
+      </div>
+      {/* Connecting lines */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ left: '-24px', width: 'calc(100% + 48px)' }}>
+        <line x1="14" y1="28" x2="32" y2="32" stroke="#C6A87C" strokeWidth="1" strokeOpacity="0.4" strokeDasharray="3 3" />
+        <line x1="80" y1="28" x2="62" y2="32" stroke="#C6A87C" strokeWidth="1" strokeOpacity="0.4" strokeDasharray="3 3" />
+      </svg>
+    </div>
+  </div>
+);
+
+// NEW: Billing Desk POS Visual
+const POSVisual = () => (
+  <div className="flex items-center justify-center h-full w-full">
+    <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-[200px] group-hover:-translate-y-2 transition-transform duration-500">
+      <div className="flex justify-between items-center mb-3">
+        <div className="text-[10px] text-[#C6A87C] font-bold uppercase tracking-wider">POS</div>
+        <div className="px-1.5 py-0.5 bg-[#1A1A1A] text-[#C6A87C] text-[8px] font-bold rounded">₹6,200/g</div>
+      </div>
+      <div className="bg-gray-50 rounded-lg p-2 mb-2 border border-gray-100">
+        <div className="text-[9px] font-bold text-gray-700">Mrs. Anjali Sharma</div>
+        <div className="text-[7px] text-gray-400">+91 99887 76655</div>
+      </div>
+      <div className="space-y-1 mb-2">
+        <div className="flex justify-between text-[8px]">
+          <span className="text-gray-600">Gold Choker 22K</span>
+          <span className="font-bold text-[#2C2C2C]">₹2.45L</span>
+        </div>
+        <div className="flex justify-between text-[7px] text-green-600">
+          <span>Discount</span>
+          <span>-₹5,000</span>
+        </div>
+      </div>
+      <div className="border-t border-dashed border-gray-200 pt-2 flex justify-between items-center">
+        <span className="text-[7px] text-gray-400 uppercase font-bold">Total</span>
+        <span className="text-sm font-black text-[#2C2C2C]">₹2.47L</span>
+      </div>
+    </div>
+  </div>
+);
+
+// NEW: B2B eCommerce Visual — Digital storefront
+const B2BEcommerceVisual = () => (
+  <div className="flex items-center justify-center h-full w-full">
+    <div className="w-full max-w-[220px] group-hover:-translate-y-2 transition-transform duration-500">
+      {/* Browser chrome */}
+      <div className="bg-[#1A1A1A] rounded-t-xl px-3 py-1.5 flex items-center gap-1.5">
+        <div className="w-2 h-2 rounded-full bg-red-400"></div>
+        <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+        <div className="w-2 h-2 rounded-full bg-green-400"></div>
+        <div className="flex-1 bg-white/10 rounded h-3.5 mx-2 flex items-center px-2">
+          <span className="text-[6px] text-gray-400">dmdgold.com/store</span>
+        </div>
+      </div>
+      {/* Store content */}
+      <div className="bg-white rounded-b-xl border border-gray-100 shadow-lg p-3 space-y-2">
+        {/* Nav */}
+        <div className="flex items-center justify-between">
+          <div className="text-[8px] font-bold text-[#C6A87C] tracking-wider">B2B STORE</div>
+          <div className="flex gap-2">
+            <div className="relative">
+              <svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full text-[4px] text-white flex items-center justify-center font-bold">3</div>
+            </div>
+            <div className="relative">
+              <svg className="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#C6A87C] rounded-full text-[4px] text-white flex items-center justify-center font-bold">5</div>
+            </div>
+          </div>
+        </div>
+        {/* Product mini-grid */}
+        <div className="grid grid-cols-3 gap-1">
+          {[1,2,3].map((i) => (
+            <div key={i} className="bg-gray-50 rounded-md p-1 border border-gray-100">
+              <div className="h-8 bg-gradient-to-br from-[#C6A87C]/5 to-[#C6A87C]/15 rounded flex items-center justify-center text-[8px]">💍</div>
+              <div className="text-[5px] font-bold text-gray-700 mt-0.5 truncate">Design #{1040+i}</div>
+              <div className="text-[5px] text-[#C6A87C] font-bold">22K • In Stock</div>
+            </div>
+          ))}
+        </div>
+        {/* Checkout bar */}
+        <div className="bg-[#C6A87C] rounded-md px-2 py-1 flex justify-between items-center">
+          <span className="text-[6px] text-white font-bold">Cart: 5 items</span>
+          <span className="text-[7px] text-white font-black">Checkout →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 // Reusable Card Component
 const BentoCard = ({
   title,
@@ -185,7 +357,7 @@ const BentoCard = ({
         <h3 className="text-xl md:text-2xl font-serif text-[#2C2C2C] mb-3 group-hover:text-[#C6A87C] transition-colors duration-300">
           {title}
         </h3>
-        <p className="text-gray-500 text-sm leading-relaxed mb-6">
+        <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
           {description}
         </p>
       </div>
@@ -207,19 +379,67 @@ const BentoCard = ({
 export default function Features() {
   const featuresData = [
     {
+      subtitle: "Billing & POS",
+      title: "Digital Counter",
+      description: "Phone lookup, SKU scan, auto GST calculation, and quotation-to-invoice conversion. Your counter, now digital.",
+      icon: CreditCard,
+      visual: <POSVisual />,
+      className: "md:col-span-1",
+    },
+    {
+      subtitle: "B2B eCommerce",
+      title: "Your Digital Wholesale Store",
+      description: "Give your retailers a premium B2B shopping experience. Digital catalogue with advanced filters, wishlist, cart & multi-step checkout, order tracking, ratings & reviews, and GST-compliant invoice downloads — all from their browser.",
+      icon: Store,
+      visual: <B2BEcommerceVisual />,
+      className: "md:col-span-2",
+    },
+    {
+      subtitle: "Multi-Category",
+      title: "Every Metal, One Platform",
+      description: "Gold, Diamond, Silver, Platinum, Titanium, Gems & Bullion — manage all product categories with full specifications, purity tracking, and 4C diamond support in a single unified catalogue.",
+      icon: Gem,
+      visual: <MultiCategoryVisual />,
+      className: "md:col-span-2",
+    },
+    {
+      subtitle: "Finance",
+      title: "8 Invoice Types + E-Invoice",
+      description: "Jewellery, Metal, Diamond, URD, Labour, Challan & E-Invoice — with auto GST calculation and Excel export.",
+      icon: Receipt,
+      visual: <FinanceVisual />,
+      className: "md:col-span-1",
+    },
+    {
+      subtitle: "Order Tracking",
+      title: "Order to Delivery",
+      description: "Full order lifecycle — from rate confirmation to delivery. Fine weight auto-calculation, HUID entry, and E-Invoice generation.",
+      icon: ShoppingCart,
+      visual: <OrderVisual />,
+      className: "md:col-span-1",
+    },
+    {
       subtitle: "Inventory",
-      title: "QR Precision",
-      description: "Use our visually appealing barcode tags for instant identification, or upgrade to RFID for rapid, error-free bulk scanning.",
+      title: "QR & Barcode Precision",
+      description: "HUID hallmark tracking, barcode generation, and RFID scanning. Know every piece in your vault — with visibility controls, stock status, and gender tags.",
       icon: ScanBarcode,
       visual: <InventoryVisual />,
       className: "md:col-span-2",
     },
     {
-      subtitle: "App Access",
-      title: "Business on the Go",
-      description: "Stay connected from anywhere. Check sales and quick analytics securely on your phone.",
-      icon: Smartphone,
-      visual: <MobileVisual />,
+      subtitle: "Manufacturing",
+      title: "Karigar Insight",
+      description: "Complete artisan management — profiles, Aadhaar/PAN/GST info, inward & outward challans, and full transaction history. Every piece tracked from karigar to counter.",
+      icon: Hammer,
+      visual: <KarigarVisual />,
+      className: "md:col-span-2",
+    },
+    {
+      subtitle: "B2B Network",
+      title: "Party Management",
+      description: "Buyer & seller KYC, approval workflows, and full transaction history — your entire B2B network, organized.",
+      icon: UserCheck,
+      visual: <PartyVisual />,
       className: "md:col-span-1",
     },
     {
@@ -231,29 +451,13 @@ export default function Features() {
       className: "md:col-span-1",
     },
     {
-      subtitle: "Manufacturing",
-      title: "Karigar Insight",
-      description: "Bridge the gap between producers and artisans. Track raw material issuance, monitor ghat, and get live status updates.",
-      icon: Hammer,
-      visual: <KarigarVisual />,
+      subtitle: "App Access",
+      title: "Business on the Go",
+      description: "Stay connected from anywhere. Check sales and quick analytics securely on your phone.",
+      icon: Smartphone,
+      visual: <MobileVisual />,
       className: "md:col-span-2",
     },
-    {
-      subtitle: "Finance",
-      title: "Smart Invoicing & GST",
-      description: "Create beautiful invoices that showcase stone details and purity clearly, all fully GST/VAT compliant.",
-      icon: Receipt,
-      visual: <FinanceVisual />,
-      className: "md:col-span-2",
-    },
-    {
-      subtitle: "B2B Options",
-      title: "Wholesale Orders",
-      description: "Streamline bulk orders with a stunning digital catalog. Offer custom pricing tiers seamlessly.",
-      icon: Briefcase,
-      visual: <B2BVisual />,
-      className: "md:col-span-1",
-    }
   ];
 
   return (
@@ -280,7 +484,7 @@ export default function Features() {
             Everything You Need to Shine
           </h3>
           <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
-            From tracking every gram of gold to generating instant E-invoices. Built to cut the clutter, with visuals you'll understand instantly.
+            From tracking every gram of gold to generating instant E-invoices. Multi-category product management, GST-compliant billing, karigar tracking, and B2B wholesale — all in one platform.
           </p>
         </motion.div>
 

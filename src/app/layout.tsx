@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | DMD Gold",
   },
   description: "DMD Gold offers premium luxury jewelry software solutions tailored for modern jewelers. Manage inventory, sales, and customers with elegance and efficiency.",
-  keywords: ["jewelry software", "luxury jewelry management", "jewelry inventory", "DMD Gold", "jewelry POS", "gold software"],
+  keywords: ["jewelry software", "luxury jewelry management", "jewelry inventory", "DMD Gold", "jewelry POS", "gold software", "multi-category jewelry management", "GST jewelry invoice", "karigar management software", "B2B jewelry platform", "jewelry billing POS", "HUID tracking", "E-Invoice jewelry", "jewelry quotation", "bulk jewelry upload", "diamond 4C software", "silver platinum titanium jewelry", "jewelry order management", "party management jewelry"],
   authors: [{ name: "DMD Green Tech" }],
   creator: "DMD Green Tech",
   publisher: "DMD Gold",

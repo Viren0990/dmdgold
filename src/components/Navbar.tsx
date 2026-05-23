@@ -10,9 +10,8 @@ import ContactForm from './ContactForm';
 const navLinks = [
    { name: 'Home', href: '/'},
   { name: 'Services', href: '/services' },
-  { name: 'About', href: '/about' },
   { name: 'Our Story', href: '/our-story' },
-  { name: 'Pricing', href: '/pricing' },
+  { name: 'Plans', href: '/plans' },
 ];
 
 export default function Navbar() {
