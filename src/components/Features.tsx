@@ -362,8 +362,8 @@ const BentoCard = ({
         </p>
       </div>
       
-      <Link href="/services" className="mt-auto flex w-fit items-center text-xs font-semibold tracking-widest text-[#2C2C2C] uppercase opacity-0 md:-translate-x-4 md:translate-y-0 translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out relative z-20">
-        <span className="mr-2 border-b border-[#C6A87C]">Learn More</span>
+      <Link href="/services" className="mt-auto flex w-fit items-center text-xs font-semibold tracking-widest text-[#2C2C2C] uppercase opacity-0 md:-translate-x-4 md:translate-y-0 translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out relative z-20" aria-label={`Learn more about ${title}`}>
+        <span className="mr-2 border-b border-[#C6A87C]">Explore {subtitle}</span>
         <ChevronRight className="w-4 h-4 text-[#C6A87C]" />
       </Link>
     </div>
