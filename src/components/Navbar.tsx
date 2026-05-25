@@ -54,7 +54,7 @@ export default function Navbar() {
           {/* 1. LOGO */}
           <Link href="/" className="z-50 relative flex items-center gap-3">
             <div className="w-14 h-12 rounded-lg items-center justify-center">
-              <Image src={logo} alt="dd" />
+              <Image src={logo} alt="DMD Gold — Jewellery Software India Logo" />
             </div>
             <div className="text-2xl font-serif font-bold text-[#2C2C2C] tracking-widest hover:text-[#C6A87C] transition-colors cursor-pointer">
               DMD GOLD

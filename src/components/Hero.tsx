@@ -34,6 +34,9 @@ export default function Hero() {
       <div className="relative h-full w-full flex flex-col items-center pt-24 z-10 pointer-events-none mb-4">
         <div className="text-center space-y-4">
 
+          {/* SEO H1 — always visible to crawlers regardless of JS animation state */}
+          <h1 className="sr-only">DMD Gold — India&apos;s #1 Jewellery Software for Billing, Inventory &amp; B2B</h1>
+
           {/* SUBTITLE - DESKTOP ONLY */}
           <h2
             className={`
@@ -49,7 +52,8 @@ export default function Hero() {
           </h2>
 
           {/* MAIN TITLE - DESKTOP ONLY */}
-          <h1
+          <p
+            aria-hidden="true"
             className={`
               
               text-[#2C2C2C] text-[2.70rem] md:text-6xl font-serif font-medium leading-tight
@@ -60,7 +64,7 @@ export default function Hero() {
             style={{ transitionDelay: '250ms', willChange: 'transform, opacity' }}
           >
             Managing Your <span className="italic text-[#C6A87C]">Jewelry Business</span> <br className="hidden md:block" /> Just Got Simpler.
-          </h1>
+          </p>
 
           {/* MOBILE ONLY SUBHEADING */}
           <div

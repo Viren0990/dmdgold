@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="lg:col-span-1 space-y-4">
             <div className="z-50 relative flex items-center gap-3">
                 <div className="w-16 h-14 rounded-lg items-center justify-center">
-                    <Image src={logo} alt="dd" />
+                    <Image src={logo} alt="DMD Gold — Jewellery Software India Logo" />
                 </div>
                 <div className="text-2xl font-serif font-bold text-[#C6A87C] transition-colors cursor-pointer">
                     DMD GOLD
@@ -29,10 +29,10 @@ export default function Footer() {
         <div className="space-y-4 lg:ml-8">
           <h4 className="text-[#C6A87C] text-xs font-bold uppercase tracking-widest">Product</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Inventory</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Billing</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Mobile App</a></li>
+            <li><a href="/services" className="hover:text-white transition-colors">Features</a></li>
+            <li><a href="/services" className="hover:text-white transition-colors">Inventory</a></li>
+            <li><a href="/services" className="hover:text-white transition-colors">Billing</a></li>
+            <li><a href="/services" className="hover:text-white transition-colors">Mobile App</a></li>
           </ul>
         </div>
 
@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="space-y-4">
           <h4 className="text-[#C6A87C] text-xs font-bold uppercase tracking-widest">Company</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="/our-story" className="hover:text-white transition-colors">About Us</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>

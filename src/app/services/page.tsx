@@ -6,8 +6,12 @@ import Contact from '@/components/Contact'; // Reusing your high-converting form
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-   title: 'Our Services',
-   description: 'Explore the comprehensive services offered by DMD Gold, from inventory management to customer relationship handling.',
+   title: 'Jewellery Software Features — Inventory, Billing, B2B, Karigar & More',
+   description: 'Explore DMD Gold\'s 14+ powerful modules: jewellery inventory management, GST billing & POS, karigar tracking, B2B eCommerce marketplace, E-Invoice, HUID tracking, Excel export, and more. Built for Indian jewellers in Pune.',
+   alternates: {
+     canonical: 'https://www.dmdgold.com/services',
+   },
+   keywords: ['jewellery software features', 'jewellery inventory management india', 'karigar management software', 'jewellery GST billing', 'B2B jewellery platform', 'HUID tracking software', 'jewellery POS software india', 'jewellery ERP modules'],
 };
 
 export default function ServicesPage() {
@@ -20,10 +24,10 @@ export default function ServicesPage() {
             <div className="max-w-7xl mx-auto text-center">
                <h1 className="text-5xl md:text-7xl font-serif text-[#2C2C2C] mb-6">
                   Precision Tools for <br />
-                  <span className="italic text-[#C6A87C]">Modern</span> Jewelers
+                  <span className="italic text-[#C6A87C]">Modern</span> Jewellers
                </h1>
                <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-                  Explore the full suite of modules designed to streamline every aspect of your business, from the back office to the showroom floor.
+                  Explore the full suite of jewellery software modules designed to streamline every aspect of your business — from inventory and billing to karigar management and B2B wholesale.
                </p>
             </div>
          </section>

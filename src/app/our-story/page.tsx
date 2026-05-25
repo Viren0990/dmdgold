@@ -7,8 +7,12 @@ import Image from 'next/image';
 
 
 export const metadata: Metadata = {
-  title: 'Our Story',
-  description: 'Discover the journey behind DMD Gold — born from 25 years of firsthand experience in the Indian jewelry industry.',
+  title: 'Our Story — Built by a Jeweller, for Jewellers | Pune, India',
+  description: 'DMD Gold was born from 25+ years of real experience in India\'s jewellery trade. Our founder — from Pune — built the platform he wished he had as a jeweller. Learn the story behind India\'s most trusted jewellery software.',
+  alternates: {
+    canonical: 'https://www.dmdgold.com/our-story',
+  },
+  keywords: ['dmd gold story', 'jewellery software founder', 'jewellery software pune', 'indian jewellery software', 'jewellery industry experience'],
 };
 
 export default function OurStoryPage() {
@@ -42,7 +46,7 @@ export default function OurStoryPage() {
           {/* Visual: Image Placeholder */}
           <div className="w-full md:w-1/2 relative min-h-[400px]">
             <div className="absolute inset-0 bg-gray-200 rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col items-center justify-center text-gray-400">
-               <Image src="/images/pp.webp" alt="Founder" width={500} height={500} />
+               <Image src="/images/pp.webp" alt="DMD Gold Founder — 25 years of experience in the Indian jewellery industry, Pune" width={500} height={500} />
             </div>
           </div>
 
@@ -60,6 +64,9 @@ export default function OurStoryPage() {
               </p>
               <p>
                 For over <strong className="text-[#2C2C2C]">25 years</strong>, he worked in the Indian jewelry industry, building relationships with artisans, vendors, and customers across the country. He understood the rhythm of the trade — the festivals that drive demand, the delicate art of gold-testing, the meticulous craft of keeping stock ledgers by hand.
+              </p>
+              <p>
+                He possesses extensive hands-on experience across the entire jewellery and bullion industry—spanning gold refining, diamond cutting, manufacturing, karigari work, global trading, gemology, and CAD design. Understanding these pain points inspired him to develop innovative software solutions tailored specifically for the industry.
               </p>
             </div>
           </div>

@@ -68,7 +68,7 @@ export default function PlatformCapabilities() {
             <span className="w-8 h-[1px] bg-[#C6A87C]/50"></span>
           </h2>
           <h3 className="text-3xl md:text-5xl font-serif text-white">
-            14 Modules, <span className="italic text-[#C6A87C]">One Platform</span>
+            14 Powerful Modules, <span className="italic text-[#C6A87C]">One Jewellery Software Platform</span>
           </h3>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             Every tool a jeweller needs — from multi-category product listing to GST-compliant invoicing, karigar management to B2B wholesale.

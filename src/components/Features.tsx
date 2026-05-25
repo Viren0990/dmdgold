@@ -481,7 +481,7 @@ export default function Features() {
             <span className="w-8 h-[1px] bg-[#C6A87C]/50"></span>
           </h2>
           <h3 className="text-4xl md:text-5xl font-serif text-[#2C2C2C]">
-            Everything You Need to Shine
+            Everything Your Jewellery Business Needs
           </h3>
           <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
             From tracking every gram of gold to generating instant E-invoices. Multi-category product management, GST-compliant billing, karigar tracking, and B2B wholesale — all in one platform.

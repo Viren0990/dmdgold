@@ -187,7 +187,7 @@ export default function RetailerFeatures() {
             <span className="w-8 h-[1px] bg-[#C6A87C]/50"></span>
           </h2>
           <h3 className="text-3xl md:text-5xl font-serif text-[#2C2C2C]">
-            A <span className="italic text-[#C6A87C]">Premium</span> Buying Experience
+            A <span className="italic text-[#C6A87C]">Premium</span> B2B Jewellery Buying Experience
           </h3>
           <p className="text-gray-500 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             Your B2B buyers get a Flipkart-like shopping experience — browse catalogues, save favourites, place orders, and track deliveries, all from their device.

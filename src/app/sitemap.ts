@@ -6,20 +6,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
         {
             url: baseUrl,
             lastModified: new Date(),
-            changeFrequency: 'yearly',
+            changeFrequency: 'monthly',
             priority: 1,
         },
         {
             url: `${baseUrl}/services`,
             lastModified: new Date(),
-            changeFrequency: 'weekly',
-            priority: 0.5,
+            changeFrequency: 'monthly',
+            priority: 0.9,
         },
         {
             url: `${baseUrl}/plans`,
             lastModified: new Date(),
             changeFrequency: 'monthly',
-            priority: 0.5,
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/our-story`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly',
+            priority: 0.7,
         },
     ]
 }

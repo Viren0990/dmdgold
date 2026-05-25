@@ -6,12 +6,16 @@ import PlatformCapabilities from '@/components/PlatformCapabilities';
 import RetailerFeatures from '@/components/RetailerFeatures';
 import Compliance from '@/components/Compliance';
 import Contact from '@/components/Contact';
+import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'DMD Gold Premier Jewelry Management Solution',
-  description: 'Discover DMD Gold, the ultimate software for luxury jewelry businesses. Multi-category product management, GST-compliant invoicing, karigar tracking, and B2B wholesale — all in one platform.',
+  title: 'DMD Gold — Jewellery Software for Billing, Inventory & B2B | India',
+  description: 'DMD Gold is India\'s #1 jewellery management software. Multi-category inventory, GST-compliant billing & POS, karigar tracking, B2B wholesale marketplace, E-Invoice — all-in-one platform built in Pune for Indian jewellers. Book a free demo today.',
+  alternates: {
+    canonical: 'https://www.dmdgold.com',
+  },
 };
 
 export default function Home() {
@@ -25,6 +29,7 @@ export default function Home() {
       <RetailerFeatures />
       <Compliance />
       <Contact />
+      <FAQ />
       <Footer />
     </main>
   );
