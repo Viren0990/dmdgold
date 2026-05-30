@@ -1,0 +1,17 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model KnowledgeBase {
+  id        String   @id @default(uuid())
+  content   String
+  metadata  String
+  embedding Unsupported("vector(3072)")?
+  createdAt DateTime @default(now())
+}
