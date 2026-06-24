@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { 
   ScanBarcode, 
-  Smartphone, 
   Users, 
   Hammer, 
   Receipt, 
@@ -14,7 +13,6 @@ import {
   CreditCard,
   Package,
   Gem,
-  ShoppingCart,
   UserCheck,
   Layers,
   Store
@@ -379,14 +377,6 @@ const BentoCard = ({
 export default function Features() {
   const featuresData = [
     {
-      subtitle: "Billing & POS",
-      title: "Digital Counter",
-      description: "Phone lookup, SKU scan, auto GST calculation, and quotation-to-invoice conversion. Your counter, now digital.",
-      icon: CreditCard,
-      visual: <POSVisual />,
-      className: "md:col-span-1",
-    },
-    {
       subtitle: "B2B eCommerce",
       title: "Your Digital Wholesale Store",
       description: "Give your retailers a premium B2B shopping experience. Digital catalogue with advanced filters, wishlist, cart & multi-step checkout, order tracking, ratings & reviews, and GST-compliant invoice downloads — all from their browser.",
@@ -395,35 +385,27 @@ export default function Features() {
       className: "md:col-span-2",
     },
     {
-      subtitle: "Multi-Category",
-      title: "Every Metal, One Platform",
-      description: "Gold, Diamond, Silver, Platinum, Titanium, Gems & Bullion — manage all product categories with full specifications, purity tracking, and 4C diamond support in a single unified catalogue.",
-      icon: Gem,
-      visual: <MultiCategoryVisual />,
-      className: "md:col-span-2",
-    },
-    {
-      subtitle: "Finance",
-      title: "8 Invoice Types + E-Invoice",
-      description: "Jewellery, Metal, Diamond, URD, Labour, Challan & E-Invoice — with auto GST calculation and Excel export.",
-      icon: Receipt,
-      visual: <FinanceVisual />,
-      className: "md:col-span-1",
-    },
-    {
-      subtitle: "Order Tracking",
-      title: "Order to Delivery",
-      description: "Full order lifecycle — from rate confirmation to delivery. Fine weight auto-calculation, HUID entry, and E-Invoice generation.",
-      icon: ShoppingCart,
-      visual: <OrderVisual />,
+      subtitle: "Billing & POS",
+      title: "Digital Counter",
+      description: "Phone lookup, SKU scan, auto GST calculation, and quotation-to-invoice conversion. Your counter, now digital.",
+      icon: CreditCard,
+      visual: <POSVisual />,
       className: "md:col-span-1",
     },
     {
       subtitle: "Inventory",
       title: "QR & Barcode Precision",
-      description: "HUID hallmark tracking, barcode generation, and RFID scanning. Know every piece in your vault — with visibility controls, stock status, and gender tags.",
+      description: "QR and barcode generation for instant product identification, billing, and stock audits.",
       icon: ScanBarcode,
       visual: <InventoryVisual />,
+      className: "md:col-span-1",
+    },
+    {
+      subtitle: "Multi-Category",
+      title: "Every Metal, One Platform",
+      description: "Gold, Diamond, Silver, Platinum, Titanium, Gems & Bullion — manage all product categories with full specifications, purity tracking, and 4C diamond support in a single unified catalogue.",
+      icon: Gem,
+      visual: <MultiCategoryVisual />,
       className: "md:col-span-2",
     },
     {
@@ -435,28 +417,12 @@ export default function Features() {
       className: "md:col-span-2",
     },
     {
-      subtitle: "B2B Network",
-      title: "Party Management",
-      description: "Buyer & seller KYC, approval workflows, and full transaction history — your entire B2B network, organized.",
-      icon: UserCheck,
-      visual: <PartyVisual />,
-      className: "md:col-span-1",
-    },
-    {
       subtitle: "CRM Suite",
       title: "Client Relationships",
       description: "Track purchase history and automatically send personalized birthday offers to build lasting loyalty.",
       icon: Users,
       visual: <CRMVisual />,
       className: "md:col-span-1",
-    },
-    {
-      subtitle: "App Access",
-      title: "Business on the Go",
-      description: "Stay connected from anywhere. Check sales and quick analytics securely on your phone.",
-      icon: Smartphone,
-      visual: <MobileVisual />,
-      className: "md:col-span-2",
     },
   ];
 
@@ -488,6 +454,95 @@ export default function Features() {
           </p>
         </motion.div>
 
+        {/* TWO EDITIONS CALLOUT */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-10 w-full bg-gradient-to-br from-[#FAF9F6] to-white rounded-[2rem] border border-[#C6A87C]/20 p-8 md:p-12 shadow-sm relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#C6A87C]/5 rounded-full blur-[80px]"></div>
+          
+          <div className="flex flex-col lg:flex-row gap-10 items-center">
+            {/* Left side text */}
+            <div className="flex-1 text-center lg:text-left">
+              <span className="inline-block px-4 py-1.5 bg-[#C6A87C]/10 text-[#C6A87C] text-xs font-bold tracking-widest uppercase rounded-full border border-[#C6A87C]/20 mb-4">
+                Two Tailored Plans
+              </span>
+              <h4 className="text-3xl md:text-4xl font-serif text-[#2C2C2C] mb-4">
+                Built for <span className="italic text-[#C6A87C]">Retailers</span> &amp; <span className="italic text-[#C6A87C]">Wholesalers</span>
+              </h4>
+              <p className="text-gray-500 leading-relaxed mb-6">
+                Whether you run a fast-paced retail showroom or manage a high-volume B2B manufacturing business, we have a specialized edition designed exactly for your workflow. Explore the glimpse of shared features below, or dive into the complete plans.
+              </p>
+              <Link href="/services" className="inline-flex items-center gap-2 border border-[#C6A87C] text-[#C6A87C] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300">
+                Compare Both Editions
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            
+            {/* Right side cards */}
+            <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Retailer Card */}
+              <Link href="/services" className="group bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-[#C6A87C]/40 hover:shadow-md transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#C6A87C]/10 flex items-center justify-center">
+                    <Store className="w-5 h-5 text-[#C6A87C]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-[#2C2C2C]">Retailer Edition</div>
+                    <div className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">For Showrooms</div>
+                  </div>
+                </div>
+                <ul className="space-y-2 text-xs text-gray-500 mb-4">
+                  <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#C6A87C]"></div> CRM & Customer Tracking</li>
+                  <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#C6A87C]"></div> URD Purchases & Exchanges</li>
+                  <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#C6A87C]"></div> Smart Billing & POS</li>
+                </ul>
+                <div className="text-[10px] font-bold text-[#C6A87C] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
+                  View Edition <ChevronRight className="w-3 h-3 ml-1" />
+                </div>
+              </Link>
+
+              {/* Wholesaler Card */}
+              <Link href="/services" className="group bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-[#C6A87C]/40 hover:shadow-md transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#C6A87C]/10 flex items-center justify-center">
+                    <Briefcase className="w-5 h-5 text-[#C6A87C]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-[#2C2C2C]">Wholesaler Edition</div>
+                    <div className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">For B2B Mfg.</div>
+                  </div>
+                </div>
+                <ul className="space-y-2 text-xs text-gray-500 mb-4">
+                  <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#C6A87C]"></div> B2B Digital Storefront</li>
+                  <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#C6A87C]"></div> Bulk Management</li>
+                  <li className="flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#C6A87C]"></div> Role-Based Access</li>
+                </ul>
+                <div className="text-[10px] font-bold text-[#C6A87C] uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center">
+                  View Edition <ChevronRight className="w-3 h-3 ml-1" />
+                </div>
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* SHARED FEATURES DIVIDER */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex items-center gap-4 mb-8"
+        >
+          <div className="h-[1px] flex-1 bg-gray-200"></div>
+          <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest text-center">
+            A Glimpse of Shared Features
+          </span>
+          <div className="h-[1px] flex-1 bg-gray-200"></div>
+        </motion.div>
+
         {/* BENTO GRID LAYOUT */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(280px,auto)]">
           {featuresData.map((feature, i) => (
@@ -504,8 +559,26 @@ export default function Features() {
           ))}
         </div>
 
-        {/* Bottom Spacing */}
-        <div className="h-24"></div>
+        {/* EXPLORE ALL FEATURES CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-12"
+        >
+          <Link 
+            href="/services" 
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-[#1A1A1A] text-white text-sm font-bold tracking-widest uppercase rounded-full hover:bg-[#C6A87C] transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            Explore All Features
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+          <p className="text-gray-400 text-xs mt-3 tracking-wide">E-Invoicing, Bulk Management, CRM, B2B Store & much more</p>
+        </motion.div>
+
+        
+        
       </div>
     </div>
   );

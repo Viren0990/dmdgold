@@ -41,7 +41,7 @@ const modules: ModuleItem[] = [
   { icon: ShoppingCart, title: 'Order Management', tagline: 'Full lifecycle from order to delivery', color: 'from-amber-500 to-amber-600' },
   { icon: History, title: 'Order & Payment History', tagline: 'Complete records with search & export', color: 'from-teal-500 to-teal-600' },
   { icon: Bell, title: 'Notifications', tagline: 'Real-time alerts for every business event', color: 'from-violet-500 to-violet-600' },
-  { icon: FileSpreadsheet, title: 'Excel & Data Export', tagline: 'Tally-ready downloads, tax-filing made easy', color: 'from-green-500 to-green-600' },
+  { icon: FileSpreadsheet, title: 'Excel & Data Export', tagline: 'Excel-ready downloads, tax-filing made easy', color: 'from-green-500 to-green-600' },
 ];
 
 export default function PlatformCapabilities() {
@@ -119,22 +119,7 @@ export default function PlatformCapabilities() {
           })}
         </div>
 
-        {/* Bottom CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-16"
-        >
-          <p className="text-gray-500 text-sm mb-6">
-            Want the full deep-dive on each module?
-          </p>
-          <Link href="/services" className="inline-flex items-center gap-2 border border-[#C6A87C] text-[#C6A87C] px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300">
-            Explore All Services
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </Link>
-        </motion.div>
+      
       </div>
     </section>
   );

@@ -2,8 +2,6 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import ValueStatement from '@/components/ValueStatement';
 import Features from '@/components/Features';
-import PlatformCapabilities from '@/components/PlatformCapabilities';
-import RetailerFeatures from '@/components/RetailerFeatures';
 import Compliance from '@/components/Compliance';
 import Contact from '@/components/Contact';
 import FAQ from '@/components/FAQ';
@@ -25,8 +23,6 @@ export default function Home() {
       <Hero />
       <ValueStatement />
       <Features />
-      <PlatformCapabilities />
-      <RetailerFeatures />
       <Compliance />
       <Contact />
       <FAQ />

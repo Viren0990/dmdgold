@@ -1,17 +1,19 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ServicesScroll from '@/components/ServicesScroll';
-import Contact from '@/components/Contact'; // Reusing your high-converting form
+import PlatformCapabilities from '@/components/PlatformCapabilities';
+import RetailerFeatures from '@/components/RetailerFeatures';
+import Contact from '@/components/Contact';
 
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-   title: 'Jewellery Software Features — Inventory, Billing, B2B, Karigar & More',
-   description: 'Explore DMD Gold\'s 14+ powerful modules: jewellery inventory management, GST billing & POS, karigar tracking, B2B eCommerce marketplace, E-Invoice, HUID tracking, Excel export, and more. Built for Indian jewellers in Pune.',
+   title: 'Features — Retailer & Wholesaler Jewellery Software | DMD Gold',
+   description: 'Explore DMD Gold\'s feature-rich jewellery software in two tailored editions — Retailer (billing, inventory, CRM, URD, karigar) and Wholesaler (KYC, cataloging, bulk management, E-invoicing, order tracking). Built for Indian jewellers.',
    alternates: {
      canonical: 'https://www.dmdgold.com/services',
    },
-   keywords: ['jewellery software features', 'jewellery inventory management india', 'karigar management software', 'jewellery GST billing', 'B2B jewellery platform', 'HUID tracking software', 'jewellery POS software india', 'jewellery ERP modules'],
+   keywords: ['jewellery software features', 'retailer jewellery software', 'wholesaler jewellery software', 'jewellery inventory management india', 'karigar management software', 'jewellery GST billing', 'B2B jewellery platform', 'HUID tracking software', 'jewellery POS software india', 'jewellery ERP modules'],
 };
 
 export default function ServicesPage() {
@@ -33,13 +35,13 @@ export default function ServicesPage() {
          </section>
 
          {/* 2. THE STICKY SCROLL SECTION */}
-         <ServicesScroll />
+          <ServicesScroll />
 
-         {/* 3. CALL TO ACTION (Reusing Contact) */}
-         <div className="bg-[#FAF9F6]">
-            <Contact />
-         </div>
+          {/* 3. PLATFORM CAPABILITIES */}
+          <PlatformCapabilities />
 
+          {/* 4. RETAILER FEATURES */}
+          <RetailerFeatures />
          <Footer />
       </main>
    );

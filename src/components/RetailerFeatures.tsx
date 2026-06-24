@@ -241,6 +241,38 @@ export default function RetailerFeatures() {
             })}
           </div>
         </div>
+
+        {/* CTA SECTION */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-20 max-w-4xl mx-auto bg-[#1A1A1A] rounded-3xl p-8 md:p-12 text-center relative overflow-hidden"
+        >
+          {/* Subtle background glow */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#C6A87C]/10 rounded-full blur-[80px]"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#C6A87C]/5 rounded-full blur-[80px]"></div>
+          
+          <div className="relative z-10">
+            <h3 className="text-2xl md:text-4xl font-serif text-white mb-4">
+              Ready to Upgrade Your <span className="italic text-[#C6A87C]">Jewellery Business?</span>
+            </h3>
+            <p className="text-gray-400 max-w-xl mx-auto mb-8 text-sm md:text-base">
+              Experience the power of DMD Gold's Retailer and Wholesaler editions firsthand. Get a personalized walkthrough tailored to your operations.
+            </p>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent('open-demo-modal'));
+              }}
+              className="inline-flex items-center gap-2 bg-[#C6A87C] text-white px-8 py-4 rounded-full text-sm font-bold tracking-widest uppercase hover:bg-[#b0956b] hover:scale-105 transition-all duration-300 shadow-lg shadow-[#C6A87C]/20 cursor-pointer"
+            >
+              Book a Free Demo
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </button>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

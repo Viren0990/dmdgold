@@ -9,7 +9,7 @@ import ContactForm from './ContactForm';
 
 const navLinks = [
    { name: 'Home', href: '/'},
-  { name: 'Services', href: '/services' },
+  { name: 'Features', href: '/services' },
   { name: 'Our Story', href: '/our-story' },
   { name: 'Plans', href: '/plans' },
 ];

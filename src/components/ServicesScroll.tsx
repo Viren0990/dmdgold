@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Store, Briefcase } from 'lucide-react';
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+type Edition = 'retailers' | 'wholesalers';
 
 // --- MOCK UI COMPONENTS (Visuals for the Right Side) ---
 
@@ -313,7 +315,7 @@ const ExcelVisual = () => (
   <div className="w-full h-full bg-[#f0f9f4] rounded-3xl border border-green-200 p-8 shadow-2xl flex flex-col">
     <div className="flex items-center gap-3 mb-6">
       <div className="w-10 h-10 bg-green-600 text-white rounded-lg flex items-center justify-center font-bold text-xl shadow-md">X</div>
-      <div className="text-green-800 font-bold text-lg">Excel & Tally Ready</div>
+      <div className="text-green-800 font-bold text-lg">Excel Ready</div>
     </div>
     <div className="bg-white border border-green-100 rounded-xl overflow-hidden flex-1 shadow-sm">
       <div className="flex bg-gray-50 border-b border-gray-200 text-[10px] uppercase tracking-wider font-bold text-gray-500 p-3">
@@ -841,6 +843,139 @@ const BulkUploadVisual = () => (
   </div>
 );
 
+// --- SMART SEARCH VISUAL (Wholesaler) ---
+const SmartSearchVisual = () => (
+  <div className="w-full h-full bg-[#FAF9F6] rounded-3xl border border-[#C6A87C]/20 p-8 shadow-2xl flex flex-col relative overflow-hidden">
+    <div className="flex justify-between items-center mb-6">
+      <div>
+        <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">Smart Search</div>
+        <div className="text-lg font-serif text-[#2C2C2C] mt-1">Find Anything Instantly</div>
+      </div>
+      <div className="px-3 py-1 bg-[#C6A87C] text-white text-[9px] font-bold rounded-full uppercase">AI Powered</div>
+    </div>
+    {/* Search Bar */}
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-4">
+      <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 mb-4">
+        <svg className="w-4 h-4 text-[#C6A87C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <span className="text-sm text-gray-400">Search jewelry by name, gender, body part...</span>
+      </div>
+      {/* Filter Tags */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {['Women', 'Necklace', 'Gold 22K', 'Kundan'].map((tag, i) => (
+          <span key={i} className={`px-3 py-1 rounded-full text-[10px] font-bold border ${i === 0 ? 'bg-[#C6A87C] text-white border-[#C6A87C]' : 'bg-[#C6A87C]/10 text-[#C6A87C] border-[#C6A87C]/20'}`}>
+            {tag} {i > 0 && '×'}
+          </span>
+        ))}
+      </div>
+      {/* Results */}
+      <div className="space-y-2">
+        {[
+          { name: 'Gold Choker Set', seller: 'Zaveri Bros.', weight: '45.5g', price: '₹2.8L' },
+          { name: 'Kundan Necklace', seller: 'Shree Gold', weight: '38.2g', price: '₹2.1L' },
+          { name: 'Temple Haar', seller: 'Mumbai Jewels', weight: '62.0g', price: '₹3.9L' },
+        ].map((item, i) => (
+          <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg bg-gray-50/50 border border-gray-100 hover:border-[#C6A87C]/30 transition-colors cursor-pointer">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#C6A87C]/10 to-[#C6A87C]/30 flex items-center justify-center text-lg">💍</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] font-bold text-[#2C2C2C]">{item.name}</div>
+              <div className="text-[9px] text-gray-400">{item.seller} · {item.weight}</div>
+            </div>
+            <div className="text-xs font-bold text-[#C6A87C]">{item.price}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div className="mt-auto text-center text-[10px] text-gray-400 font-medium">Showing 3 of 142 results</div>
+  </div>
+);
+
+// --- ROLE-BASED ACCESS VISUAL (Wholesaler) ---
+const RoleAccessVisual = () => {
+  const roles = [
+    { name: 'Admin', icon: '👑', color: 'bg-red-500', perms: ['Full Access', 'Settings', 'Staff Mgmt', 'Reports'] },
+    { name: 'Supervisor', icon: '🔍', color: 'bg-[#C6A87C]', perms: ['Approve Products', 'View Reports', 'Edit Items'] },
+    { name: 'Billing', icon: '📋', color: 'bg-blue-500', perms: ['Create Invoices', 'POS Access', 'Print Bills'] },
+    { name: 'Upload', icon: '📤', color: 'bg-green-500', perms: ['Add Products', 'Upload Images', 'Edit Details'] },
+  ];
+  return (
+    <div className="w-full h-full bg-white rounded-3xl border border-gray-200 p-8 shadow-2xl flex flex-col">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">Staff Access</div>
+          <div className="text-lg font-serif text-[#2C2C2C] mt-1">Role-Based Permissions</div>
+        </div>
+        <div className="px-3 py-1 bg-[#1A1A1A] text-[#C6A87C] text-[9px] font-bold rounded-full uppercase">4 Levels</div>
+      </div>
+      <div className="grid grid-cols-2 gap-3 flex-1">
+        {roles.map((role, i) => (
+          <div key={i} className="bg-gray-50 rounded-xl border border-gray-100 p-4 flex flex-col hover:border-[#C6A87C]/30 transition-colors">
+            <div className="flex items-center gap-2 mb-3">
+              <div className={`w-8 h-8 ${role.color} rounded-lg flex items-center justify-center text-sm shadow-sm`}>{role.icon}</div>
+              <div className="text-sm font-bold text-[#2C2C2C]">{role.name}</div>
+            </div>
+            <div className="space-y-1 flex-1">
+              {role.perms.map((perm, j) => (
+                <div key={j} className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-400 flex-shrink-0"></div>
+                  <span className="text-[9px] text-gray-500 font-medium">{perm}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 bg-gray-50 rounded-lg p-3 border border-gray-100 text-center">
+        <span className="text-[9px] text-gray-400 font-medium">🔒 Each role sees only what they need — nothing more</span>
+      </div>
+    </div>
+  );
+};
+
+// --- QR & BARCODE SCANNER VISUAL ---
+const BarcodeVisual = () => (
+  <div className="w-full h-full bg-[#1A1A1A] rounded-3xl border border-white/10 p-8 shadow-2xl flex flex-col relative overflow-hidden">
+    <div className="flex justify-between items-center mb-6">
+      <div>
+        <div className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">Scanner</div>
+        <div className="text-lg font-serif text-white mt-1">Scan & Identify</div>
+      </div>
+      <div className="px-3 py-1 bg-green-500/20 text-green-400 text-[9px] font-bold rounded-full border border-green-500/30">● Active</div>
+    </div>
+    {/* Scanner viewport */}
+    <div className="flex-1 bg-white/5 rounded-2xl border-2 border-dashed border-[#C6A87C]/30 flex items-center justify-center relative mb-5 overflow-hidden">
+      {/* Scan crosshair */}
+      <div className="absolute inset-8 border-2 border-[#C6A87C]/50 rounded-xl">
+        <div className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-[#C6A87C] rounded-tl-lg"></div>
+        <div className="absolute top-0 right-0 w-5 h-5 border-t-2 border-r-2 border-[#C6A87C] rounded-tr-lg"></div>
+        <div className="absolute bottom-0 left-0 w-5 h-5 border-b-2 border-l-2 border-[#C6A87C] rounded-bl-lg"></div>
+        <div className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-[#C6A87C] rounded-br-lg"></div>
+      </div>
+      {/* Animated scan line */}
+      <div className="absolute left-10 right-10 h-0.5 bg-gradient-to-r from-transparent via-[#C6A87C] to-transparent animate-pulse"></div>
+      {/* Barcode in center */}
+      <div className="flex flex-col items-center z-10">
+        <div className="flex space-x-0.5 mb-2">
+          {[3,1,2,1,3,2,1,3,1,2,3,1,2,1,3,2,1,2].map((w, i) => (
+            <div key={i} className="bg-white rounded-sm" style={{ width: `${w}px`, height: '40px' }}></div>
+          ))}
+        </div>
+        <div className="text-[10px] text-gray-400 font-mono tracking-wider">DMD-NK-CH-001</div>
+      </div>
+    </div>
+    {/* Scanned result */}
+    <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-lg bg-[#C6A87C]/20 flex items-center justify-center text-lg">💍</div>
+        <div className="flex-1">
+          <div className="text-white text-sm font-bold">Gold Choker Set — 22K</div>
+          <div className="text-gray-400 text-[10px] mt-0.5">HUID: AB34XY · 45.5g · In Stock</div>
+        </div>
+        <div className="text-[#C6A87C] font-bold text-sm">₹2.8L</div>
+      </div>
+    </div>
+  </div>
+);
+
 // --- COLLECTIONS & CAROUSELS VISUAL ---
 const CollectionsVisual = () => (
   <div className="w-full h-full bg-[#1A1A1A] rounded-3xl border border-white/10 p-6 shadow-2xl flex flex-col">
@@ -939,196 +1074,333 @@ const OrderHistoryVisual = () => (
 
 // --- MAIN COMPONENT ---
 
-const features = [
-  // 🔐 ACCESS
+type FeatureItem = {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  visual: React.ReactNode;
+  edition: Edition | 'both';
+};
+
+// ═══════════════════════════════════════════════════════
+//  WHOLESALER FEATURES (14 services)
+// ═══════════════════════════════════════════════════════
+
+const wholesalerFeatures: FeatureItem[] = [
   {
-    id: 1,
-    title: "Safe Login for Staff & Buyers",
+    id: 101,
+    title: "Secure Registration & KYC Onboarding",
     subtitle: "Verified Access",
-    description: "Keep your business safe with two separate login portals. Your wholesale (B2B) buyers get their own secure login to see pricing and designs, while your retail showroom staff use a different login for daily sales. We verify every user so your designs and prices stay completely hidden from outsiders.",
-    visual: <LoginVisual />
+    description: "Every buyer and wholesaler undergoes mandatory KYC verification before joining the platform. Documents like PAN, GST certificate, and Aadhaar are collected and verified during onboarding — ensuring only trusted, legitimate businesses can register, browse products, and transact. This eliminates fraud risk entirely and builds a verified, high-trust wholesale network from the ground up.",
+    visual: <LoginVisual />,
+    edition: 'wholesalers',
   },
-  // 📦 PRODUCTS
   {
-    id: 2,
-    title: "Multi-Category Product Hub",
+    id: 102,
+    title: "Smart Search for Buyers",
+    subtitle: "Product Discovery",
+    description: "Retailers can search and discover jewelry across your entire catalogue using powerful multi-filter search — by gender, body part, wholesaler name, product name, or metal type. Results are displayed instantly with images, pricing, and availability status, making product discovery fast, precise, and effortless even across thousands of listed items.",
+    visual: <SmartSearchVisual />,
+    edition: 'wholesalers',
+  },
+  {
+    id: 103,
+    title: "Role-Based Staff Access",
+    subtitle: "Secure Operations",
+    description: "Four clearly defined access levels — Product Upload, Billing, Supervision, and Admin — ensure each staff member only sees and accesses the modules their role requires. A product uploader cannot view billing data, and a billing staff cannot approve listings. This layered permission system keeps internal operations secure, organized, and free from unauthorized access.",
+    visual: <RoleAccessVisual />,
+    edition: 'wholesalers',
+  },
+  {
+    id: 104,
+    title: "Detailed Product Cataloging",
     subtitle: "Every Metal Type",
-    description: "Gold, Diamond, Silver, Platinum, Titanium, Gems & Bullion — all in one unified catalogue. Full 4C diamond support, carat tracking (24K to 9K), HUID hallmarking, and auto-generated SKUs. Step-by-step product creation with guided stepper flow makes adding new items effortless.",
-    visual: <MultiCategoryHubVisual />
+    description: "Separate, category-specific entry forms for Gold, Diamond (Natural & LGD), Silver, Bullion, Loose Diamonds, Loose Gems, and Semi-Precious Stones — each form captures the exact parameters relevant to that category. Upload high-resolution product images and videos, attach diamond certificates, and define specifications like purity, weight, carat, and stone details. Every product gets a complete digital identity before going live.",
+    visual: <MultiCategoryHubVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 3,
-    title: "Add New Items Fast",
-    subtitle: "Stepper-Based Creation",
-    description: "A guided step-by-step flow walks you through adding any product. Select category hierarchy (Super Category → Category → Sub Category, e.g., Jewellery → Necklace → Choker), enter specifications, upload images, and review before going live. Auto-generated SKU numbers, HUID Hallmark tracking, gem & diamond specification entry, visibility controls, sales channel selection (Online/Offline/Both), and gender tags — all in one smooth stepper flow.",
-    visual: <CreationVisual />
+    id: 105,
+    title: "Product Visibility Control",
+    subtitle: "Supervision Approval",
+    description: "No product goes live without supervisor approval — every listing passes through a review stage before becoming visible to retailers. Once live, sellers can instantly edit product details, update pricing, or disable any listing with a single click. This gives wholesalers complete, real-time control over what retailers can browse and order at any given moment.",
+    visual: <ProductDashboardVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 4,
-    title: "Product Dashboard",
-    subtitle: "Total Stock Control",
-    description: "Your entire inventory in one powerful grid view. Edit, update, and manage all listed products. One-click show/hide visibility control for retailer-facing products. Disable live products temporarily without deleting them. Total price view with metal + gems + diamonds + making charges computed automatically. HUID Hallmark tracking (BIS compliant) and printable barcode generation for every item.",
-    visual: <ProductDashboardVisual />
+    id: 106,
+    title: "Inventory Management",
+    subtitle: "Stock Intelligence",
+    description: "Track every live product in your catalogue with built-in trend analysis that highlights fast-moving bestsellers and slow-moving items. Generate printable barcodes for each product, export full inventory data to Excel for offline analysis or auditing, and manually adjust prices for fixed-price items. The system provides a complete, real-time view of your stock value, total pieces, and product movement across categories.",
+    visual: <InventoryVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 5,
-    title: "Full Jewelry Details",
-    subtitle: "Master Catalog",
-    description: "Store every important detail about your jewelry in one place. Fully customize and fill in exactly the details you need—tailored perfectly to your unique showroom requirements, whether that's gold purity, exact 4C diamond specifications, or HUID numbers.",
-    visual: <DetailsVisual />
+    id: 107,
+    title: "Advanced Billing & Invoicing",
+    subtitle: "Multi-Format Invoicing",
+    description: "Choose from multiple invoice templates designed for every transaction type — B2C/Non-GST retail bills, B2B/GST Wholesale invoices (supporting both Effective Rate and Traditional melting/wastage calculation methods), URD invoices for old gold exchange, barcode-based quick billing, and category-specific invoices for jewelry, bullion, and loose stones. Each template auto-calculates GST, making charges, and totals — reducing manual errors to zero.",
+    visual: <BillingDeskVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 6,
-    title: "Collections & Carousels",
-    subtitle: "Digital Showroom",
-    description: "Create your own digital showroom with themed collections. Group products into curated sets — Wedding Collection, Diwali Special, Daily Wear Essentials. Build stunning image carousels to showcase your best pieces in professional sliders. Rich media presentation with collection details. No more WhatsApp catalogue sharing — give your business a website-quality look.",
-    visual: <CollectionsVisual />
-  },
-  // 🏪 SELLING
-  {
-    id: 7,
-    title: "B2B Digital Catalog",
-    subtitle: "Wholesale Showcase",
-    description: "Empower your wholesale business by freely showcasing your products to retailers. Let your B2B clients browse your latest designs, check real-time availability, and securely place orders from anywhere without exposing your pricing to the public.",
-    visual: <B2BCatalogVisual />
+    id: 108,
+    title: "One click E-Invoice Generation",
+    subtitle: "10-Second E-Invoice",
+    description: "Generate fully valid, government-compliant GST E-Invoices in under 10 seconds — directly synced with the GST portal. No technical expertise or manual data entry is needed; with just one click the system auto-fills all required fields from your invoice data, generates the IRN (Invoice Reference Number), and provides a downloadable QR-coded E-Invoice. If a mistake is made, invoices can be cancelled within the 24-hour government window.",
+    visual: <EInvoiceVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 8,
-    title: "B2B eCommerce Platform",
-    subtitle: "Your Digital Wholesale Store",
-    description: "Give your retailers a premium B2B shopping experience — right from their browser. They can browse your full digital catalogue with advanced filters (category, carat, colour), save favourites to wishlists, add products to cart, and complete orders through a multi-step checkout with purchase order support. After ordering, they track deliveries in real-time, download GST-compliant invoices, rate products, review sellers, and reorder past purchases instantly.",
-    visual: <B2BEcommerceStoreVisual />
+    id: 109,
+    title: "Bulk Jewelry Management",
+    subtitle: "Batch Operations",
+    description: "Add large quantities of jewelry to your catalogue in one go using bulk upload — enter hundreds of products entry. Generate bulk invoices and E-Invoices for multi-piece wholesale orders in a single sitting, saving hours of repetitive manual entry work that would otherwise slow down high-volume operations.",
+    visual: <BulkUploadVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 9,
-    title: "Quick Billing Desk",
-    subtitle: "Invoice & Print",
-    description: "Make bills for your customers very easily. You can enter your gold rate and the system automatically calculates the total price including making charges and GST. You can make an estimate first, then change it to a final bill, and print it on large A4 paper or small thermal receipt paper.",
-    visual: <BillingDeskVisual />
+    id: 110,
+    title: "Karigar (Artisan) Management",
+    subtitle: "Manufacturing Control",
+    description: "A closed-loop artisan tracking system using Outward Challans (gold issued to karigar) and Inward Challans (finished goods returned). The system automatically calculates fine gold balance for every artisan, enforces mandatory signatures on every challan, and maintains a legally binding paper trail for every gram of gold that leaves and returns. This eliminates gold loss, prevents theft, and resolves the age-old problem of unaccounted karigar balances.",
+    visual: <KarigarVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 10,
-    title: "Quotation Desk",
-    subtitle: "Quick Estimates",
-    description: "When a customer asks for a rate — give them a professional digital quotation. Create detailed estimates with product selection and pricing, track all quotations in a list view, and convert to a final invoice with one click when the customer confirms.",
-    visual: <QuotationVisual />
-  },
-  // 📋 OPERATIONS
-  {
-    id: 11,
-    title: "Track Customer Orders",
-    subtitle: "Order Management",
-    description: "Never lose track of a special customer order again. Bring total transparency to your business by tracking every order's progress — from the initial advance payment, through processing and quality checks, right up to the moment it's ready for the customer.",
-    visual: <TrackingVisual />
+    id: 111,
+    title: "Order Management",
+    subtitle: "End-to-End Tracking",
+    description: "Track every order end-to-end from the moment a retailer confirms their cart — through rate finalization and locking, invoice generation, payment status updates, dispatch coordination, and final delivery. The entire lifecycle is visible in one unified dashboard. Once the rate is confirmed and locked, orders cannot be cancelled, ensuring commitment from both sides and protecting wholesalers from market fluctuation losses.",
+    visual: <TrackingVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 12,
-    title: "Order & Payment History",
+    id: 112,
+    title: "Client & Order History",
     subtitle: "Complete Records",
-    description: "Every transaction, instantly accessible — whether it was 3 days or 3 years ago. Complete order history with filters, search, and date ranges. Payment history for each order with remaining amount visibility. Both seller and buyer views show relevant information. Excel export for offline analysis and tax filing compliance.",
-    visual: <OrderHistoryVisual />
+    description: "Get complete visibility over your entire client network. View your top-performing retailers ranked by order volume, track individual client payment histories and outstanding balances, and review detailed order records filtered by date range, status, or party name. Export comprehensive reports to Excel for offline analysis, meetings, or tax filing — giving wholesalers full control over their B2B relationships and receivables.",
+    visual: <OrderHistoryVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 13,
-    title: "Track Stock Instantly",
-    subtitle: "Zero Discrepancy",
-    description: "Know exactly how many rings, chains, or necklaces you have at any moment. Our system tracks every item from your safe vault to your display trays. When an item is sold, it gets removed from the stock automatically.",
-    visual: <InventoryVisual />
+    id: 113,
+    title: "QR & Barcode Scanner Support",
+    subtitle: "Scan-Based Operations",
+    description: "Generate unique QR codes and barcodes for every product in your inventory — and scan them instantly using any device camera or a dedicated barcode scanner. Scanning a product instantly pulls up its complete details, pricing, and stock status. Use barcode scanning during billing to add items to invoices in seconds, during stock audits to verify physical inventory against digital records, and during dispatch to confirm the right products are being shipped to the right retailer.",
+    visual: <BarcodeVisual />,
+    edition: 'wholesalers',
   },
   {
-    id: 14,
-    title: "Old Gold Exchange & Purchase",
+    id: 114,
+    title: "Excel Export",
+    subtitle: "Data Export",
+    description: "Download all your business data — daily sales reports, purchase records, stock summaries, GST filings, and transaction histories — as clean, structured Excel files ready for your accountant or CA. Filter exports by date range, category, party, or transaction type to get exactly the data you need for compliance, auditing, or business analysis.",
+    visual: <ExcelVisual />,
+    edition: 'wholesalers',
+  },
+];
+
+// ═══════════════════════════════════════════════════════
+//  RETAILER FEATURES (10 services)
+// ═══════════════════════════════════════════════════════
+
+const retailerFeatures: FeatureItem[] = [
+  {
+    id: 201,
+    title: "Secure Registration & Authentication",
+    subtitle: "Verified Access",
+    description: "Every retailer goes through a strictly monitored registration gateway. The system verifies business credentials and identity documents to ensure only legitimate jewelers can access the platform — maintaining a trusted business environment.",
+    visual: <LoginVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 202,
+    title: "Homepage & Marketplace Navigation",
+    subtitle: "Central Marketplace",
+    description: "A central marketplace to browse wholesalers' inventory, view product details, place orders, and manage your wishlist and cart. Advanced search filters and transparent seller profiles with ratings make sourcing easy and reliable.",
+    visual: <B2BEcommerceStoreVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 203,
+    title: "Inventory Management",
+    subtitle: "Smart Stock",
+    description: "A real-time product catalog tracking every item from safe vault to display tray. Analytics highlight slow-moving and fast-selling designs to guide purchasing. Auto-generates two Excel reports — one for CA/tax compliance and one for internal auditing.",
+    visual: <InventoryVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 204,
+    title: "Customer Management",
+    subtitle: "Digital CRM",
+    description: "Replaces paper registers with a centralized digital customer database. Track purchase histories, identify loyal repeat clients, and run targeted marketing campaigns with exclusive designs and offers sent directly to existing customers.",
+    visual: <PartyManagementVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 205,
+    title: "URD (Unregistered Dealer) Purchase & Exchanges",
     subtitle: "Old Gold Handling",
-    description: "Easily handle customers who bring in old gold to exchange or sell (URD purchases). The system helps you create the proper purchase receipt, calculates the exact melt value of the old gold based on today's rate, and automatically updates your pure fine gold balance.",
-    visual: <URDVisual />
-  },
-  // 🤝 NETWORK
-  {
-    id: 15,
-    title: "Party & Network Management",
-    subtitle: "Your Digital Rolodex",
-    description: "Manage your entire business network digitally. Register buyer and seller parties with complete KYC document upload, track approval workflows from Draft to Approved, and maintain full transaction history. Every contact, every document, every deal — systematically organized.",
-    visual: <PartyManagementVisual />
+    description: "Auto-generates government-compliant URD purchase invoices for old gold buying. For exchanges, enter the old invoice number and the software automatically deducts the URD value from the new bill — one seamless workflow.",
+    visual: <URDVisual />,
+    edition: 'retailers',
   },
   {
-    id: 16,
-    title: "Karigar Management",
-    subtitle: "Artisan Tracking",
-    description: "Complete artisan management — every piece tracked, every payment logged. Create karigar profiles with personal details, firm name, Aadhaar, PAN, and GST verification. Track goods movement with Inward and Outward Challan Desk. View complete karigar invoice lists and full transaction history. From sending raw gold to receiving finished pieces — every gram is accounted for.",
-    visual: <KarigarVisual />
-  },
-  // 📊 FINANCE
-  {
-    id: 17,
-    title: "Easy GST Invoices",
-    subtitle: "100% GST Ready",
-    description: "Create correct tax invoices that follow all Indian government rules. The software automatically calculates the right CGST, SGST, or IGST for cash memos and wholesale (B2B) bills. You can also send the data directly to the government portal for E-invoicing with one click.",
-    visual: <EInvoiceVisual />
+    id: 206,
+    title: "Billing & Invoicing",
+    subtitle: "Invoice & POS",
+    description: "Professional branded invoices with your store's name and logo. Auto GST calculations, daily gold rate entry, flexible making charges, and estimated wastage per article before finalizing. Every invoice is linked to the customer's profile.",
+    visual: <BillingDeskVisual />,
+    edition: 'retailers',
   },
   {
-    id: 18,
-    title: "Excel Support",
-    subtitle: "Tally Export",
-    description: "Save time for yourself and your accountant (CA). You can quickly download all your daily sales, purchase bills, and stock reports in Excel format. These files are perfectly made so they can be directly uploaded into Tally software without any extra typing work.",
-    visual: <ExcelVisual />
+    id: 207,
+    title: "Quotations",
+    subtitle: "Purchase Estimates",
+    description: "Generate formal quotations for large purchases like wedding jewelry sets — with item-wise breakdown, weights, and estimated totals. Customers can submit these to banks for gold loan or purchase financing.",
+    visual: <QuotationVisual />,
+    edition: 'retailers',
   },
-  // 🔔 SYSTEM
   {
-    id: 19,
-    title: "Real-Time Notifications",
-    subtitle: "Never Miss a Beat",
-    description: "Stay on top of every business event with real-time notifications. New orders, payment confirmations, shipment updates, E-Invoice status — all delivered instantly. Detailed notification pages ensure you never miss an important update, whether it's a new order or a completed payment.",
-    visual: <NotificationVisual />
-  }
+    id: 208,
+    title: "Karigar (Artisan) Management",
+    subtitle: "Manufacturing Control",
+    description: "Closed-loop tracking with Outward and Inward Challans for fine gold issued to and returned by artisans. Automatic balance deduction, mandatory dual signatures, and a legally binding paper trail — eliminating gold loss during manufacturing.",
+    visual: <KarigarVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 209,
+    title: "QR & Barcode Scanner Support",
+    subtitle: "Scan-Based Operations",
+    description: "Generate QR codes and barcodes for every product. Scan them at the billing counter to add items instantly, during stock audits to reconcile records, or when processing returns for quick product identification.",
+    visual: <BarcodeVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 210,
+    title: "Excel Export",
+    subtitle: "Data Export",
+    description: "Download daily sales, purchase records, stock summaries, and GST data as structured Excel files ready for your CA. Filter by date, category, or transaction type for compliance, auditing, or business reviews.",
+    visual: <ExcelVisual />,
+    edition: 'retailers',
+  },
 ];
 
 export default function ServicesScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeEdition, setActiveEdition] = useState<Edition>('retailers');
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
 
-  useGSAP(() => {
-    const sections = gsap.utils.toArray('.service-step');
-    
-    sections.forEach((section: any, index) => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () => setActiveIndex(index),
-        onEnterBack: () => setActiveIndex(index),
+  const features = activeEdition === 'retailers' ? retailerFeatures : wholesalerFeatures;
+
+  // Clean up and recreate ScrollTriggers when edition changes
+  useEffect(() => {
+    // Small delay to let DOM update with new edition features
+    const timer = setTimeout(() => {
+      // Kill old triggers
+      scrollTriggersRef.current.forEach(st => st.kill());
+      scrollTriggersRef.current = [];
+
+      const sections = gsap.utils.toArray('.service-step');
+      sections.forEach((section: any, index) => {
+        const st = ScrollTrigger.create({
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => setActiveIndex(index),
+          onEnterBack: () => setActiveIndex(index),
+        });
+        scrollTriggersRef.current.push(st);
       });
-    });
-  }, { scope: containerRef });
+
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      scrollTriggersRef.current.forEach(st => st.kill());
+      scrollTriggersRef.current = [];
+    };
+  }, [activeEdition]);
+
+  const handleEditionChange = useCallback((edition: Edition) => {
+    setActiveEdition(edition);
+    setActiveIndex(0);
+    // Scroll to top of the services section
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const scrollTop = window.scrollY + rect.top - 120;
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    }
+  }, []);
 
   return (
     <div ref={containerRef} className="relative w-full bg-white py-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row gap-12">
-        
-        {/* LEFT COLUMN: SCROLLING TEXT */}
-        <div className="w-full md:w-1/2 py-[10vh]">
-          {features.map((feature, index) => (
-            <div key={feature.id} className="service-step min-h-[80vh] flex flex-col justify-center">
-              <div className={`transition-all duration-500 ${activeIndex === index ? 'opacity-100 translate-x-0' : 'opacity-30 -translate-x-4'}`}>
-                <h4 className="text-[#C6A87C] text-sm font-bold tracking-[0.2em] uppercase mb-4">
-                  {feature.subtitle}
-                </h4>
-                <h3 className="text-4xl md:text-5xl font-serif text-[#2C2C2C] mb-6">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-500 text-lg leading-relaxed max-w-md">
-                  {feature.description}
-                </p>
-              </div>
-            </div>
-          ))}
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+
+        {/* ── EDITION TOGGLE ── */}
+        <div className="flex justify-center mb-16">
+          <div className="relative inline-flex items-center bg-white/90 backdrop-blur-md border border-[#C6A87C]/20 rounded-2xl p-1.5 shadow-lg shadow-black/5">
+            {/* Sliding pill indicator */}
+            <div
+              className={`absolute top-1.5 bottom-1.5 w-[calc(50%-3px)] rounded-xl bg-gradient-to-r from-[#C6A87C] to-[#b0956b] shadow-md transition-all duration-300 ease-out ${
+                activeEdition === 'retailers'
+                  ? 'left-1.5'
+                  : 'left-[calc(50%+1.5px)]'
+              }`}
+            />
+            <button
+              onClick={() => handleEditionChange('retailers')}
+              className={`relative z-10 flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-wider uppercase transition-colors duration-300 rounded-xl ${
+                activeEdition === 'retailers' ? 'text-white' : 'text-gray-400 hover:text-[#C6A87C]'
+              }`}
+            >
+              <Store className="w-4 h-4" />
+              Retailers
+            </button>
+            <button
+              onClick={() => handleEditionChange('wholesalers')}
+              className={`relative z-10 flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-wider uppercase transition-colors duration-300 rounded-xl ${
+                activeEdition === 'wholesalers' ? 'text-white' : 'text-gray-400 hover:text-[#C6A87C]'
+              }`}
+            >
+              <Briefcase className="w-4 h-4" />
+              Wholesalers
+            </button>
+          </div>
         </div>
 
-        {/* RIGHT COLUMN: STICKY VISUAL */}
-        <div className="hidden md:block w-1/2 relative">
-          <div className="sticky top-24 h-[600px] w-full perspective-1000">
-             
-             {/* Render Active Visual with Transition */}
-             {features.map((feature, index) => (
+        {/* ── SCROLLING CONTENT ── */}
+        <div className="flex flex-col md:flex-row gap-12">
+          {/* LEFT COLUMN: SCROLLING TEXT */}
+          <div className="w-full md:w-1/2 py-[10vh]">
+            {features.map((feature, index) => (
+              <div key={feature.id} className="service-step min-h-[80vh] flex flex-col justify-center">
+                <div className={`transition-all duration-500 ${activeIndex === index ? 'opacity-100 translate-x-0' : 'opacity-30 -translate-x-4'}`}>
+                  <h4 className="text-[#C6A87C] text-sm font-bold tracking-[0.2em] uppercase mb-4">
+                    {feature.subtitle}
+                  </h4>
+                  <h3 className="text-4xl md:text-5xl font-serif text-[#2C2C2C] mb-6">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-500 text-lg leading-relaxed max-w-md">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* RIGHT COLUMN: STICKY VISUAL */}
+          <div className="hidden md:block w-1/2 relative">
+            <div className="sticky top-24 h-[600px] w-full perspective-1000">
+              
+              {/* Render Active Visual with Transition */}
+              {features.map((feature, index) => (
                 <div 
                   key={feature.id}
                   className={`absolute inset-0 transition-all duration-700 ease-in-out transform
@@ -1142,8 +1414,9 @@ export default function ServicesScroll() {
                 >
                   {feature.visual}
                 </div>
-             ))}
+              ))}
 
+            </div>
           </div>
         </div>
 
@@ -1151,4 +1424,3 @@ export default function ServicesScroll() {
     </div>
   );
 }
-
