@@ -28,6 +28,13 @@ export default function Navbar() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Listen for custom event to open demo modal from other components
+  useEffect(() => {
+    const handleOpenModal = () => setIsPopupOpen(true);
+    window.addEventListener('open-demo-modal', handleOpenModal);
+    return () => window.removeEventListener('open-demo-modal', handleOpenModal);
+  }, []);
+
   // Prevent scrolling when mobile menu or popup is open
   useEffect(() => {
     if (isMobileMenuOpen || isPopupOpen) {
