@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import {
@@ -55,8 +56,9 @@ function useCounter(end: number, duration: number = 2000, startOnView: boolean =
 // LEAD FORM COMPONENT (reused in hero + final CTA)
 // ─────────────────────────────────────────────
 function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: string }) {
+  const router = useRouter();
   const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '' });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -72,34 +74,11 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
         body: JSON.stringify(formState),
       });
       if (!response.ok) throw new Error('Failed');
-      setStatus('success');
-      setFormState({ Name: '', Business: '', Phone: '', Email: '' });
+      router.push('/thank-you');
     } catch {
       setStatus('error');
     }
   };
-
-  if (status === 'success') {
-    return (
-      <div className="flex flex-col items-center justify-center text-center space-y-4 py-12">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-2">
-          <CheckCircle2 className="w-8 h-8" />
-        </div>
-        <h3 className={`text-2xl font-serif ${variant === 'dark' ? 'text-white' : 'text-[#2C2C2C]'}`}>
-          We&apos;ll Be In Touch!
-        </h3>
-        <p className={variant === 'dark' ? 'text-gray-400' : 'text-gray-500'}>
-          Our team will contact you within 24 hours.
-        </p>
-        <button
-          onClick={() => setStatus('idle')}
-          className="text-[#C6A87C] font-bold text-sm uppercase tracking-widest mt-4 hover:underline cursor-pointer"
-        >
-          Send Another
-        </button>
-      </div>
-    );
-  }
 
   const isDark = variant === 'dark';
   const inputClass = `w-full bg-transparent border-b ${
@@ -418,9 +397,8 @@ const features = [
 // MAIN LANDING PAGE COMPONENT
 // ─────────────────────────────────────────────
 export default function LandingPage() {
-  const scrollToForm = () => {
-    const el = document.getElementById('final-cta-form');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const openDemoModal = () => {
+    window.dispatchEvent(new CustomEvent('open-demo-modal'));
   };
 
   return (
@@ -464,10 +442,9 @@ export default function LandingPage() {
                 transition={{ duration: 0.7 }}
               >
                 <div className="inline-flex items-center gap-2 bg-[#C6A87C]/10 border border-[#C6A87C]/20 rounded-full px-4 py-1.5 mb-6">
-                  <Sparkles className="w-3.5 h-3.5 text-[#C6A87C]" />
-                  <span className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">All-in-One Jewellery ERP</span>
+                  <span className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">#1 Jewellery Software & ERP</span>
                 </div>
-              </motion.div>
+              </motion.div>         
 
               <motion.h1
                 initial={{ opacity: 0, y: 25 }}
@@ -475,8 +452,8 @@ export default function LandingPage() {
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif text-white leading-[1.15] tracking-tight"
               >
-                India&apos;s #1{' '}
-                <span className="italic text-[#C6A87C]">Jewellery Management</span>{' '}
+                Jewellery{' '}
+                <span className="italic text-[#C6A87C]">Management</span>{' '}
                 Software
               </motion.h1>
 
@@ -486,7 +463,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="text-gray-400 text-base md:text-lg leading-relaxed max-w-xl"
               >
-                From tracking every gram of gold to generating instant GST invoices — billing, inventory, karigar tracking, B2B wholesale & E-Invoice — all in one secure platform built for Indian jewellers.
+                The ultimate jewellery software built for India. From tracking every gram of gold to generating instant GST invoices, inventory, karigar tracking, B2B wholesale & E-Invoice — all in one secure platform.
               </motion.p>
 
               {/* Trust badges */}
@@ -516,7 +493,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.4 }}
-                onClick={scrollToForm}
+                onClick={openDemoModal}
                 className="lg:hidden w-full bg-[#C6A87C] text-white py-4 rounded-full font-bold uppercase tracking-widest shadow-lg shadow-[#C6A87C]/25 text-sm flex items-center justify-center gap-2 cursor-pointer hover:bg-[#b0956b] transition-colors"
               >
                 Book Free Demo <ArrowRight className="w-4 h-4" />
@@ -633,7 +610,7 @@ export default function LandingPage() {
           <FadeIn delay={0.3}>
             <div className="text-center mt-12">
               <button
-                onClick={scrollToForm}
+                onClick={openDemoModal}
                 className="inline-flex items-center gap-2 bg-[#2C2C2C] text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#C6A87C] transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer group"
               >
                 See All Features In A Demo
@@ -686,7 +663,7 @@ export default function LandingPage() {
 
               <FadeIn delay={0.2}>
                 <button
-                  onClick={scrollToForm}
+                  onClick={openDemoModal}
                   className="inline-flex items-center gap-2 border border-[#C6A87C] text-[#C6A87C] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer group"
                 >
                   See It In Action
@@ -821,7 +798,7 @@ export default function LandingPage() {
                   ))}
                 </ul>
                 <button
-                  onClick={scrollToForm}
+                  onClick={openDemoModal}
                   className="w-full border border-[#C6A87C] text-[#C6A87C] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group/btn"
                 >
                   Book Demo for Retailers
@@ -857,7 +834,7 @@ export default function LandingPage() {
                   ))}
                 </ul>
                 <button
-                  onClick={scrollToForm}
+                  onClick={openDemoModal}
                   className="w-full border border-[#C6A87C] text-[#C6A87C] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group/btn"
                 >
                   Book Demo for Wholesalers
@@ -1016,7 +993,7 @@ export default function LandingPage() {
           ═══════════════════════════════════════════ */}
       <div className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-white/90 backdrop-blur-md border-t border-gray-200 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
         <button
-          onClick={scrollToForm}
+          onClick={openDemoModal}
           className="w-full bg-[#C6A87C] text-white py-3 rounded-full font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 shadow-lg cursor-pointer hover:bg-[#b0956b] transition-colors"
         >
           Book Free Demo <ArrowRight className="w-4 h-4" />

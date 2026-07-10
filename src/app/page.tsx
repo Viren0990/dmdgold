@@ -9,11 +9,39 @@ import Footer from '@/components/Footer';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'DMD Gold — Jewellery Software for Billing, Inventory & B2B | India',
-  description: 'DMD Gold is India\'s #1 jewellery management software. Multi-category inventory, GST-compliant billing & POS, karigar tracking, B2B wholesale marketplace, E-Invoice — all-in-one platform built in Pune for Indian jewellers. Book a free demo today.',
+  title: 'DMD Gold — #1 Jewellery Software for Billing, Inventory & B2B | India',
+  description: 'DMD Gold is India\'s top jewellery software for billing, inventory, and B2B wholesale. From GST compliance to karigar tracking, this jewellery management software is built for Indian jewellers. Book a free demo today.',
+  keywords: [
+    'jewellery software',
+    'jewellery software india',
+    'jewellery management software',
+    'jewellery billing software',
+    'jewellery erp'
+  ],
   alternates: {
     canonical: 'https://www.dmdgold.com',
   },
+  openGraph: {
+    title: 'DMD Gold — #1 Jewellery Software for Billing, Inventory & B2B | India',
+    description: 'DMD Gold is India\'s top jewellery software for billing, inventory, and B2B wholesale.',
+    url: 'https://www.dmdgold.com',
+    siteName: 'DMD Gold',
+    type: 'website',
+    images: [
+      {
+        url: 'https://www.dmdgold.com/images/logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'DMD Gold — Jewellery Software',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DMD Gold — #1 Jewellery Software',
+    description: 'India\'s top jewellery software for billing, inventory, and B2B wholesale.',
+    images: ['https://www.dmdgold.com/images/logo.png'],
+  }
 };
 
 export default function Home() {

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import ChatBot from "@/components/ChatBot";
+import DemoModal from "@/components/DemoModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,7 +53,6 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://www.dmdgold.com",
     languages: {
       "en-IN": "https://www.dmdgold.com",
       "en-US": "https://www.dmdgold.com",
@@ -269,8 +269,7 @@ fbq('track', 'PageView');`,
         />
         {children}
         <ChatBot />
-
-
+        <DemoModal />
       </body>
     </html>
   );
