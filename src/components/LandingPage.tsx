@@ -440,7 +440,7 @@ export default function LandingPage() {
 
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left: Copy */}
-            <div className="flex-1 space-y-6 lg:pt-4">
+            <div className="flex-1 space-y-6 lg:pt-4 flex flex-col items-center lg:items-start text-center lg:text-left">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -455,7 +455,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif text-white leading-[1.15] tracking-tight"
+                className="text-4xl sm:text-5xl lg:text-[3.25rem] font-serif text-white leading-[1.15] tracking-tight"
               >
                 Jewellery{' '}
                 <span className="italic text-[#C6A87C]">Management</span>{' '}
@@ -476,7 +476,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
-                className="flex flex-wrap gap-3 pt-2"
+                className="flex flex-wrap justify-center lg:justify-start gap-3 pt-2"
               >
                 {[
                   { icon: Shield, label: 'GST Compliant' },
@@ -493,16 +493,7 @@ export default function LandingPage() {
                 ))}
               </motion.div>
 
-              {/* Mobile CTA — shows only on mobile below copy */}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                onClick={openDemoModal}
-                className="lg:hidden w-full bg-[#C6A87C] text-white py-4 rounded-full font-bold uppercase tracking-widest shadow-lg shadow-[#C6A87C]/25 text-sm flex items-center justify-center gap-2 cursor-pointer hover:bg-[#b0956b] transition-colors"
-              >
-                Book Free Demo <ArrowRight className="w-4 h-4" />
-              </motion.button>
+
             </div>
 
             {/* Right: Inline Form */}
@@ -516,7 +507,7 @@ export default function LandingPage() {
                 {/* Glow */}
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#C6A87C]/10 rounded-full blur-[60px] pointer-events-none" />
 
-                <div className="relative z-10">
+                <div className="relative z-10 text-center lg:text-left">
                   <h2 className="text-xl font-serif text-white mb-1">Book a Free Demo</h2>
                   <p className="text-gray-500 text-sm mb-6">See DMD Gold in action — no commitment required.</p>
                   <LeadForm variant="dark" id="hero-form" />
@@ -649,7 +640,6 @@ export default function LandingPage() {
                 <div className="space-y-5">
                   {[
                     { title: 'Multi-Category Support', desc: 'Gold, Diamond, Silver, Platinum, Titanium, Gems & Bullion — all in one catalogue.' },
-                    { title: 'Live Gold Rate Integration', desc: 'Real-time pricing that auto-updates across billing, quotations & B2B store.' },
                     { title: 'Role-Based Access', desc: 'Owner, manager, staff — each sees only what they need. Full audit trail.' },
                     { title: 'Mobile Ready', desc: 'Access your complete business dashboard from any device, anywhere.' },
                   ].map((item, i) => (
@@ -993,17 +983,7 @@ export default function LandingPage() {
         </div>
       </footer>
 
-      {/* ═══════════════════════════════════════════
-          FLOATING MOBILE CTA
-          ═══════════════════════════════════════════ */}
-      <div className="fixed bottom-0 left-0 w-full z-50 lg:hidden bg-white/90 backdrop-blur-md border-t border-gray-200 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
-        <button
-          onClick={openDemoModal}
-          className="w-full bg-[#C6A87C] text-white py-3 rounded-full font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 shadow-lg cursor-pointer hover:bg-[#b0956b] transition-colors"
-        >
-          Book Free Demo <ArrowRight className="w-4 h-4" />
-        </button>
-      </div>
+
     </main>
   );
 }
