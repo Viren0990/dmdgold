@@ -244,81 +244,83 @@ export default function PricingContent() {
       </section>
 
       {/* 4. ADD-ONS / TABLES */}
-      <section className="pb-24 px-6 md:px-12">
-        <div className="max-w-5xl mx-auto space-y-12">
-          {/* E-Invoices for Wholesalers */}
-          {activeTab === 'wholesale' && (
+      {false && (
+        <section className="pb-24 px-6 md:px-12">
+          <div className="max-w-5xl mx-auto space-y-12">
+            {/* E-Invoices for Wholesalers */}
+            {activeTab === 'wholesale' && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-gray-100"
+              >
+                <h3 className="text-2xl font-serif text-[#2C2C2C] mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-[#C6A87C]"></span>
+                  E-Invoice Packages
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm text-gray-600">
+                    <thead className="text-xs uppercase bg-gray-50 text-gray-500 font-bold tracking-wider">
+                      <tr>
+                        <th className="px-6 py-4 rounded-tl-xl whitespace-nowrap">E-Invoice Pack</th>
+                        <th className="px-6 py-4">Price</th>
+                        <th className="px-6 py-4 rounded-tr-xl">Per Invoice</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {eInvoices.map((item, idx) => (
+                        <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
+                          <td className="px-6 py-4 font-medium text-[#2C2C2C]">{item.pack}</td>
+                          <td className="px-6 py-4">{item.price}</td>
+                          <td className="px-6 py-4">{item.perInvoice}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-gray-400 mt-4 italic">
+                  * E-invoice packs valid for Business Prime edition.
+                </p>
+              </motion.div>
+            )}
+
+            {/* Accessories */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-gray-100"
+              className="bg-[#2C2C2C] rounded-3xl p-8 md:p-10 shadow-2xl text-white"
             >
-              <h3 className="text-2xl font-serif text-[#2C2C2C] mb-6 flex items-center gap-3">
+              <h3 className="text-2xl font-serif mb-6 flex items-center gap-3">
                 <span className="w-8 h-px bg-[#C6A87C]"></span>
-                E-Invoice Packages
+                Accessories <span className="text-sm font-sans text-gray-400 font-normal italic">(as per requirement)</span>
               </h3>
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-600">
-                  <thead className="text-xs uppercase bg-gray-50 text-gray-500 font-bold tracking-wider">
+                <table className="w-full text-left text-sm text-gray-300">
+                  <thead className="text-xs uppercase bg-[#333333] text-gray-400 font-bold tracking-wider border-b border-[#C6A87C]/20">
                     <tr>
-                      <th className="px-6 py-4 rounded-tl-xl whitespace-nowrap">E-Invoice Pack</th>
-                      <th className="px-6 py-4">Price</th>
-                      <th className="px-6 py-4 rounded-tr-xl">Per Invoice</th>
+                      <th className="px-6 py-4 rounded-tl-xl whitespace-nowrap">Item</th>
+                      <th className="px-6 py-4 rounded-tr-xl text-right">Price</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {eInvoices.map((item, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-4 font-medium text-[#2C2C2C]">{item.pack}</td>
-                        <td className="px-6 py-4">{item.price}</td>
-                        <td className="px-6 py-4">{item.perInvoice}</td>
+                  <tbody className="divide-y divide-white/10">
+                    {accessories.map((item, idx) => (
+                      <tr key={idx} className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-white">{item.item}</td>
+                        <td className="px-6 py-4 text-right text-[#C6A87C] font-semibold whitespace-nowrap">{item.price}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-gray-400 mt-4 italic">
-                * E-invoice packs valid for Business Prime edition.
-              </p>
             </motion.div>
-          )}
 
-          {/* Accessories */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-[#2C2C2C] rounded-3xl p-8 md:p-10 shadow-2xl text-white"
-          >
-            <h3 className="text-2xl font-serif mb-6 flex items-center gap-3">
-              <span className="w-8 h-px bg-[#C6A87C]"></span>
-              Accessories <span className="text-sm font-sans text-gray-400 font-normal italic">(as per requirement)</span>
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-gray-300">
-                <thead className="text-xs uppercase bg-[#333333] text-gray-400 font-bold tracking-wider border-b border-[#C6A87C]/20">
-                  <tr>
-                    <th className="px-6 py-4 rounded-tl-xl whitespace-nowrap">Item</th>
-                    <th className="px-6 py-4 rounded-tr-xl text-right">Price</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {accessories.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-white/5 transition-colors">
-                      <td className="px-6 py-4 font-medium text-white">{item.item}</td>
-                      <td className="px-6 py-4 text-right text-[#C6A87C] font-semibold whitespace-nowrap">{item.price}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="text-center text-sm text-gray-500 max-w-3xl mx-auto space-y-2 pt-4">
+              <p>GST and delivery charges applicable separately on all software and accessories.</p>
+              <p>AMC covers software updates, GST-rule changes, remote support and data backup assistance.</p>
             </div>
-          </motion.div>
-
-          <div className="text-center text-sm text-gray-500 max-w-3xl mx-auto space-y-2 pt-4">
-            <p>GST and delivery charges applicable separately on all software and accessories.</p>
-            <p>AMC covers software updates, GST-rule changes, remote support and data backup assistance.</p>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 5. FOOTER CTA */}
       <div id="contact" className="bg-white">
