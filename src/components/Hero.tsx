@@ -41,7 +41,7 @@ export default function Hero() {
           <h2
             className={`
               hidden md:block
-              text-[#C6A87C] text-xs md:text-sm font-bold tracking-[0.3em] uppercase
+              text-[#8B6220] text-xs md:text-sm font-bold tracking-[0.3em] uppercase
               transition-all duration-700 ease-out 
               ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
             `}
@@ -63,7 +63,7 @@ export default function Hero() {
             // Tighter stagger (250ms)
             style={{ transitionDelay: '250ms', willChange: 'transform, opacity' }}
           >
-            Managing Your <span className="italic text-[#C6A87C]">Jewelry Business</span> <br className="hidden md:block" /> Just Got Simpler.
+            Managing Your <span className="italic text-[#8B6220]">Jewelry Business</span> <br className="hidden md:block" /> Just Got Simpler.
           </p>
 
           {/* MOBILE ONLY SUBHEADING */}
