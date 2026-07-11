@@ -424,10 +424,10 @@ export default function LandingPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-8 md:pt-12 pb-36 md:pb-32">
           {/* Top bar — logo + phone */}
-          <div className="flex justify-between items-center mb-12 md:mb-16">
-            <div className="flex items-center gap-3">
-              <Image src="/images/logo.png" alt="DMD Gold Logo" width={48} height={42} className="w-12 h-auto" />
-              <span className="text-xl font-serif font-bold text-white tracking-widest">DMD GOLD</span>
+          <div className="flex justify-center sm:justify-between items-center mb-12 md:mb-16">
+            <div className="flex items-center gap-3 bg-white/15 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 shadow-lg">
+              <Image src="/images/logo.png" alt="DMD Gold Logo" width={48} height={42} className="w-10 h-auto" />
+              <span className="text-lg font-serif font-bold text-white tracking-widest">DMD GOLD</span>
             </div>
             <a
               href="tel:+919371123699"
@@ -441,24 +441,15 @@ export default function LandingPage() {
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
             {/* Left: Copy */}
             <div className="flex-1 space-y-6 lg:pt-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7 }}
-              >
-                <div className="inline-flex items-center gap-2 bg-[#C6A87C]/10 border border-[#C6A87C]/20 rounded-full px-4 py-1.5 mb-6">
-                  <span className="text-[#C6A87C] text-xs font-bold tracking-widest uppercase">#1 Jewellery Software & ERP</span>
-                </div>
-              </motion.div>         
-
+              
               <motion.h1
                 initial={{ opacity: 0, y: 25 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
                 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-serif text-white leading-[1.15] tracking-tight"
               >
-                Jewellery{' '}
-                <span className="italic text-[#C6A87C]">Management</span>{' '}
+                Grow Your Jewellery Business with Complete{' '}
+                <span className="italic text-[#C6A87C]">Jewellery ERP</span>{' '}
                 Software
               </motion.h1>
 
@@ -468,7 +459,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="text-gray-400 text-base md:text-lg leading-relaxed max-w-xl"
               >
-                The ultimate jewellery software built for India. From tracking every gram of gold to generating instant GST invoices, inventory, karigar tracking, B2B wholesale & E-Invoice — all in one secure platform.
+                The ultimate jewellery software built for India. From tracking every gram of gold to generating instant GST invoices, inventory, karigar tracking, B2B wholesale & E-Invoice. All in one secure platform.
               </motion.p>
 
               {/* Trust badges */}
