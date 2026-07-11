@@ -17,7 +17,7 @@ export default function LoadingScreen({ isLoading }: LoadingScreenProps) {
     return (
         <div
             className={`
-        fixed inset-0 z-[100] flex items-center justify-center bg-[#FAF9F6]
+        fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A]
         transition-transform duration-[1000ms] ease-in-out
         ${isLoading ? 'translate-y-0' : '-translate-y-full'}
       `}
@@ -34,7 +34,7 @@ export default function LoadingScreen({ isLoading }: LoadingScreenProps) {
             transition-all duration-700 ease-out delay-100
             ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
           `}>
-                    <span className="text-[#2C2C2C] text-sm md:text-base font-medium tracking-[0.2em] uppercase font-serif">
+                    <span className="text-white text-sm md:text-base font-medium tracking-[0.2em] uppercase font-serif">
                         Welcome to
                     </span>
                 </div>
