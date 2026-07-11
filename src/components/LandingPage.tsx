@@ -57,7 +57,7 @@ function useCounter(end: number, duration: number = 2000, startOnView: boolean =
 // ─────────────────────────────────────────────
 function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: string }) {
   const router = useRouter();
-  const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '' });
+  const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '', City: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,13 +68,14 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
     e.preventDefault();
     setStatus('submitting');
     try {
-      const response = await fetch('/api/contact', {
+      fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formState),
-      });
-      if (!response.ok) throw new Error('Failed');
-      router.push('/thank-you');
+        keepalive: true
+      }).catch(console.error);
+      
+      window.location.href = '/thank-you';
     } catch {
       setStatus('error');
     }
@@ -106,9 +107,13 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
           <label className={labelClass}>Business Name *</label>
         </div>
         <div className="relative">
-          <input type="email" name="Email" required value={formState.Email} className={inputClass} placeholder=" " onChange={handleChange} />
-          <label className={labelClass}>Email Address *</label>
+          <input type="text" name="City" value={formState.City} className={inputClass} placeholder=" " onChange={handleChange} />
+          <label className={labelClass}>City (Optional)</label>
         </div>
+      </div>
+      <div className="relative">
+        <input type="email" name="Email" value={formState.Email} className={inputClass} placeholder=" " onChange={handleChange} />
+        <label className={labelClass}>Email Address (Optional)</label>
       </div>
 
       <button

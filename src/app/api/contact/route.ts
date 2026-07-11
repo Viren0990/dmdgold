@@ -4,12 +4,19 @@ import nodemailer from 'nodemailer';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { Name, Business, Email, Phone } = body;
+    const { Name, Business, Email, Phone, City } = body;
 
     // Validate request
-    if (!Name || !Email) {
+    if (!Name) {
       return NextResponse.json(
-        { error: 'Name and Email are required.' },
+        { error: 'Name is required.' },
+        { status: 400 }
+      );
+    }
+    
+    if (!Email && !Phone) {
+      return NextResponse.json(
+        { error: 'Either Email or Phone is required to contact you.' },
         { status: 400 }
       );
     }
@@ -32,9 +39,10 @@ export async function POST(request: Request) {
         You have received a new demo request!
         
         Name: ${Name}
-        Business: ${Business}
-        Email: ${Email}
-        Phone: ${Phone}
+        Business: ${Business || 'Not provided'}
+        City: ${City || 'Not provided'}
+        Email: ${Email || 'Not provided'}
+        Phone: ${Phone || 'Not provided'}
       `,
       html: `
         <div style="font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #FAF9F6; padding: 40px 20px; color: #2C2C2C;">
@@ -54,9 +62,13 @@ export async function POST(request: Request) {
                 <td style="padding: 15px 0; border-bottom: 1px solid #eee; color: #2C2C2C; font-weight: 500;">${Business || 'Not provided'}</td>
               </tr>
               <tr>
+                <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 600; color: #666;">City</td>
+                <td style="padding: 15px 0; border-bottom: 1px solid #eee; color: #2C2C2C; font-weight: 500;">${City || 'Not provided'}</td>
+              </tr>
+              <tr>
                 <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 600; color: #666;">Email</td>
                 <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 500;">
-                  <a href="mailto:${Email}" style="color: #C6A87C; text-decoration: none;">${Email}</a>
+                  ${Email ? `<a href="mailto:${Email}" style="color: #C6A87C; text-decoration: none;">${Email}</a>` : 'Not provided'}
                 </td>
               </tr>
               <tr>
@@ -65,9 +77,11 @@ export async function POST(request: Request) {
               </tr>
             </table>
 
+            ${Email ? `
             <div style="margin-top: 40px; text-align: center;">
               <a href="mailto:${Email}" style="display: inline-block; background-color: #2C2C2C; color: #ffffff; padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Reply to Customer</a>
             </div>
+            ` : ''}
             
             <p style="margin-top: 40px; margin-bottom: 0; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
               This email was automatically generated from the DMD GOLD contact form.
@@ -87,3 +101,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to send email.' }, { status: 500 });
   }
 }
+

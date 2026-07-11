@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function ContactForm() {
   const router = useRouter();
-  const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '' });
+  const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '', City: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,20 +15,20 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
+    
     try {
-      const response = await fetch('/api/contact', {
+      // Optimistic submission - fire and forget with keepalive so it finishes in background
+      fetch('/api/contact', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formState)
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
+        body: JSON.stringify(formState),
+        keepalive: true
+      }).catch(console.error);
 
-      router.push('/thank-you');
+      // Immediately redirect using hard navigation to prevent UI stuck in 'submitting' state
+      window.location.href = '/thank-you';
     } catch (error) {
       console.error(error);
       setStatus('error');
@@ -71,14 +71,27 @@ export default function ContactForm() {
         <input 
           type="email" 
           name="Email"
-          required
           value={formState.Email}
           className="w-full bg-transparent border-b border-gray-300 py-3 text-[#2C2C2C] focus:outline-none focus:border-[#C6A87C] transition-colors peer"
           placeholder=" "
           onChange={handleChange}
         />
         <label className="absolute left-0 top-3 text-gray-400 text-sm transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-[#C6A87C] peer-not-placeholder-shown:-top-4 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#C6A87C]">
-          Email Address
+          Email Address (Optional)
+        </label>
+      </div>
+
+      <div className="relative group">
+        <input 
+          type="text" 
+          name="City"
+          value={formState.City}
+          className="w-full bg-transparent border-b border-gray-300 py-3 text-[#2C2C2C] focus:outline-none focus:border-[#C6A87C] transition-colors peer"
+          placeholder=" "
+          onChange={handleChange}
+        />
+        <label className="absolute left-0 top-3 text-gray-400 text-sm transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-[#C6A87C] peer-not-placeholder-shown:-top-4 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#C6A87C]">
+          City (Optional)
         </label>
       </div>
 
