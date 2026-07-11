@@ -557,63 +557,96 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 3: FEATURES GRID
+          SECTION 5: WHO IT'S FOR
           ═══════════════════════════════════════════ */}
-      <section className="w-full bg-white py-20 md:py-24 px-6 md:px-12 relative overflow-hidden">
-        {/* Background pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.02] pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(#C6A87C 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-        />
-
-        <div className="max-w-6xl mx-auto relative z-10">
+      <section className="w-full bg-[#FAF9F6] py-20 md:py-24 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto">
           <FadeIn>
             <div className="text-center mb-14">
               <h2 className="text-[#C6A87C] text-xs font-bold tracking-[0.3em] uppercase mb-4 flex items-center justify-center gap-4">
                 <span className="w-8 h-[1px] bg-[#C6A87C]/50" />
-                <span>Powerful Features</span>
+                <span>Two Tailored Editions</span>
                 <span className="w-8 h-[1px] bg-[#C6A87C]/50" />
               </h2>
               <h3 className="text-3xl md:text-4xl font-serif text-[#2C2C2C]">
-                Everything Your Jewellery Business Needs
+                Built for <span className="italic text-[#C6A87C]">Retailers</span> &amp; <span className="italic text-[#C6A87C]">Wholesalers</span>
               </h3>
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, i) => (
-              <FadeIn key={i} delay={i * 0.08}>
-                <div className="group relative bg-[#FAF9F6] border border-[#C6A87C]/10 rounded-2xl p-5 hover:shadow-xl hover:shadow-[#C6A87C]/10 transition-all duration-500 h-full">
-                  {/* Hover gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#C6A87C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
-
-                  <div className="relative z-10">
-                    {/* Custom Visual */}
-                    <div className="mb-4">
-                      {feature.visual}
-                    </div>
-                    <h4 className="text-lg font-serif text-[#2C2C2C] mb-2 group-hover:text-[#C6A87C] transition-colors duration-300">
-                      {feature.title}
-                    </h4>
-                    <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Retailer */}
+            <FadeIn delay={0.1}>
+              <div className="group bg-white rounded-3xl border border-gray-200 p-8 md:p-10 shadow-sm hover:border-[#C6A87C]/30 hover:shadow-xl hover:shadow-[#C6A87C]/10 transition-all duration-500 h-full flex flex-col">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#C6A87C]/10 flex items-center justify-center group-hover:bg-[#C6A87C]/20 transition-colors">
+                    <Store className="w-6 h-6 text-[#C6A87C]" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-serif text-[#2C2C2C] font-bold">Retailer Edition</h4>
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">For Showrooms</span>
                   </div>
                 </div>
-              </FadeIn>
-            ))}
-          </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {[
+                    'CRM & Customer Tracking with birthday automation',
+                    'URD Purchases & Old Gold Exchanges',
+                    'Smart Billing & POS with live gold rates',
+                    'Quotation desk with one-click invoice conversion',
+                    'Walk-in customer management',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#C6A87C] flex-shrink-0 mt-1.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={openDemoModal}
+                  className="w-full border border-[#C6A87C] text-[#C6A87C] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group/btn"
+                >
+                  Book Demo for Retailers
+                  <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </FadeIn>
 
-          {/* CTA below features */}
-          <FadeIn delay={0.3}>
-            <div className="text-center mt-12">
-              <button
-                onClick={openDemoModal}
-                className="inline-flex items-center gap-2 bg-[#2C2C2C] text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#C6A87C] transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer group"
-              >
-                See All Features In A Demo
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </FadeIn>
+            {/* Wholesaler */}
+            <FadeIn delay={0.2}>
+              <div className="group bg-white rounded-3xl border border-gray-200 p-8 md:p-10 shadow-sm hover:border-[#C6A87C]/30 hover:shadow-xl hover:shadow-[#C6A87C]/10 transition-all duration-500 h-full flex flex-col">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#C6A87C]/10 flex items-center justify-center group-hover:bg-[#C6A87C]/20 transition-colors">
+                    <Briefcase className="w-6 h-6 text-[#C6A87C]" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-serif text-[#2C2C2C] font-bold">Wholesaler Edition</h4>
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">For B2B Manufacturing</span>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {[
+                    'B2B Digital Storefront with catalogue & checkout',
+                    'Karigar & artisan management with challans',
+                    'Bulk inventory management & uploads',
+                    'Role-based access & multi-branch control',
+                    'Order lifecycle tracking & dispatch',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#C6A87C] flex-shrink-0 mt-1.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={openDemoModal}
+                  className="w-full border border-[#C6A87C] text-[#C6A87C] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group/btn"
+                >
+                  Book Demo for Wholesalers
+                  <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
@@ -748,96 +781,63 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          SECTION 5: WHO IT'S FOR
+          SECTION 3: FEATURES GRID
           ═══════════════════════════════════════════ */}
-      <section className="w-full bg-[#FAF9F6] py-20 md:py-24 px-6 md:px-12">
-        <div className="max-w-5xl mx-auto">
+      <section className="w-full bg-white py-20 md:py-24 px-6 md:px-12 relative overflow-hidden">
+        {/* Background pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.02] pointer-events-none"
+          style={{ backgroundImage: 'radial-gradient(#C6A87C 1px, transparent 1px)', backgroundSize: '40px 40px' }}
+        />
+
+        <div className="max-w-6xl mx-auto relative z-10">
           <FadeIn>
             <div className="text-center mb-14">
               <h2 className="text-[#C6A87C] text-xs font-bold tracking-[0.3em] uppercase mb-4 flex items-center justify-center gap-4">
                 <span className="w-8 h-[1px] bg-[#C6A87C]/50" />
-                <span>Two Tailored Editions</span>
+                <span>Powerful Features</span>
                 <span className="w-8 h-[1px] bg-[#C6A87C]/50" />
               </h2>
               <h3 className="text-3xl md:text-4xl font-serif text-[#2C2C2C]">
-                Built for <span className="italic text-[#C6A87C]">Retailers</span> &amp; <span className="italic text-[#C6A87C]">Wholesalers</span>
+                Everything Your Jewellery Business Needs
               </h3>
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Retailer */}
-            <FadeIn delay={0.1}>
-              <div className="group bg-white rounded-3xl border border-gray-200 p-8 md:p-10 shadow-sm hover:border-[#C6A87C]/30 hover:shadow-xl hover:shadow-[#C6A87C]/10 transition-all duration-500 h-full flex flex-col">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#C6A87C]/10 flex items-center justify-center group-hover:bg-[#C6A87C]/20 transition-colors">
-                    <Store className="w-6 h-6 text-[#C6A87C]" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-serif text-[#2C2C2C] font-bold">Retailer Edition</h4>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">For Showrooms</span>
-                  </div>
-                </div>
-                <ul className="space-y-3 mb-8 flex-1">
-                  {[
-                    'CRM & Customer Tracking with birthday automation',
-                    'URD Purchases & Old Gold Exchanges',
-                    'Smart Billing & POS with live gold rates',
-                    'Quotation desk with one-click invoice conversion',
-                    'Walk-in customer management',
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#C6A87C] flex-shrink-0 mt-1.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={openDemoModal}
-                  className="w-full border border-[#C6A87C] text-[#C6A87C] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group/btn"
-                >
-                  Book Demo for Retailers
-                  <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </FadeIn>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, i) => (
+              <FadeIn key={i} delay={i * 0.08}>
+                <div className="group relative bg-[#FAF9F6] border border-[#C6A87C]/10 rounded-2xl p-5 hover:shadow-xl hover:shadow-[#C6A87C]/10 transition-all duration-500 h-full">
+                  {/* Hover gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#C6A87C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
 
-            {/* Wholesaler */}
-            <FadeIn delay={0.2}>
-              <div className="group bg-white rounded-3xl border border-gray-200 p-8 md:p-10 shadow-sm hover:border-[#C6A87C]/30 hover:shadow-xl hover:shadow-[#C6A87C]/10 transition-all duration-500 h-full flex flex-col">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#C6A87C]/10 flex items-center justify-center group-hover:bg-[#C6A87C]/20 transition-colors">
-                    <Briefcase className="w-6 h-6 text-[#C6A87C]" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-serif text-[#2C2C2C] font-bold">Wholesaler Edition</h4>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">For B2B Manufacturing</span>
+                  <div className="relative z-10">
+                    {/* Custom Visual */}
+                    <div className="mb-4">
+                      {feature.visual}
+                    </div>
+                    <h4 className="text-lg font-serif text-[#2C2C2C] mb-2 group-hover:text-[#C6A87C] transition-colors duration-300">
+                      {feature.title}
+                    </h4>
+                    <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
-                <ul className="space-y-3 mb-8 flex-1">
-                  {[
-                    'B2B Digital Storefront with catalogue & checkout',
-                    'Karigar & artisan management with challans',
-                    'Bulk inventory management & uploads',
-                    'Role-based access & multi-branch control',
-                    'Order lifecycle tracking & dispatch',
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-gray-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#C6A87C] flex-shrink-0 mt-1.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <button
-                  onClick={openDemoModal}
-                  className="w-full border border-[#C6A87C] text-[#C6A87C] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 group/btn"
-                >
-                  Book Demo for Wholesalers
-                  <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            </FadeIn>
+              </FadeIn>
+            ))}
           </div>
+
+          {/* CTA below features */}
+          <FadeIn delay={0.3}>
+            <div className="text-center mt-12">
+              <button
+                onClick={openDemoModal}
+                className="inline-flex items-center gap-2 bg-[#2C2C2C] text-white px-8 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#C6A87C] transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer group"
+              >
+                See All Features In A Demo
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
