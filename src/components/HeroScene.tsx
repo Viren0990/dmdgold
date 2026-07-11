@@ -204,7 +204,7 @@ const LaptopGroup = () => {
                 <mesh
                     rotation={[Math.PI, Math.PI, Math.PI]}
                     position={[0, 10.5, 0.15]}
-                    scale={[1, -1, 1]}
+                    scale={[-1, -1, 1]}
                     material={matCenter}
                 >
                     <planeGeometry args={[29, 16]} />
@@ -214,28 +214,28 @@ const LaptopGroup = () => {
 
                 {/* Inner Left - Inventory */}
                 {screenMode >= 2 && (
-                    <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matInnerLeft}>
+                    <mesh ref={leftScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[-1, -1, 1]} material={matInnerLeft}>
                         <planeGeometry args={[24, 14]} />
                     </mesh>
                 )}
 
                 {/* Inner Right - Billing */}
                 {screenMode >= 2 && (
-                    <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matInnerRight}>
+                    <mesh ref={rightScreen1} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[-1, -1, 1]} material={matInnerRight}>
                         <planeGeometry args={[24, 14]} />
                     </mesh>
                 )}
 
                 {/* Far Left - Order Tracking */}
                 {screenMode >= 4 && (
-                    <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matFarLeft}>
+                    <mesh ref={leftScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[-1, -1, 1]} material={matFarLeft}>
                         <planeGeometry args={[22, 13]} />
                     </mesh>
                 )}
 
                 {/* Far Right - Product */}
                 {screenMode >= 4 && (
-                    <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[1, -1, 1]} material={matFarRight}>
+                    <mesh ref={rightScreen2} rotation={[Math.PI, Math.PI, Math.PI]} position={[0, 10.5, -0.2]} scale={[-1, -1, 1]} material={matFarRight}>
                         <planeGeometry args={[22, 13]} />
                     </mesh>
                 )}

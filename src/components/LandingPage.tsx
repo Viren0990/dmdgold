@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import {
   Store,
@@ -502,6 +503,14 @@ export default function LandingPage() {
                   <h2 className="text-xl font-serif text-white mb-1">Book a Free Demo</h2>
                   <p className="text-gray-500 text-sm mb-6">See DMD Gold in action — no commitment required.</p>
                   <LeadForm variant="dark" id="hero-form" />
+
+                  {/* Secondary Self-Serve CTA */}
+                  <div className="mt-5 text-center">
+                    <span className="text-gray-400 text-[13px]">Or prefer to explore yourself? </span>
+                    <Link href="/plans" className="text-[#C6A87C] text-[13px] font-bold hover:text-white transition-colors underline underline-offset-4">
+                      View Plans & Pricing
+                    </Link>
+                  </div>
                 </div>
               </div>
             </motion.div>
