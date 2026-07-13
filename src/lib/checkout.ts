@@ -10,6 +10,7 @@ interface CheckoutOptions {
   state?: string;
   pincode?: string;
   paymentFor: 'LICENSE';
+  onVerifyStart?: () => void;
   onSuccess?: (orderId?: string) => void;
   onError?: (error: string) => void;
 }
@@ -113,7 +114,10 @@ export async function checkoutOneTime(options: CheckoutOptions) {
         },
       },
       handler: async function (response: any) {
-        // 4. Verify Payment securely on our backend
+        // 4. Trigger UI to show massive success/verifying overlay
+        options.onVerifyStart?.();
+        
+        // 5. Verify Payment securely on our backend
         const verifyRes = await fetch('/api/payments/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

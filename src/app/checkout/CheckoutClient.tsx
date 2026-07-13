@@ -32,6 +32,7 @@ const VALIDATORS: Record<string, { test: (v: string) => boolean; message: string
 export default function CheckoutClient({ plan }: { plan: Plan }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
@@ -112,6 +113,9 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
       state: formData.state,
       pincode: formData.pincode,
       paymentFor: 'LICENSE',
+      onVerifyStart: () => {
+        setVerifying(true);
+      },
       onSuccess: (orderId?: string) => {
         // Redirect to persistent success page
         const orderParam = orderId || '';
@@ -142,11 +146,32 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
       />
 
       <div className="flex flex-col lg:flex-row gap-12">
-        {/* Left Column: Form */}
+        {/* Left Column: Form or Verification Screen */}
         <div className="flex-1 order-2 lg:order-1">
-          <Link href="/pricing" className="inline-flex items-center text-sm text-gray-500 hover:text-[#1A1A1A] mb-8 font-semibold transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" /> Back to Plans
-          </Link>
+          {verifying ? (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-3xl p-12 shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center min-h-[500px]"
+            >
+              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
+                <Check className="w-10 h-10 text-green-500" />
+              </div>
+              <h2 className="text-3xl font-serif text-[#1A1A1A] mb-4">Payment Successful!</h2>
+              <p className="text-gray-500 text-lg mb-8 max-w-md">
+                Please wait while we securely verify your payment, generate your license, and configure your dashboard.
+              </p>
+              
+              <div className="flex items-center space-x-3 text-[#C6A87C] font-medium bg-[#FAF9F6] px-6 py-3 rounded-full">
+                <div className="w-5 h-5 border-2 border-[#C6A87C] border-t-transparent rounded-full animate-spin"></div>
+                <span>Securing your account... Do not close this tab.</span>
+              </div>
+            </motion.div>
+          ) : (
+            <>
+              <Link href="/pricing" className="inline-flex items-center text-sm text-gray-500 hover:text-[#1A1A1A] mb-8 font-semibold transition-colors">
+                <ArrowLeft className="w-4 h-4 mr-2" /> Back to Plans
+              </Link>
 
           <h2 className="text-3xl font-serif text-[#2C2C2C] mb-2">Business Details</h2>
           <p className="text-gray-500 mb-8 text-sm">Please provide your details to complete the purchase and generate your tax invoice.</p>
@@ -224,6 +249,8 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
               </button>
             </div>
           </form>
+            </>
+          )}
         </div>
 
         {/* Right Column: Order Summary */}
