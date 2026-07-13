@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { format } from 'date-fns';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminPurchasesPage() {
   const purchases = await prisma.purchase.findMany({
     orderBy: { createdAt: 'desc' },
