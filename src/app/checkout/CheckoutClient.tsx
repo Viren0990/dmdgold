@@ -139,10 +139,10 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
 
   return (
     <>
-      {/* Load Razorpay SDK only on checkout page */}
+      {/* Load Razorpay SDK as soon as page hydrates so it's ready for the button click */}
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
       />
 
       <div className="flex flex-col lg:flex-row gap-12">
