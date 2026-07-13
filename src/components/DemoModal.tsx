@@ -56,7 +56,7 @@ export default function DemoModal() {
         </div>
         
         {/* Direct Contact Side */}
-        <div className="md:w-[40%] bg-[#FAF9F6] p-8 md:p-12 flex flex-col justify-center border-t md:border-t-0 md:border-l border-gray-200">
+        <div className="hidden md:flex md:w-[40%] bg-[#FAF9F6] p-8 md:p-12 flex-col justify-center border-t md:border-t-0 md:border-l border-gray-200">
           <h4 className="text-[#C6A87C] text-xs font-bold uppercase tracking-widest mb-6">Contact Us Directly</h4>
           <div className="space-y-8 text-sm text-[#2C2C2C]">
             <div>
