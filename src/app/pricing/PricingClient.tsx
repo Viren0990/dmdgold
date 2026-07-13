@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { pricingData } from '@/lib/constants';
 
@@ -121,21 +122,21 @@ const PackageCard = ({
 
       {/* CTA */}
       <div className="mt-auto pt-8">
-        <button
+        <Link
+          href={`/checkout?plan=${pkg.id}`}
           onClick={() => onBuy(pkg.id)}
-          disabled={isLoading}
-          className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 ${
+          className={`block w-full py-4 text-center rounded-xl font-bold uppercase tracking-widest text-xs transition-all duration-300 ${
             pkg.highlight
               ? 'bg-gradient-to-r from-[#D4B888] to-[#C6A87C] text-[#1a1817] hover:brightness-110 hover:scale-[1.02] shadow-lg shadow-[#D4B888]/20'
               : 'bg-transparent text-white border-2 border-white/40 hover:bg-white hover:text-[#1a1817] hover:border-white hover:scale-[1.02]'
-          } ${isLoading ? 'opacity-70 cursor-not-allowed scale-100' : ''}`}
+          } ${isLoading ? 'opacity-70 cursor-not-allowed scale-100 pointer-events-none' : ''}`}
         >
           {isLoading ? (
             <span className="animate-pulse">Processing...</span>
           ) : (
             'Buy Now'
           )}
-        </button>
+        </Link>
       </div>
     </motion.div>
   );
