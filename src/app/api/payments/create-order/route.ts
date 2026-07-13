@@ -87,16 +87,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 3. Get the plan from YOUR database (never trust client-sent amounts)
-    const plan = await prisma.plan.findUnique({ where: { slug: planSlug } });
-    if (!plan)
-      return NextResponse.json({ error: "Plan not found" }, { status: 404 });
+    // 3 & 4. Fetch Plan and Customer in PARALLEL to save time
+    let [plan, customer] = await Promise.all([
+      prisma.plan.findUnique({ where: { slug: planSlug } }),
+      prisma.customer.findUnique({
+        where: { email: customerEmail },
+        include: { purchases: true },
+      })
+    ]);
 
-    // 4. Find or create the customer
-    let customer = await prisma.customer.findUnique({
-      where: { email: customerEmail },
-      include: { purchases: true },
-    });
+    if (!plan) {
+      return NextResponse.json({ error: "Plan not found" }, { status: 404 });
+    }
 
     if (!customer) {
       // Email is new. Check if the phone is already taken by another account.
@@ -235,7 +237,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // 7. Save the pending purchase in our database
+    // 7 & 8. Save the pending purchase AND payment in a SINGLE nested database query!
     const purchase = await prisma.purchase.create({
       data: {
         customerId: customer.id,
@@ -245,18 +247,15 @@ export async function POST(req: NextRequest) {
         totalAmount: totalAmount,
         razorpayOrderId: order.id,
         status: "PENDING",
-      },
-    });
-
-    // 8. Create a pending payment record
-    await prisma.payment.create({
-      data: {
-        customerId: customer.id,
-        purchaseId: purchase.id,
-        amount: totalAmount,
-        razorpayPaymentId: `pending_${order.id}`, // Globally unique placeholder
-        razorpayOrderId: order.id,
-        status: "PENDING",
+        payments: {
+          create: {
+            customerId: customer.id,
+            amount: totalAmount,
+            razorpayPaymentId: `pending_${order.id}`, // Globally unique placeholder
+            razorpayOrderId: order.id,
+            status: "PENDING",
+          }
+        }
       },
     });
 

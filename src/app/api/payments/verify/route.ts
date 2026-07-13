@@ -18,19 +18,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
     }
 
-    // 2. Find the purchase and payment in our DB
-    const purchase = await prisma.purchase.findUnique({
-      where: { razorpayOrderId: razorpay_order_id },
-      include: { payments: true },
-    });
+    // 2 & 3. Find the purchase in our DB AND fetch Razorpay API in PARALLEL!
+    const [purchase, rzpPayment] = await Promise.all([
+      prisma.purchase.findUnique({
+        where: { razorpayOrderId: razorpay_order_id },
+        include: { payments: true },
+      }),
+      razorpay.payments.fetch(razorpay_payment_id)
+    ]);
 
     if (!purchase) {
       return NextResponse.json({ error: 'Purchase not found' }, { status: 404 });
     }
 
-    // 3. Verify the amount explicitly with Razorpay API (prevent partial capture attacks)
-    const rzpPayment = await razorpay.payments.fetch(razorpay_payment_id);
-    
     if (rzpPayment.amount !== purchase.totalAmount) {
       return NextResponse.json({ error: 'Amount mismatch' }, { status: 400 });
     }
