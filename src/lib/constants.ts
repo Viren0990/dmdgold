@@ -82,5 +82,23 @@ export const pricingData = {
       ],
       highlight: true
     }
+  ],
+  test: [
+    {
+      id: 'test-payment',
+      name: 'DMD Live Test Plan',
+      badge: 'TEST',
+      tagline: 'For production testing only',
+      price: '₹5',
+      pricePaise: 500,
+      priceLabel: 'one-time license',
+      amc: 'N/A',
+      features: [
+        "End-to-end payment verification",
+        "Test database records",
+        "Auto-activation testing"
+      ],
+      highlight: false
+    }
   ]
 };

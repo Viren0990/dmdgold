@@ -16,7 +16,7 @@ function CheckoutContent() {
   }
 
   // Find the plan instantly from static data instead of waiting for a database query!
-  const allPlans = [...pricingData.retail, ...pricingData.wholesale];
+  const allPlans = [...pricingData.retail, ...pricingData.wholesale, ...(pricingData.test || [])];
   const foundPlan = allPlans.find((p) => p.id === planSlug);
 
   if (!foundPlan) {
