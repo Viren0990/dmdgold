@@ -191,7 +191,7 @@ export default function RootLayout({
   ];
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Tag Manager - Head */}
         <Script
@@ -239,6 +239,7 @@ fbq('track', 'PageView');`,
             `,
           }}
         />
+
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

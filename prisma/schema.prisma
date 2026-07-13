@@ -15,3 +15,157 @@ model KnowledgeBase {
   embedding Unsupported("vector(3072)")?
   createdAt DateTime @default(now())
 }
+
+// ============================================
+// CUSTOMER
+// ============================================
+
+model Customer {
+  id            String     @id @default(uuid())
+  name          String
+  email         String     @unique
+  phone         String     @unique
+  company       String?    // Business/Shop name
+  gstNumber     String?
+  address       String?
+  city          String?
+  state         String?
+  pincode       String?
+  passwordHash  String     // bcrypt hashed
+  isActive      Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  purchases     Purchase[]
+  payments      Payment[]
+}
+
+// ============================================
+// SOFTWARE PLANS (Retailer / Wholesaler)
+// ============================================
+
+model Plan {
+  id              String     @id @default(uuid())
+  name            String     // "Retailer Edition", "Wholesaler Edition"
+  slug            String     @unique // "retailer", "wholesaler"
+  description     String?
+  licensePrice    Int        // Full license price in paise
+  isActive        Boolean    @default(true)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  purchases       Purchase[]
+}
+
+// ============================================
+// PURCHASE
+// ============================================
+
+model Purchase {
+  id              String          @id @default(uuid())
+  customerId      String
+  planId          String
+
+  baseAmount      Int             // Raw license price in paise
+  taxAmount       Int             // 18% GST in paise
+  totalAmount     Int             // Total (base + tax) in paise
+  amountPaid      Int             @default(0)
+
+  status          PurchaseStatus  @default(PENDING)
+  purchaseDate    DateTime        @default(now())
+  activatedAt     DateTime?
+
+  razorpayOrderId String?         @unique
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  customer        Customer        @relation(fields: [customerId], references: [id])
+  plan            Plan            @relation(fields: [planId], references: [id])
+  payments        Payment[]
+}
+
+enum PurchaseStatus {
+  PENDING
+  PAID
+  ACTIVATED
+  CANCELLED
+  FAILED
+  REFUNDED
+}
+
+// ============================================
+// PAYMENTS
+// ============================================
+
+model Payment {
+  id                    String        @id @default(uuid())
+  customerId            String
+  purchaseId            String
+
+  amount                Int
+  currency              String        @default("INR")
+
+  razorpayPaymentId     String        @unique
+  razorpayOrderId       String?
+  razorpaySignature     String?
+  razorpayMethod        String?
+
+  status                PaymentStatus @default(PENDING)
+  capturedAt            DateTime?
+  failureReason         String?
+
+  webhookVerified       Boolean       @default(false)
+  webhookEventId        String?       @unique
+
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  customer              Customer      @relation(fields: [customerId], references: [id])
+  purchase              Purchase      @relation(fields: [purchaseId], references: [id])
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+// ============================================
+// ADMIN
+// ============================================
+
+model AdminUser {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  passwordHash  String
+  role          AdminRole @default(STAFF)
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  auditLogs     AuditLog[]
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  STAFF
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  adminId     String?
+  action      String
+  entity      String
+  entityId    String
+  details     Json?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+
+  admin       AdminUser? @relation(fields: [adminId], references: [id])
+}

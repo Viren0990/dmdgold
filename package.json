@@ -19,6 +19,7 @@
     "@types/three": "^0.182.0",
     "ai": "^6.0.191",
     "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.26.2",
     "gsap": "^3.14.2",
@@ -27,6 +28,7 @@
     "next": "16.1.1",
     "nodemailer": "^8.0.3",
     "pg": "^8.21.0",
+    "razorpay": "^2.9.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "tailwind-merge": "^3.4.0",
@@ -44,5 +46,8 @@
     "prisma": "^7.8.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
   }
 }
