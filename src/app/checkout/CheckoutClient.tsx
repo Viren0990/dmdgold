@@ -179,6 +179,19 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
         strategy="afterInteractive"
       />
 
+      {/* Full-screen overlay while creating order & waiting for Razorpay popup */}
+      {loading && !verifying && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center"
+        >
+          <div className="w-14 h-14 border-[3px] border-gray-200 border-t-[#C6A87C] rounded-full animate-spin mb-6"></div>
+          <h2 className="text-2xl font-serif text-[#1A1A1A] mb-2">Preparing your order...</h2>
+          <p className="text-gray-500 text-sm max-w-xs text-center">Please wait and do not close or refresh this page.</p>
+        </motion.div>
+      )}
+
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left Column: Form or Verification Screen */}
         <div className="flex-1 order-2 lg:order-1">
