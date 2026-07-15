@@ -4,10 +4,11 @@ import { useState } from 'react';
 import { checkoutOneTime } from '@/lib/checkout';
 import { Plan } from '@prisma/client';
 import { motion } from 'framer-motion';
-import { Check, ArrowLeft, AlertCircle } from 'lucide-react';
+import { Check, ArrowLeft, AlertCircle, Plus, Minus } from 'lucide-react';
 import Link from 'next/link';
 import Script from 'next/script';
 import { useRouter } from 'next/navigation';
+import { ACCESSORIES } from '@/lib/constants';
 
 // --- Validation helpers ---
 const VALIDATORS: Record<string, { test: (v: string) => boolean; message: string }> = {
@@ -49,10 +50,35 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
     pincode: '',
   });
 
-  // Calculate GST for display only (Backend does actual calculation)
+  // Accessories State
+  const [selectedAccessories, setSelectedAccessories] = useState<Record<string, number>>({});
+
+  const handleAccessoryChange = (id: string, delta: number) => {
+    setSelectedAccessories((prev) => {
+      const current = prev[id] || 0;
+      const next = Math.max(0, current + delta);
+      const updated = { ...prev };
+      if (next === 0) {
+        delete updated[id];
+      } else {
+        updated[id] = next;
+      }
+      return updated;
+    });
+  };
+
+  // Calculate Totals dynamically
+  const accessoryTotalPaise = Object.entries(selectedAccessories).reduce((total, [id, qty]) => {
+    const acc = ACCESSORIES.find(a => a.id === id);
+    return total + (acc ? acc.pricePaise * qty : 0);
+  }, 0);
+
   const basePriceRupees = plan.licensePrice / 100;
-  const gstAmountRupees = basePriceRupees * 0.18;
-  const totalAmountRupees = basePriceRupees + gstAmountRupees;
+  const accessoryTotalRupees = accessoryTotalPaise / 100;
+  const totalBaseRupees = basePriceRupees + accessoryTotalRupees;
+  
+  const gstAmountRupees = totalBaseRupees * 0.18;
+  const totalAmountRupees = totalBaseRupees + gstAmountRupees;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -113,6 +139,7 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
       state: formData.state,
       pincode: formData.pincode,
       paymentFor: 'LICENSE',
+      accessories: selectedAccessories,
       onVerifyStart: () => {
         setVerifying(true);
       },
@@ -239,6 +266,43 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
               </div>
             </div>
 
+            {plan.slug === 'retail-pro' && (
+              <div className="pt-8 border-t border-gray-100">
+                <h3 className="text-lg font-serif text-[#2C2C2C] mb-1">Optional Hardware & Accessories</h3>
+                <p className="text-xs text-gray-500 mb-6">Equip your shop with fully compatible DMD accessories.</p>
+                <div className="space-y-4">
+                  {ACCESSORIES.map(acc => {
+                    const qty = selectedAccessories[acc.id] || 0;
+                    return (
+                      <div key={acc.id} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                        <div>
+                          <div className="font-semibold text-gray-900 text-sm">{acc.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{formatPrice(acc.pricePaise / 100)} {acc.unit}</div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <button 
+                            type="button" 
+                            onClick={() => handleAccessoryChange(acc.id, -1)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 hover:text-[#C6A87C] hover:border-[#C6A87C] transition-colors"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="w-4 text-center text-sm font-bold text-gray-900">{qty}</span>
+                          <button 
+                            type="button" 
+                            onClick={() => handleAccessoryChange(acc.id, 1)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 hover:text-[#C6A87C] hover:border-[#C6A87C] transition-colors"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="pt-6">
               <button
                 type="submit"
@@ -271,9 +335,17 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
 
             <div className="space-y-4 mb-6">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Base License Price</span>
+                <span className="text-gray-500">Software License</span>
                 <span className="font-semibold text-[#1A1A1A]">{formatPrice(basePriceRupees)}</span>
               </div>
+              
+              {accessoryTotalRupees > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Hardware Accessories</span>
+                  <span className="font-semibold text-[#1A1A1A]">{formatPrice(accessoryTotalRupees)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">GST (18%)</span>
                 <span className="font-semibold text-[#1A1A1A]">{formatPrice(gstAmountRupees)}</span>

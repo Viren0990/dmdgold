@@ -77,6 +77,8 @@ model Purchase {
 
   razorpayOrderId String?         @unique
 
+  accessories     Json?           // Selected equipment data
+
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 

@@ -10,6 +10,7 @@ interface CheckoutOptions {
   state?: string;
   pincode?: string;
   paymentFor: 'LICENSE';
+  accessories?: Record<string, number>;
   onVerifyStart?: () => void;
   onSuccess?: (orderId?: string) => void;
   onError?: (error: string) => void;

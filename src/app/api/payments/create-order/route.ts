@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { razorpay } from "@/lib/razorpay";
+import { ACCESSORIES } from "@/lib/constants";
 
 // Basic in-memory rate limiting (IP -> timestamps)
 // Note: For a production app, use Redis or Upstash for distributed rate limiting
@@ -52,6 +53,7 @@ export async function POST(req: NextRequest) {
       city,
       state,
       pincode,
+      accessories, // Record<string, number> where key is accessory id and value is quantity
     } = await req.json();
 
     // 2. Input Validation
@@ -222,8 +224,30 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. Calculate GST Server-Side (Never trust UI for amounts)
-    const baseAmount = plan.licensePrice; // in paise
-    const taxAmount = Math.round(baseAmount * 0.18); // 18% GST
+    let baseAmount = plan.licensePrice; // in paise
+    
+    // Process accessories if provided
+    const validAccessories: any[] = [];
+    if (accessories && typeof accessories === 'object') {
+      for (const [id, quantity] of Object.entries(accessories)) {
+        if (typeof quantity === 'number' && quantity > 0) {
+          const accDef = ACCESSORIES.find(a => a.id === id);
+          if (accDef) {
+            const itemTotal = accDef.pricePaise * quantity;
+            baseAmount += itemTotal;
+            validAccessories.push({
+              id: accDef.id,
+              name: accDef.name,
+              quantity: quantity,
+              unitPricePaise: accDef.pricePaise,
+              totalPricePaise: itemTotal
+            });
+          }
+        }
+      }
+    }
+
+    const taxAmount = Math.round(baseAmount * 0.18); // 18% GST on total (license + hardware)
     const totalAmount = baseAmount + taxAmount;
 
     // 6. Create an Order in Razorpay
@@ -247,6 +271,7 @@ export async function POST(req: NextRequest) {
         totalAmount: totalAmount,
         razorpayOrderId: order.id,
         status: "PENDING",
+        accessories: validAccessories.length > 0 ? validAccessories : undefined,
         payments: {
           create: {
             customerId: customer.id,

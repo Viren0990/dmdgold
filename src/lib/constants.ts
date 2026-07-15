@@ -102,3 +102,10 @@ export const pricingData = {
     }
   ]
 };
+
+export const ACCESSORIES = [
+  { id: 'barcode_printer', name: 'Barcode label printer', pricePaise: 2400000, unit: 'each' },
+  { id: 'barcode_scanner', name: 'Barcode scanner', pricePaise: 300000, unit: 'each' },
+  { id: 'carbon_ribbon', name: 'Carbon ribbon roll — 300 m', pricePaise: 200000, unit: 'each' },
+  { id: 'cricket_bat_labels', name: 'Cricket-bat white barcode labels (2,000/roll)', pricePaise: 170000, unit: 'per roll' },
+];
