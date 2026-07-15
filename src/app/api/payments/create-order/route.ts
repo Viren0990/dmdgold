@@ -29,6 +29,12 @@ function isRateLimited(ip: string): boolean {
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+?[0-9]{10,15}$/;
 
+// Lightweight warm-up endpoint — the checkout page pings this on load
+// so the serverless function is already hot when the user clicks "Pay Now"
+export async function GET() {
+  return NextResponse.json({ status: 'warm' });
+}
+
 export async function POST(req: NextRequest) {
   try {
     // 1. Rate Limiting Check

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { checkoutOneTime } from '@/lib/checkout';
 import { Plan } from '@prisma/client';
 import { motion } from 'framer-motion';
@@ -36,6 +36,13 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
   const [verifying, setVerifying] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Warm up the serverless function as soon as the checkout page loads.
+  // While the user fills in their name/email/phone (~30-60s), the function boots up
+  // silently in the background so it responds instantly when they click "Pay Now".
+  useEffect(() => {
+    fetch('/api/payments/create-order', { method: 'GET' }).catch(() => {});
+  }, []);
 
   // Form State
   const [formData, setFormData] = useState({
