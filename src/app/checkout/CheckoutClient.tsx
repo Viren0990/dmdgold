@@ -194,7 +194,7 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
 
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left Column: Form or Verification Screen */}
-        <div className="flex-1 order-2 lg:order-1">
+        <div className="flex-1 lg:order-1">
           {verifying ? (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -338,7 +338,7 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
         </div>
 
         {/* Right Column: Order Summary */}
-        <div className="lg:w-[400px] order-1 lg:order-2">
+        <div className="lg:w-[400px] lg:order-2">
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 sticky top-32"
