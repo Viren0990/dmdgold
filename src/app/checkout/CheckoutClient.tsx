@@ -273,7 +273,7 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
               </div>
             </div>
 
-            {plan.slug === 'retail-pro' && (
+            {['retail-pro', 'business-essential', 'business-prime'].includes(plan.slug) && (
               <div className="pt-8 border-t border-gray-100">
                 <h3 className="text-lg font-serif text-[#2C2C2C] mb-1">Optional Hardware & Accessories</h3>
                 <p className="text-xs text-gray-500 mb-6">Equip your shop with fully compatible DMD accessories.</p>
