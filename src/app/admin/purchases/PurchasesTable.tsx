@@ -12,6 +12,7 @@ type Purchase = {
   status: string;
   customer: { name: string; email: string };
   plan: { name: string };
+  accessories: any | null;
 };
 
 type SortField = 'createdAt' | 'customer' | 'amount' | 'status';
@@ -124,7 +125,16 @@ export default function PurchasesTable({ initialPurchases }: { initialPurchases:
                   <div className="text-xs text-gray-400">{purchase.customer.email}</div>
                 </td>
                 <td className="px-6 py-4 font-medium text-[#1A1A1A]">
-                  {purchase.plan.name}
+                  <div>{purchase.plan.name}</div>
+                  {purchase.accessories && Array.isArray(purchase.accessories) && purchase.accessories.length > 0 && (
+                    <div className="mt-1 flex flex-col gap-1">
+                      {purchase.accessories.map((acc: any, i: number) => (
+                        <span key={i} className="inline-flex items-center text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full w-max">
+                          + {acc.quantity}x {acc.name}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </td>
                 <td className="px-6 py-4 font-bold text-[#1A1A1A]">
                   {formatPrice(purchase.totalAmount)}
