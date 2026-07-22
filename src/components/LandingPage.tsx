@@ -61,7 +61,7 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
   const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '', City: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
@@ -104,8 +104,21 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="relative">
-          <input type="text" name="Business" required value={formState.Business} className={inputClass} placeholder=" " onChange={handleChange} />
-          <label className={labelClass}>Business Name *</label>
+          <input 
+            type="text" 
+            name="Business" 
+            required 
+            list="business-types"
+            value={formState.Business} 
+            className={inputClass} 
+            placeholder=" " 
+            onChange={handleChange} 
+          />
+          <datalist id="business-types">
+            <option value="Retailer" />
+            <option value="Wholesaler" />
+          </datalist>
+          <label className={labelClass}>Business Type *</label>
         </div>
         <div className="relative">
           <input type="text" name="City" value={formState.City} className={inputClass} placeholder=" " onChange={handleChange} />
@@ -423,7 +436,7 @@ export default function LandingPage() {
           style={{ backgroundImage: 'radial-gradient(#C6A87C 1px, transparent 1px)', backgroundSize: '30px 30px' }}
         />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-8 md:pt-12 pb-36 md:pb-32">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-12 md:pt-12 pb-20 md:pb-32">
           {/* Top bar — logo + phone */}
           <div className="flex justify-center sm:justify-between items-center mb-12 md:mb-16">
             <div className="flex items-center gap-3 bg-white/15 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 shadow-lg">
@@ -468,7 +481,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.3 }}
-                className="flex flex-wrap justify-center lg:justify-start gap-3 pt-2"
+                className="hidden lg:flex flex-wrap justify-center lg:justify-start gap-3 pt-2"
               >
                 {[
                   { icon: Shield, label: 'GST Compliant' },
@@ -507,12 +520,34 @@ export default function LandingPage() {
                   {/* Secondary Self-Serve CTA */}
                   <div className="mt-5 text-center">
                     <span className="text-gray-400 text-[13px]">Or prefer to explore yourself? </span>
-                    <Link href="/plans" className="text-[#C6A87C] text-[13px] font-bold hover:text-white transition-colors underline underline-offset-4">
+                    <Link href="/pricing" className="text-[#C6A87C] text-[13px] font-bold hover:text-white transition-colors underline underline-offset-4">
                       View Plans & Pricing
                     </Link>
                   </div>
                 </div>
               </div>
+
+              {/* Trust badges (Mobile view only - below form) */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.3 }}
+                className="flex lg:hidden flex-wrap justify-center gap-3 mt-12 mb-4"
+              >
+                {[
+                  { icon: Shield, label: 'GST Compliant' },
+                  { icon: Server, label: 'Secure Servers' },
+                  { icon: Phone, label: '24/7 Support' },
+                ].map((badge) => (
+                  <div
+                    key={badge.label}
+                    className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2"
+                  >
+                    <badge.icon className="w-3.5 h-3.5 text-[#C6A87C]" />
+                    <span className="text-white/80 text-xs font-bold tracking-wide">{badge.label}</span>
+                  </div>
+                ))}
+              </motion.div>
             </motion.div>
           </div>
         </div>
