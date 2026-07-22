@@ -60,6 +60,19 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
   const router = useRouter();
   const [formState, setFormState] = useState({ Name: '', Business: '', Phone: '', Email: '', City: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'error'>('idle');
+  const [businessSelect, setBusinessSelect] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -103,23 +116,87 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        <div className="relative">
-          <input 
-            type="text" 
-            name="Business" 
-            required 
-            list="business-types"
-            value={formState.Business} 
-            className={inputClass} 
-            placeholder=" " 
-            onChange={handleChange} 
-          />
-          <datalist id="business-types">
-            <option value="Retailer" />
-            <option value="Wholesaler" />
-          </datalist>
-          <label className={labelClass}>Business Type *</label>
-        </div>
+        {businessSelect !== 'Other' ? (
+          <div className="relative" ref={dropdownRef}>
+            <div 
+              className={`w-full bg-transparent border-b ${
+                isDark ? 'border-white/20 text-white' : 'border-gray-300 text-[#2C2C2C]'
+              } py-3 cursor-pointer flex items-center justify-between transition-colors ${isDropdownOpen ? 'border-[#C6A87C]' : ''}`}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              <span className={businessSelect ? 'opacity-100' : 'opacity-0'}>
+                {businessSelect || 'Placeholder'}
+              </span>
+            </div>
+            
+            <label 
+              className={`absolute left-0 transition-all pointer-events-none ${
+                businessSelect || isDropdownOpen
+                  ? '-top-4 text-xs text-[#C6A87C]' 
+                  : `top-3 text-sm ${isDark ? 'text-gray-500' : 'text-gray-400'}`
+              }`}
+            >
+              Business Type *
+            </label>
+            <div className="absolute right-0 top-3 pointer-events-none text-gray-500 transition-transform duration-200" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'none' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+            
+            {/* Custom Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className={`absolute left-0 top-full mt-1 w-full rounded-xl shadow-2xl overflow-hidden z-[100] border ${isDark ? 'bg-[#2A2A2A] border-white/10' : 'bg-white border-gray-100'}`}>
+                {['Retailer', 'Wholesaler', 'Other'].map((option) => (
+                  <div 
+                    key={option}
+                    className={`px-4 py-3 cursor-pointer transition-colors text-sm ${
+                      isDark 
+                        ? 'text-white hover:bg-white/10' 
+                        : 'text-[#2C2C2C] hover:bg-gray-50'
+                    }`}
+                    onClick={() => {
+                      setBusinessSelect(option);
+                      setIsDropdownOpen(false);
+                      if (option !== 'Other') {
+                        setFormState({ ...formState, Business: option });
+                      } else {
+                        setFormState({ ...formState, Business: '' });
+                      }
+                    }}
+                  >
+                    {option === 'Other' ? 'Other (Type your own)' : option}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="relative flex items-end gap-2">
+            <div className="relative flex-1">
+              <input 
+                type="text" 
+                name="Business" 
+                required 
+                value={formState.Business} 
+                className={inputClass} 
+                placeholder=" " 
+                onChange={handleChange} 
+                autoFocus
+              />
+              <label className={labelClass}>Specify Business Type *</label>
+            </div>
+            <button 
+              type="button"
+              onClick={() => {
+                setBusinessSelect('');
+                setFormState({ ...formState, Business: '' });
+              }}
+              className={`p-2 mb-1 rounded-full ${isDark ? 'text-gray-400 hover:text-white hover:bg-white/10' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'} transition-all`}
+              title="Back to options"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+        )}
         <div className="relative">
           <input type="text" name="City" value={formState.City} className={inputClass} placeholder=" " onChange={handleChange} />
           <label className={labelClass}>City (Optional)</label>
