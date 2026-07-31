@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { Name, Business, Email, Phone, City } = body;
+    const { Name, Business, BusinessType, Email, Phone, City } = body;
 
     // Validate request
     if (!Name) {
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
         
         Name: ${Name}
         Business: ${Business || 'Not provided'}
+        Business Type: ${BusinessType || 'Not provided'}
         City: ${City || 'Not provided'}
         Email: ${Email || 'Not provided'}
         Phone: ${Phone || 'Not provided'}
@@ -58,8 +59,12 @@ export async function POST(request: Request) {
                 <td style="padding: 15px 0; border-bottom: 1px solid #eee; color: #2C2C2C; font-weight: 500;">${Name}</td>
               </tr>
               <tr>
-                <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 600; color: #666;">Business</td>
+                <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 600; color: #666;">Business Name</td>
                 <td style="padding: 15px 0; border-bottom: 1px solid #eee; color: #2C2C2C; font-weight: 500;">${Business || 'Not provided'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 600; color: #666;">Business Type</td>
+                <td style="padding: 15px 0; border-bottom: 1px solid #eee; color: #2C2C2C; font-weight: 500;">${BusinessType || 'Not provided'}</td>
               </tr>
               <tr>
                 <td style="padding: 15px 0; border-bottom: 1px solid #eee; font-weight: 600; color: #666;">City</td>
