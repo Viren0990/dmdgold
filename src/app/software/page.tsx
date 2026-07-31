@@ -1,5 +1,6 @@
 import LandingPage from '@/components/LandingPage';
 import { Metadata } from 'next';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'DMD Gold #1 Jewellery Software in India | Book Free Demo',
@@ -24,5 +25,19 @@ export const metadata: Metadata = {
 };
 
 export default function LandingRoute() {
-  return <LandingPage />;
+  return (
+    <>
+      {/* Google tag (gtag.js) event */}
+      <Script id="gtag-event-lead" strategy="afterInteractive">
+        {`
+          if (typeof gtag === 'function') {
+            gtag('event', 'lead ganaretions', {
+              // <event_parameters>
+            });
+          }
+        `}
+      </Script>
+      <LandingPage />
+    </>
+  );
 }
