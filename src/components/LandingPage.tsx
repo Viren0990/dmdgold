@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { submitLead } from '@/lib/submitLead';
 import { motion, useInView } from 'framer-motion';
 import {
   Store,
@@ -82,6 +83,14 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
     e.preventDefault();
     setStatus('submitting');
     try {
+      submitLead({
+        name: formState.Name,
+        email: formState.Email,
+        phone: formState.Phone,
+        company: '',
+        type: formState.Business,
+      });
+      
       fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { useRouter } from 'next/navigation';
 import { ACCESSORIES } from '@/lib/constants';
+import { submitLead } from '@/lib/submitLead';
 
 // --- Validation helpers ---
 const VALIDATORS: Record<string, { test: (v: string) => boolean; message: string }> = {
@@ -133,6 +134,14 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
 
     setLoading(true);
     setErrorMessage(null);
+
+    submitLead({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      company: formData.company,
+      type: '',
+    });
 
     await checkoutOneTime({
       planSlug: plan.slug,

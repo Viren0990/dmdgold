@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { submitLead } from '@/lib/submitLead';
 
 export default function ContactForm() {
   const router = useRouter();
@@ -30,6 +31,14 @@ export default function ContactForm() {
     setStatus('submitting');
     
     try {
+      submitLead({
+        name: formState.Name,
+        email: formState.Email,
+        phone: formState.Phone,
+        company: formState.Business,
+        type: formState.BusinessType,
+      });
+
       // Optimistic submission - fire and forget with keepalive so it finishes in background
       fetch('/api/contact', {
         method: "POST",
