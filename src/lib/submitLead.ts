@@ -5,7 +5,7 @@ export async function submitLead(leadData: {
   company?: string;
   type?: string;
 }) {
-  let mappedType = 'Not Known';
+  let mappedType = 'N/A';
   if (leadData.type) {
     const t = leadData.type.toLowerCase();
     if (t.includes('retail')) {
@@ -14,10 +14,10 @@ export async function submitLead(leadData: {
       mappedType = 'B2B';
     } else {
       // For 'Other' or any other string, you could either use the string itself
-      // or default to 'Not Known'. As per instructions, default to 'Not Known' 
+      // or default to 'N/A'. As per instructions, default to 'N/A' 
       // if not explicitly B2C or B2B, but we can also just send the raw string if it's 'Other'.
-      // Wait, "if retailer B2C and B2B if wholesaler, for type if not availaible or not filled send Not Known".
-      mappedType = leadData.type.trim() || 'Not Known';
+      // Wait, "if retailer B2C and B2B if wholesaler, for type if not availaible or not filled send N/A".
+      mappedType = leadData.type.trim() || 'N/A';
     }
   }
 
