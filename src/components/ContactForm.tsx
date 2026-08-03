@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { submitLead } from '@/lib/submitLead';
+import { submitWeb3Form } from '@/lib/submitWeb3Form';
 
 export default function ContactForm() {
   const router = useRouter();
@@ -32,6 +33,14 @@ export default function ContactForm() {
     
     try {
       submitLead({
+        name: formState.Name,
+        email: formState.Email,
+        phone: formState.Phone,
+        company: formState.Business,
+        type: formState.BusinessType,
+      });
+
+      submitWeb3Form({
         name: formState.Name,
         email: formState.Email,
         phone: formState.Phone,

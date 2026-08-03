@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { submitLead } from '@/lib/submitLead';
+import { submitWeb3Form } from '@/lib/submitWeb3Form';
 import { motion, useInView } from 'framer-motion';
 import {
   Store,
@@ -84,6 +85,14 @@ function LeadForm({ variant = 'light', id }: { variant?: 'light' | 'dark'; id: s
     setStatus('submitting');
     try {
       submitLead({
+        name: formState.Name,
+        email: formState.Email,
+        phone: formState.Phone,
+        company: '',
+        type: formState.Business,
+      });
+
+      submitWeb3Form({
         name: formState.Name,
         email: formState.Email,
         phone: formState.Phone,
