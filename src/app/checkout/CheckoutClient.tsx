@@ -297,13 +297,47 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
 
             {['retailer-edition', 'wholesaler-edition'].includes(plan.slug) && (
               <div className="pt-8 border-t border-gray-100">
-                <h3 className="text-lg font-serif text-[#2C2C2C] mb-1">Optional Add-ons</h3>
-                <p className="text-xs text-gray-500 mb-6">Equip your shop with fully compatible DMD accessories & packages.</p>
+                <h3 className="text-lg font-serif text-[#2C2C2C] mb-1">Optional Hardware & Accessories</h3>
+                <p className="text-xs text-gray-500 mb-6">Equip your shop with fully compatible DMD accessories.</p>
                 <div className="space-y-4">
-                  {ACCESSORIES.filter(acc => {
-                    if (acc.type === 'einvoice') return plan.slug === 'wholesaler-edition';
-                    return true;
-                  }).map(acc => {
+                  {ACCESSORIES.filter(acc => acc.type === 'hardware').map(acc => {
+                    const qty = selectedAccessories[acc.id] || 0;
+                    return (
+                      <div key={acc.id} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-gray-50 transition-colors">
+                        <div>
+                          <div className="font-semibold text-gray-900 text-sm">{acc.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{formatPrice(acc.pricePaise / 100)} {acc.unit}</div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <button 
+                            type="button" 
+                            onClick={() => handleAccessoryChange(acc.id, -1)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 hover:text-[#C6A87C] hover:border-[#C6A87C] transition-colors"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="w-4 text-center text-sm font-bold text-gray-900">{qty}</span>
+                          <button 
+                            type="button" 
+                            onClick={() => handleAccessoryChange(acc.id, 1)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 text-gray-600 hover:text-[#C6A87C] hover:border-[#C6A87C] transition-colors"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {plan.slug === 'wholesaler-edition' && (
+              <div className="pt-8 border-t border-gray-100">
+                <h3 className="text-lg font-serif text-[#2C2C2C] mb-1">E-Invoice Packages</h3>
+                <p className="text-xs text-gray-500 mb-6">Volume packs for generating B2B e-invoices directly from the software.</p>
+                <div className="space-y-4">
+                  {ACCESSORIES.filter(acc => acc.type === 'einvoice').map(acc => {
                     const qty = selectedAccessories[acc.id] || 0;
                     return (
                       <div key={acc.id} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50 hover:bg-gray-50 transition-colors">
