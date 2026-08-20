@@ -19,7 +19,7 @@ const PackageCard = ({
   onBuy,
   loading
 }: {
-  pkg: typeof pricingData.retail[0];
+  pkg: typeof pricingData.plans[0];
   onBuy: (slug: string) => void;
   loading: string | null;
 }) => {
@@ -145,7 +145,6 @@ const PackageCard = ({
 // --- MAIN PAGE ---
 export default function PricingContent() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'retail' | 'wholesale'>('retail');
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   const handleBuy = (planSlug: string) => {
@@ -172,37 +171,11 @@ export default function PricingContent() {
         </div>
       </section>
 
-      {/* 2. TOGGLE */}
-      <section className="pb-12 px-6 md:px-12 flex justify-center">
-        <div className="bg-white p-2 rounded-2xl shadow-lg border border-gray-100 flex gap-2">
-          <button
-            onClick={() => setActiveTab('retail')}
-            className={`px-8 py-3 rounded-xl text-sm font-bold tracking-wide transition-all ${
-              activeTab === 'retail'
-                ? 'bg-[#2C2C2C] text-white shadow-md'
-                : 'text-gray-500 hover:text-[#2C2C2C] hover:bg-gray-50'
-            }`}
-          >
-            Retailers (B2C)
-          </button>
-          <button
-            onClick={() => setActiveTab('wholesale')}
-            className={`px-8 py-3 rounded-xl text-sm font-bold tracking-wide transition-all ${
-              activeTab === 'wholesale'
-                ? 'bg-[#2C2C2C] text-white shadow-md'
-                : 'text-gray-500 hover:text-[#2C2C2C] hover:bg-gray-50'
-            }`}
-          >
-            Wholesalers (B2B)
-          </button>
-        </div>
-      </section>
-
       {/* 3. PACKAGE CARDS */}
-      <section className="pb-20 px-6 md:px-12">
+      <section className="pb-20 px-6 md:px-12 mt-12">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6 items-stretch">
           <AnimatePresence mode="wait">
-            {pricingData[activeTab].map((pkg) => (
+            {pricingData.plans.map((pkg) => (
               <PackageCard key={pkg.id} pkg={pkg} onBuy={handleBuy} loading={loadingPlan} />
             ))}
           </AnimatePresence>

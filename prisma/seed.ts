@@ -14,67 +14,35 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('Seeding plans into the database...');
 
-  // 1. DMD Retail Classic
+  // 1. Retailer Edition
   await prisma.plan.upsert({
-    where: { slug: 'retail-classic' },
+    where: { slug: 'retailer-edition' },
     update: {
-      name: 'DMD Retail Classic',
-      description: 'For shops running manual tag systems',
-      licensePrice: 1500000,   // ₹15,000
+      name: 'Retailer Edition',
+      description: 'Complete software for jewellery retailers',
+      licensePrice: 600000,   // ₹6,000
     },
     create: {
-      name: 'DMD Retail Classic',
-      slug: 'retail-classic',
-      description: 'For shops running manual tag systems',
-      licensePrice: 1500000,
+      name: 'Retailer Edition',
+      slug: 'retailer-edition',
+      description: 'Complete software for jewellery retailers',
+      licensePrice: 600000,
     },
   });
 
-  // 2. DMD Retail Pro
+  // 2. Wholesaler Edition
   await prisma.plan.upsert({
-    where: { slug: 'retail-pro' },
+    where: { slug: 'wholesaler-edition' },
     update: {
-      name: 'DMD Retail Pro',
-      description: 'Barcode-powered speed & accuracy',
-      licensePrice: 2400000,   // ₹24,000
-    },
-    create: {
-      name: 'DMD Retail Pro',
-      slug: 'retail-pro',
-      description: 'Barcode-powered speed & accuracy',
-      licensePrice: 2400000,
-    },
-  });
-
-  // 3. DMD Business Essential
-  await prisma.plan.upsert({
-    where: { slug: 'business-essential' },
-    update: {
-      name: 'DMD Business Essential',
+      name: 'Wholesaler Edition',
       description: 'For wholesalers & manufacturers',
-      licensePrice: 3000000,   // ₹30,000
+      licensePrice: 1200000,   // ₹12,000
     },
     create: {
-      name: 'DMD Business Essential',
-      slug: 'business-essential',
+      name: 'Wholesaler Edition',
+      slug: 'wholesaler-edition',
       description: 'For wholesalers & manufacturers',
-      licensePrice: 3000000,
-    },
-  });
-
-  // 4. DMD Business Prime
-  await prisma.plan.upsert({
-    where: { slug: 'business-prime' },
-    update: {
-      name: 'DMD Business Prime',
-      description: 'With built-in E-invoicing compliance',
-      licensePrice: 4000000,   // ₹40,000
-    },
-    create: {
-      name: 'DMD Business Prime',
-      slug: 'business-prime',
-      description: 'With built-in E-invoicing compliance',
-      licensePrice: 4000000,
+      licensePrice: 1200000,
     },
   });
 
