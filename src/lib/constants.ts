@@ -21,7 +21,7 @@ export const pricingData = {
         "Works with DMD barcode printers & scanners",
         "Phone & remote support"
       ],
-      highlight: false
+      highlight: true
     },
     {
       id: 'wholesaler-edition',
@@ -68,8 +68,14 @@ export const pricingData = {
 };
 
 export const ACCESSORIES = [
-  { id: 'barcode_printer', name: 'Barcode label printer', pricePaise: 2400000, unit: 'each' },
-  { id: 'barcode_scanner', name: 'Barcode scanner', pricePaise: 300000, unit: 'each' },
-  { id: 'carbon_ribbon', name: 'Carbon ribbon roll — 300 m', pricePaise: 200000, unit: 'each' },
-  { id: 'cricket_bat_labels', name: 'Cricket-bat white barcode labels (2,000/roll)', pricePaise: 170000, unit: 'per roll' },
+  // Hardware
+  { id: 'barcode_printer', name: 'Barcode label printer', pricePaise: 2400000, unit: 'each', type: 'hardware' },
+  { id: 'barcode_scanner', name: 'Barcode scanner', pricePaise: 300000, unit: 'each', type: 'hardware' },
+  { id: 'carbon_ribbon', name: 'Carbon ribbon roll — 300 m', pricePaise: 200000, unit: 'each', type: 'hardware' },
+  { id: 'cricket_bat_labels', name: 'Cricket-bat white barcode labels (2,000/roll)', pricePaise: 170000, unit: 'per roll', type: 'hardware' },
+  // E-Invoices
+  { id: 'einvoice_1000', name: '1,000 e-invoices pack (₹3.00/inv)', pricePaise: 300000, unit: 'pack', type: 'einvoice' },
+  { id: 'einvoice_2500', name: '2,500 e-invoices pack (₹2.50/inv)', pricePaise: 625000, unit: 'pack', type: 'einvoice' },
+  { id: 'einvoice_5000', name: '5,000 e-invoices pack (₹2.25/inv)', pricePaise: 1125000, unit: 'pack', type: 'einvoice' },
+  { id: 'einvoice_10000', name: '10,000 e-invoices pack (₹1.95/inv)', pricePaise: 1950000, unit: 'pack', type: 'einvoice' },
 ];
