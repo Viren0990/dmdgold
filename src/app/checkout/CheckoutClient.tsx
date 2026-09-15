@@ -332,6 +332,7 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
               </div>
             )}
 
+            {/* E-Invoice section hidden for now
             {plan.slug === 'wholesaler-edition' && (
               <div className="pt-8 border-t border-gray-100">
                 <h3 className="text-lg font-serif text-[#2C2C2C] mb-1">E-Invoice Packages</h3>
@@ -368,6 +369,7 @@ export default function CheckoutClient({ plan }: { plan: Plan }) {
                 </div>
               </div>
             )}
+            */}
 
             <div className="pt-6">
               <button
