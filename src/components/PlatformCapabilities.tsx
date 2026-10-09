@@ -18,6 +18,8 @@ import {
   History,
   Bell,
   FileSpreadsheet,
+  ClipboardCheck,
+  ReceiptText,
 } from 'lucide-react';
 
 interface ModuleItem {
@@ -38,7 +40,9 @@ const modules: ModuleItem[] = [
   { icon: Upload, title: 'Bulk Upload', tagline: 'Hundreds of products uploaded in minutes', color: 'from-indigo-500 to-indigo-600' },
   { icon: Users, title: 'Party Management', tagline: 'Buyer/Seller network with KYC & approval', color: 'from-rose-500 to-rose-600' },
   { icon: ImageIcon, title: 'Collections & Carousels', tagline: 'Themed showroom with rich media display', color: 'from-pink-500 to-pink-600' },
-  { icon: ShoppingCart, title: 'Order Management', tagline: 'Full lifecycle from order to delivery', color: 'from-amber-500 to-amber-600' },
+  { icon: ClipboardCheck, title: 'Custom Orders & Job Cards', tagline: 'Assign items to karigars, print job cards & receipts', color: 'from-yellow-600 to-amber-700' },
+  { icon: ReceiptText, title: 'Purchase History', tagline: 'What you bought, from whom, and when', color: 'from-sky-500 to-sky-600' },
+  { icon: ShoppingCart, title: 'B2B Order Tracking', tagline: 'Retailer orders from cart to delivery', color: 'from-amber-500 to-amber-600' },
   { icon: History, title: 'Order & Payment History', tagline: 'Complete records with search & export', color: 'from-teal-500 to-teal-600' },
   { icon: Bell, title: 'Notifications', tagline: 'Real-time alerts for every business event', color: 'from-violet-500 to-violet-600' },
   { icon: FileSpreadsheet, title: 'Excel & Data Export', tagline: 'Excel-ready downloads, tax-filing made easy', color: 'from-green-500 to-green-600' },
@@ -46,7 +50,7 @@ const modules: ModuleItem[] = [
 
 export default function PlatformCapabilities() {
   return (
-    <section className="w-full bg-[#1A1A1A] py-24 px-6 md:px-12 relative overflow-hidden">
+    <section id="capabilities" className="scroll-mt-24 w-full bg-[#1A1A1A] py-24 px-6 md:px-12 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
            style={{ backgroundImage: 'radial-gradient(#C6A87C 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
@@ -68,7 +72,7 @@ export default function PlatformCapabilities() {
             <span className="w-8 h-[1px] bg-[#C6A87C]/50"></span>
           </h2>
           <h3 className="text-3xl md:text-5xl font-serif text-white">
-            14 Powerful Modules, <span className="italic text-[#C6A87C]">One Jewellery Software Platform</span>
+            16 Powerful Modules, <span className="italic text-[#C6A87C]">One Jewellery Software Platform</span>
           </h3>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             Every tool a jeweller needs — from multi-category product listing to GST-compliant invoicing, karigar management to B2B wholesale.

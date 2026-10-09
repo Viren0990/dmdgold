@@ -1072,6 +1072,97 @@ const OrderHistoryVisual = () => (
   </div>
 );
 
+const CustomOrderVisual = () => (
+  <div className="w-full h-full bg-[#FAF9F6] rounded-3xl border border-[#C6A87C]/20 p-6 shadow-2xl flex flex-col">
+    <div className="flex justify-between items-center mb-4">
+      <div>
+        <div className="text-[#C6A87C] text-[10px] font-bold tracking-widest uppercase">Custom Order #ORD-2214</div>
+        <div className="text-lg font-serif text-[#2C2C2C]">Bridal Set — Customer Order</div>
+      </div>
+      <div className="px-3 py-1 bg-green-50 text-green-600 text-[9px] font-bold rounded-full border border-green-100 uppercase">Confirmed</div>
+    </div>
+    {/* Status Pipeline */}
+    <div className="flex items-center gap-1 mb-4">
+      {['Created', 'Confirmed', 'With Karigar', 'Ready', 'Delivered'].map((step, i) => (
+        <div key={step} className="flex-1 flex flex-col items-center gap-1">
+          <div className={`w-full h-1.5 rounded-full ${i <= 2 ? 'bg-[#C6A87C]' : 'bg-gray-200'}`} />
+          <div className={`text-[7px] font-bold uppercase ${i <= 2 ? 'text-[#C6A87C]' : 'text-gray-400'}`}>{step}</div>
+        </div>
+      ))}
+    </div>
+    {/* Items assigned to karigars */}
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+      <div className="grid grid-cols-4 gap-1 px-3 py-2 bg-gray-50 border-b border-gray-100">
+        {['Item', 'Approx Wt', 'Karigar', 'Return By'].map((h) => (
+          <div key={h} className="text-[7px] font-bold text-gray-400 uppercase tracking-wider">{h}</div>
+        ))}
+      </div>
+      {[
+        { item: 'Necklace', wt: '42 g', karigar: 'Ramesh K.', date: '12 Nov' },
+        { item: 'Earrings', wt: '14 g', karigar: 'Suresh P.', date: '08 Nov' },
+        { item: 'Bangles (2)', wt: '36 g', karigar: 'Ramesh K.', date: '15 Nov' },
+        { item: 'Ring', wt: '6 g', karigar: 'Unassigned', date: '—' },
+      ].map((row) => (
+        <div key={row.item} className="grid grid-cols-4 gap-1 px-3 py-2 border-b border-gray-50 last:border-0">
+          <div className="text-[9px] text-[#2C2C2C] font-medium">{row.item}</div>
+          <div className="text-[9px] font-bold text-[#2C2C2C]">{row.wt}</div>
+          <div className={`text-[9px] font-medium ${row.karigar === 'Unassigned' ? 'text-orange-500' : 'text-[#C6A87C]'}`}>{row.karigar}</div>
+          <div className="text-[9px] text-gray-500">{row.date}</div>
+        </div>
+      ))}
+    </div>
+    <div className="flex gap-2 mt-4">
+      <div className="flex-1 py-2 bg-[#1A1A1A] text-white text-[9px] font-bold rounded-lg text-center uppercase tracking-wider">⬇ Karigar Job Cards</div>
+      <div className="flex-1 py-2 bg-[#C6A87C] text-white text-[9px] font-bold rounded-lg text-center uppercase tracking-wider">⬇ Customer Receipt</div>
+    </div>
+  </div>
+);
+
+const PurchaseHistoryVisual = () => (
+  <div className="w-full h-full bg-[#FAF9F6] rounded-3xl border border-[#C6A87C]/20 p-6 shadow-2xl flex flex-col">
+    <div className="flex justify-between items-center mb-5">
+      <div>
+        <div className="text-[#C6A87C] text-[10px] font-bold tracking-widest uppercase">Purchases</div>
+        <div className="text-lg font-serif text-[#2C2C2C]">Purchase History</div>
+      </div>
+      <div className="flex gap-2">
+        <div className="px-2 py-1 bg-[#C6A87C] rounded-md text-[8px] font-bold text-white shadow-sm">+ Add Purchase</div>
+      </div>
+    </div>
+    <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden flex-1">
+      <div className="grid grid-cols-5 gap-1 px-3 py-2 bg-gray-50 border-b border-gray-100">
+        {['Date', 'Supplier', 'Item', 'Weight', 'Amount'].map((h) => (
+          <div key={h} className="text-[7px] font-bold text-gray-400 uppercase tracking-wider">{h}</div>
+        ))}
+      </div>
+      {[
+        { date: '02 Oct', supplier: 'Rajkot Bullion', item: 'Fine Gold Bar', wt: '100 g', amt: '₹7.6L' },
+        { date: '28 Sep', supplier: 'Zaveri Exports', item: 'Chains (22K)', wt: '84 g', amt: '₹5.9L' },
+        { date: '21 Sep', supplier: 'Jaipur Gems', item: 'Loose Rubies', wt: '12 ct', amt: '₹1.1L' },
+        { date: '15 Sep', supplier: 'Patel & Sons', item: 'Silver Payal', wt: '1.2 kg', amt: '₹1.0L' },
+      ].map((row) => (
+        <div key={row.date + row.supplier} className="grid grid-cols-5 gap-1 px-3 py-2 border-b border-gray-50 last:border-0">
+          <div className="text-[9px] text-gray-500">{row.date}</div>
+          <div className="text-[9px] text-[#2C2C2C] font-medium truncate">{row.supplier}</div>
+          <div className="text-[9px] text-[#2C2C2C] truncate">{row.item}</div>
+          <div className="text-[9px] font-bold text-[#2C2C2C]">{row.wt}</div>
+          <div className="text-[9px] font-bold text-[#C6A87C]">{row.amt}</div>
+        </div>
+      ))}
+    </div>
+    <div className="grid grid-cols-2 gap-3 mt-4">
+      <div className="bg-white rounded-lg p-2 text-center border border-gray-100 shadow-sm">
+        <div className="text-[8px] text-gray-400 uppercase font-bold">This Month</div>
+        <div className="text-sm font-bold text-[#2C2C2C]">₹15.6L</div>
+      </div>
+      <div className="bg-white rounded-lg p-2 text-center border border-gray-100 shadow-sm">
+        <div className="text-[8px] text-gray-400 uppercase font-bold">Suppliers</div>
+        <div className="text-sm font-bold text-[#2C2C2C]">18</div>
+      </div>
+    </div>
+  </div>
+);
+
 // --- MAIN COMPONENT ---
 
 type FeatureItem = {
@@ -1084,7 +1175,7 @@ type FeatureItem = {
 };
 
 // ═══════════════════════════════════════════════════════
-//  WHOLESALER FEATURES (14 services)
+//  WHOLESALER FEATURES (16 services)
 // ═══════════════════════════════════════════════════════
 
 const wholesalerFeatures: FeatureItem[] = [
@@ -1169,9 +1260,25 @@ const wholesalerFeatures: FeatureItem[] = [
     edition: 'wholesalers',
   },
   {
+    id: 115,
+    title: "Custom Order & Job Card Management",
+    subtitle: "Made-to-Order Tracking",
+    description: "Much of India's jewellery business runs on orders — a customer or retailer picks a design, approximate weight and delivery date. Create the order, mark it confirmed, then assign each item to a karigar — different items can go to different karigars within one order. Set the date you expect each piece back, revoke or reassign an item if plans change, and download proper job cards for your karigars and a professional order receipt for your customer or retailer. The full order cycle, tracked end to end.",
+    visual: <CustomOrderVisual />,
+    edition: 'wholesalers',
+  },
+  {
+    id: 116,
+    title: "Purchase History",
+    subtitle: "Purchase Records",
+    description: "Record every purchase you make — what you bought, from which supplier and when. Your complete purchase history lives in one place instead of scattered bills and registers, so you always know what you bought from whom.",
+    visual: <PurchaseHistoryVisual />,
+    edition: 'wholesalers',
+  },
+  {
     id: 111,
-    title: "Order Management",
-    subtitle: "End-to-End Tracking",
+    title: "B2B Order Tracking",
+    subtitle: "Retailer Orders, End to End",
     description: "Track every order end-to-end from the moment a retailer confirms their cart — through rate finalization and locking, invoice generation, payment status updates, dispatch coordination, and final delivery. The entire lifecycle is visible in one unified dashboard. Once the rate is confirmed and locked, orders cannot be cancelled, ensuring commitment from both sides and protecting wholesalers from market fluctuation losses.",
     visual: <TrackingVisual />,
     edition: 'wholesalers',
@@ -1203,7 +1310,7 @@ const wholesalerFeatures: FeatureItem[] = [
 ];
 
 // ═══════════════════════════════════════════════════════
-//  RETAILER FEATURES (10 services)
+//  RETAILER FEATURES (12 services)
 // ═══════════════════════════════════════════════════════
 
 const retailerFeatures: FeatureItem[] = [
@@ -1272,6 +1379,22 @@ const retailerFeatures: FeatureItem[] = [
     edition: 'retailers',
   },
   {
+    id: 211,
+    title: "Custom Order & Job Card Management",
+    subtitle: "Made-to-Order Tracking",
+    description: "Much of India's jewellery business runs on orders — a customer picks a design, approximate weight and delivery date. Create the order, mark it confirmed, then assign each item to a karigar — different items can go to different karigars within one order. Set the date you expect each piece back, revoke or reassign an item if plans change, and download proper job cards for your karigars and a professional order receipt for your customer. The full order cycle, tracked end to end.",
+    visual: <CustomOrderVisual />,
+    edition: 'retailers',
+  },
+  {
+    id: 212,
+    title: "Purchase History",
+    subtitle: "Purchase Records",
+    description: "Record every purchase you make — what you bought, from which supplier and when. Your complete purchase history lives in one place instead of scattered bills and registers, so you always know what you bought from whom.",
+    visual: <PurchaseHistoryVisual />,
+    edition: 'retailers',
+  },
+  {
     id: 209,
     title: "QR & Barcode Scanner Support",
     subtitle: "Scan-Based Operations",
@@ -1327,6 +1450,20 @@ export default function ServicesScroll() {
     };
   }, [activeEdition]);
 
+  // Deep links: /services#retailers and /services#wholesalers open the matching edition
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash !== 'retailers' && hash !== 'wholesalers') return;
+      setActiveEdition(hash);
+      setActiveIndex(0);
+      containerRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+    return () => window.removeEventListener('hashchange', applyHash);
+  }, []);
+
   const handleEditionChange = useCallback((edition: Edition) => {
     setActiveEdition(edition);
     setActiveIndex(0);
@@ -1339,7 +1476,7 @@ export default function ServicesScroll() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-white py-24">
+    <div ref={containerRef} id={activeEdition} className="scroll-mt-24 relative w-full bg-white py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
 
         {/* ── EDITION TOGGLE ── */}

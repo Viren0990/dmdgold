@@ -315,9 +315,11 @@ const BentoCard = ({
   description,
   visual,
   icon: Icon,
+  href,
   className = "",
   delay = 0
 }: {
+  href: string;
   title: string;
   subtitle: string;
   description: string;
@@ -360,7 +362,7 @@ const BentoCard = ({
         </p>
       </div>
       
-      <Link href="/services" className="mt-auto flex w-fit items-center text-xs font-semibold tracking-widest text-[#2C2C2C] uppercase opacity-0 md:-translate-x-4 md:translate-y-0 translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out relative z-20" aria-label={`Learn more about ${title}`}>
+      <Link href={href} className="mt-auto flex w-fit items-center text-xs font-semibold tracking-widest text-[#2C2C2C] uppercase opacity-0 md:-translate-x-4 md:translate-y-0 translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out relative z-20" aria-label={`Learn more about ${title}`}>
         <span className="mr-2 border-b border-[#C6A87C]">Explore {subtitle}</span>
         <ChevronRight className="w-4 h-4 text-[#C6A87C]" />
       </Link>
@@ -378,6 +380,7 @@ export default function Features() {
   const featuresData = [
     {
       subtitle: "B2B eCommerce",
+      href: "/features/b2b-wholesale-order-app",
       title: "Your Digital Wholesale Store",
       description: "Give your retailers a premium B2B shopping experience. Digital catalogue with advanced filters, wishlist, cart & multi-step checkout, order tracking, ratings & reviews, and GST-compliant invoice downloads — all from their browser.",
       icon: Store,
@@ -386,6 +389,7 @@ export default function Features() {
     },
     {
       subtitle: "Billing & POS",
+      href: "/features/gst-e-invoice-jewellery",
       title: "Digital Counter",
       description: "Phone lookup, SKU scan, auto GST calculation, and quotation-to-invoice conversion. Your counter, now digital.",
       icon: CreditCard,
@@ -394,6 +398,7 @@ export default function Features() {
     },
     {
       subtitle: "Inventory",
+      href: "/features/huid-hallmark-tracking",
       title: "QR & Barcode Precision",
       description: "QR and barcode generation for instant product identification, billing, and stock audits.",
       icon: ScanBarcode,
@@ -402,6 +407,7 @@ export default function Features() {
     },
     {
       subtitle: "Multi-Category",
+      href: "/services#capabilities",
       title: "Every Metal, One Platform",
       description: "Gold, Diamond, Silver, Platinum, Titanium, Gems & Bullion — manage all product categories with full specifications, purity tracking, and 4C diamond support in a single unified catalogue.",
       icon: Gem,
@@ -410,14 +416,16 @@ export default function Features() {
     },
     {
       subtitle: "Manufacturing",
-      title: "Karigar Insight",
-      description: "Complete artisan management — profiles, Aadhaar/PAN/GST info, inward & outward challans, and full transaction history. Every piece tracked from karigar to counter.",
+      href: "/features/custom-order-management",
+      title: "Custom Orders & Karigars",
+      description: "Take custom orders, assign each item to a karigar with a return date, and print job cards and customer receipts. Plus full artisan profiles and inward & outward challans — every piece tracked from order to counter.",
       icon: Hammer,
       visual: <KarigarVisual />,
       className: "md:col-span-2",
     },
     {
       subtitle: "CRM Suite",
+      href: "/features/jewellery-crm",
       title: "Client Relationships",
       description: "Track purchase history and automatically send personalized birthday offers to build lasting loyalty.",
       icon: Users,
@@ -476,7 +484,7 @@ export default function Features() {
               <p className="text-gray-500 leading-relaxed mb-6">
                 Whether you run a fast-paced retail showroom or manage a high-volume B2B manufacturing business, we have a specialized edition designed exactly for your workflow. Explore the glimpse of shared features below, or dive into the complete plans.
               </p>
-              <Link href="/services" className="inline-flex items-center gap-2 border border-[#C6A87C] text-[#C6A87C] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300">
+              <Link href="/pricing" className="inline-flex items-center gap-2 border border-[#C6A87C] text-[#C6A87C] px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#C6A87C] hover:text-white transition-all duration-300">
                 Compare Both Editions
                 <ChevronRight className="w-4 h-4" />
               </Link>
@@ -485,7 +493,7 @@ export default function Features() {
             {/* Right side cards */}
             <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Retailer Card */}
-              <Link href="/services" className="group bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-[#C6A87C]/40 hover:shadow-md transition-all">
+              <Link href="/services#retailers" className="group bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-[#C6A87C]/40 hover:shadow-md transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-[#C6A87C]/10 flex items-center justify-center">
                     <Store className="w-5 h-5 text-[#C6A87C]" />
@@ -506,7 +514,7 @@ export default function Features() {
               </Link>
 
               {/* Wholesaler Card */}
-              <Link href="/services" className="group bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-[#C6A87C]/40 hover:shadow-md transition-all">
+              <Link href="/services#wholesalers" className="group bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:border-[#C6A87C]/40 hover:shadow-md transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-[#C6A87C]/10 flex items-center justify-center">
                     <Briefcase className="w-5 h-5 text-[#C6A87C]" />
@@ -552,6 +560,7 @@ export default function Features() {
               subtitle={feature.subtitle}
               description={feature.description}
               icon={feature.icon}
+              href={feature.href}
               visual={feature.visual}
               className={feature.className}
               delay={i}

@@ -167,7 +167,7 @@ const PhoneMockup = () => (
 
 export default function RetailerFeatures() {
   return (
-    <section className="w-full bg-[#FAF9F6] py-24 px-6 md:px-12 relative overflow-hidden">
+    <section id="b2b-buyers" className="scroll-mt-24 w-full bg-[#FAF9F6] py-24 px-6 md:px-12 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-80 h-80 bg-[#C6A87C]/5 rounded-full blur-[100px]"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#C6A87C]/5 rounded-full blur-[100px]"></div>

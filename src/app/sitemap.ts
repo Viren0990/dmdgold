@@ -1,4 +1,6 @@
 import { MetadataRoute } from 'next'
+import { featurePages } from '@/lib/featurePages'
+import { guides } from '@/lib/guides'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://www.dmdgold.com'
@@ -33,6 +35,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'monthly',
             priority: 0.7,
         },
+        ...featurePages.map((p) => ({
+            url: `${baseUrl}${p.path}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        })),
+        {
+            url: `${baseUrl}/guides`,
+            lastModified: new Date(),
+            changeFrequency: 'weekly',
+            priority: 0.8,
+        },
+        ...guides.map((g) => ({
+            url: `${baseUrl}/guides/${g.slug}`,
+            lastModified: new Date(g.updated),
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        })),
         {
             url: `${baseUrl}/privacy-policy`,
             lastModified: new Date(),

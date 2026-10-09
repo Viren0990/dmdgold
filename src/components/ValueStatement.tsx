@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Store, CreditCard, Hammer, FileText, ShoppingCart, BarChart3 } from 'lucide-react';
 
 const pillars = [
-  { icon: Store, label: 'B2B eCommerce' },
+  { icon: Store, label: 'Retailers Order from Wholesalers Online' },
   { icon: CreditCard, label: 'Showroom POS' },
   { icon: Hammer, label: 'Karigar Management' },
   { icon: FileText, label: 'GST & E-Invoices' },
@@ -40,14 +40,15 @@ export default function ValueStatement() {
           transition={{ duration: 0.8 }}
           className="text-xl md:text-2xl lg:text-3xl font-serif text-white leading-relaxed md:leading-relaxed"
         >
-          DMD Gold is the{' '}
-          <span className="italic text-[#C6A87C]">first unified platform</span>{' '}
-          built exclusively for Indian jewellers — combining everything from{' '}
+          DMD Gold is{' '}
+          <span className="italic text-[#C6A87C]">one platform</span>{' '}
+          built by a jeweller, for Indian jewellers — combining everything from{' '}
           <span className="text-white font-semibold">B2B wholesale</span> and{' '}
           <span className="text-white font-semibold">showroom billing</span> to{' '}
           <span className="text-white font-semibold">karigar tracking</span> to{' '}
           <span className="text-white font-semibold">GST E-Invoicing and much more!</span>{' '}
-          into one secure system.
+          into one secure system —{' '}
+          <span className="italic text-[#C6A87C]">simple enough for anyone at your counter.</span>
         </motion.p>
 
         {/* Divider */}

@@ -29,10 +29,16 @@ export default function Footer() {
         <div className="space-y-4 lg:ml-8">
           <h4 className="text-[#C6A87C] text-xs font-bold uppercase tracking-widest">Product</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><a href="/services" className="hover:text-white transition-colors">Features</a></li>
-            <li><a href="/services" className="hover:text-white transition-colors">Inventory</a></li>
-            <li><a href="/services" className="hover:text-white transition-colors">Billing</a></li>
-            <li><a href="/services" className="hover:text-white transition-colors">Mobile App</a></li>
+            <li><Link href="/services" className="hover:text-white transition-colors">All Features</Link></li>
+            <li><Link href="/features/custom-order-management" className="hover:text-white transition-colors">Custom Order Management</Link></li>
+            <li><Link href="/features/karigar-gold-tracking" className="hover:text-white transition-colors">Karigar Gold Tracking</Link></li>
+            <li><Link href="/features/huid-hallmark-tracking" className="hover:text-white transition-colors">HUID &amp; Stock Tracking</Link></li>
+            <li><Link href="/features/gst-e-invoice-jewellery" className="hover:text-white transition-colors">GST Billing &amp; E-Invoice</Link></li>
+            <li><Link href="/features/b2b-wholesale-order-app" className="hover:text-white transition-colors">Wholesale Order App</Link></li>
+            <li><Link href="/features/jewellery-crm" className="hover:text-white transition-colors">Jewellery CRM</Link></li>
+            <li><Link href="/features/purchase-history" className="hover:text-white transition-colors">Purchase History</Link></li>
+            <li><Link href="/jewellery-software-pune" className="hover:text-white transition-colors">Jewellery Software in Pune</Link></li>
+            <li><Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
           </ul>
         </div>
 
@@ -40,10 +46,12 @@ export default function Footer() {
         <div className="space-y-4">
           <h4 className="text-[#C6A87C] text-xs font-bold uppercase tracking-widest">Company</h4>
           <ul className="space-y-2 text-sm text-gray-400">
-            <li><a href="/our-story" className="hover:text-white transition-colors">About Us</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
-            <li><a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><Link href="/our-story" className="hover:text-white transition-colors">About Us</Link></li>
+            <li><Link href="/guides" className="hover:text-white transition-colors">Guides for Jewellers</Link></li>
+            <li><Link href="/guides/dmd-gold-vs-tally-for-jewellers" className="hover:text-white transition-colors">DMD Gold vs Tally</Link></li>
+            <li><a href="mailto:info@dmdgold.com?subject=Careers%20at%20DMD%20Gold" className="hover:text-white transition-colors">Careers</a></li>
+            <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+            <li><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
           </ul>
         </div>
 

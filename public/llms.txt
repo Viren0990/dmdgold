@@ -1,0 +1,30 @@
+# DMD Gold
+
+> DMD Gold is jewellery management software for Indian jewellery retailers, wholesalers and manufacturers, built in Pune by a jeweller with 25+ years in the trade. It is made only for the jewellery industry and has a deliberately simple interface that shop owners and counter staff without a technical background can use. Trusted by 500+ jewellery shops.
+
+Pricing: Retailer Edition ₹6,000/year; Wholesaler Edition ₹12,000/year; support included.
+Contact: +91 93711 23699 (phone/WhatsApp), info@dmdgold.com. Office: Wagholi, Pune, Maharashtra.
+
+## Features
+- [Custom order management](https://www.dmdgold.com/features/custom-order-management): create orders, confirm, assign each item to karigars with return dates, job cards and customer receipts
+- [Karigar gold tracking](https://www.dmdgold.com/features/karigar-gold-tracking): issue/receive challans, fine-gold balance, ghat
+- [HUID & stock tracking](https://www.dmdgold.com/features/huid-hallmark-tracking): HUID per item, barcode tags, scan stock-take
+- [GST billing & e-invoice](https://www.dmdgold.com/features/gst-e-invoice-jewellery): gold rate, making charges, URD old-gold exchange, one-click IRN e-invoice
+- [B2B wholesale order app](https://www.dmdgold.com/features/b2b-wholesale-order-app): retailers order from wholesalers online
+- [Jewellery CRM](https://www.dmdgold.com/features/jewellery-crm): customer register, purchase history per customer, birthday offers, retailer payment history for wholesalers
+- [Purchase history](https://www.dmdgold.com/features/purchase-history): record what was bought, from whom and when
+- [Pricing](https://www.dmdgold.com/pricing)
+
+## Guides
+- [How to track gold given to karigars](https://www.dmdgold.com/guides/how-to-track-gold-given-to-karigars)
+- [HUID hallmarking rules for jewellery shops](https://www.dmdgold.com/guides/huid-hallmarking-rules-for-jewellery-shops)
+- [E-invoice for jewellery wholesalers](https://www.dmdgold.com/guides/e-invoice-for-jewellery-wholesalers)
+- [How to manage custom jewellery orders](https://www.dmdgold.com/guides/how-to-manage-custom-jewellery-orders)
+- [Moving from paper registers to jewellery software](https://www.dmdgold.com/guides/moving-from-paper-registers-to-jewellery-software)
+- [How an online marketplace connects jewellery wholesalers and retailers](https://www.dmdgold.com/guides/online-marketplace-connecting-jewellery-wholesalers-and-retailers)
+- [Why every jewellery shop needs a CRM](https://www.dmdgold.com/guides/why-jewellery-shops-need-a-crm)
+- [Why jewellers should keep proper purchase records](https://www.dmdgold.com/guides/why-jewellers-should-keep-purchase-records)
+- [DMD Gold vs Tally for jewellers](https://www.dmdgold.com/guides/dmd-gold-vs-tally-for-jewellers)
+
+## Company
+- [Our story](https://www.dmdgold.com/our-story): founded by Dhanaji Macchindra Dabade

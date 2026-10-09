@@ -45,9 +45,9 @@ export default function LoadingScreen({ isLoading }: LoadingScreenProps) {
           transition-all duration-700 ease-out delay-300
           ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
         `}>
-                    <h1 className="text-[#C6A87C] text-2xl md:text-3xl font-serif font-bold tracking-wide text-center">
-                        DMD GOLD SOFTWARE
-                    </h1>
+                    <p className="text-[#C6A87C] text-2xl md:text-3xl font-serif font-bold tracking-wide text-center">
+                        DMD GOLD
+                    </p>
                 </div>
 
                 {/* 3. LOGO CONTAINER */}

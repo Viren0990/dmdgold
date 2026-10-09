@@ -4,11 +4,12 @@ import Footer from '@/components/Footer';
 import Contact from '@/components/Contact';
 import { Metadata } from 'next';
 import Image from 'next/image';
+import { FOUNDER, TRUST_STATS } from '@/lib/constants';
 
 
 export const metadata: Metadata = {
   title: 'Our Story — Built by a Jeweller, for Jewellers | Pune, India',
-  description: 'DMD Gold was born from 25+ years of real experience in India\'s jewellery trade. Our founder — from Pune — built the platform he wished he had as a jeweller. Learn the story behind India\'s most trusted jewellery software.',
+  description: 'DMD Gold was born from 25+ years of real experience in India\'s jewellery trade. Founder Dhanaji Macchindra Dabade, from Pune, built the platform he wished he had as a jeweller. Now used by 500+ jewellery shops.',
   alternates: {
     canonical: 'https://www.dmdgold.com/our-story',
   },
@@ -46,7 +47,7 @@ export default function OurStoryPage() {
           {/* Visual: Image Placeholder */}
           <div className="w-full md:w-1/2 relative min-h-[400px]">
             <div className="absolute inset-0 bg-gray-200 rounded-3xl border border-gray-100 shadow-xl overflow-hidden flex flex-col items-center justify-center text-gray-400">
-               <Image src="/images/pp.webp" alt="DMD Gold Founder — 25 years of experience in the Indian jewellery industry, Pune" width={500} height={500} />
+               <Image src="/images/pp.webp" alt="Dhanaji Macchindra Dabade, founder of DMD Gold — 25 years in the Indian jewellery industry, Pune" width={500} height={500} />
             </div>
           </div>
 
@@ -59,6 +60,9 @@ export default function OurStoryPage() {
               Experienced the heart of India's jewelry trade.
             </h3>
             <div className="space-y-5 text-gray-500 text-lg leading-relaxed">
+              <p className="text-[#2C2C2C] font-semibold">
+                {FOUNDER.name} &mdash; {FOUNDER.role}
+              </p>
               <p>
                 Our founder didn't come from a tech company or a corporate boardroom. He came from behind the glass counter of a jewelry shop — a place where trust is earned in grams and carats, and where a single handshake can seal a deal worth lakhs.
               </p>
@@ -145,12 +149,7 @@ export default function OurStoryPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
           {/* Left: Stats Grid */}
           <div className="w-full md:w-1/2 grid grid-cols-2 gap-4">
-            {[
-              { number: '25+', label: 'Years of Industry Experience' },
-              { number: '500+', label: 'Shops Powered' },
-              { number: '10M+', label: 'Inventory Items Tracked' },
-              { number: '24/7', label: 'Dedicated Support' },
-            ].map((stat, i) => (
+            {TRUST_STATS.map((stat, i) => (
               <div key={i} className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center hover:-translate-y-1 transition-transform duration-300">
                 <div className="text-3xl font-serif text-[#C6A87C] mb-2">{stat.number}</div>
                 <div className="text-xs font-bold uppercase tracking-widest text-gray-400">{stat.label}</div>

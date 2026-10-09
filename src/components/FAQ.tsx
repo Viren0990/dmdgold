@@ -13,7 +13,7 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     question: "What is DMD Gold jewellery software?",
-    answer: "DMD Gold is India's #1 all-in-one jewellery management software. It combines multi-category inventory management, GST-compliant billing & POS, karigar (artisan) tracking, B2B eCommerce wholesale marketplace, E-Invoice generation, HUID hallmark tracking, and much more — into a single secure platform built specifically for Indian jewellers."
+    answer: "DMD Gold is all-in-one jewellery management software, built by a jeweller with 25+ years in the trade and used by 500+ jewellery shops. It combines multi-category inventory management, GST-compliant billing & POS, karigar (artisan) tracking, B2B eCommerce wholesale marketplace, E-Invoice generation, HUID hallmark tracking, and much more — into a single secure platform built specifically for Indian jewellers."
   },
   {
     question: "Is DMD Gold available in Pune and across India?",
@@ -28,8 +28,16 @@ const faqData: FAQItem[] = [
     answer: "Yes. DMD Gold has a complete Karigar Management module. You can maintain artisan profiles with Aadhaar, PAN, and GST details, track inward and outward challans, monitor ghat (gold loss), view full transaction and payment history, and manage multiple karigars across different locations — all from one dashboard."
   },
   {
+    question: "Can DMD Gold manage custom jewellery orders?",
+    answer: "Yes. Create a customer order with the design, approximate weight and delivery date, mark it confirmed, and assign each item to a karigar — different items in one order can go to different karigars. Set the return date for each piece, revoke or reassign items if needed, and download job cards for your karigars and an order receipt for your customer. It is available in both the Retailer and Wholesaler editions."
+  },
+  {
     question: "Does DMD Gold have a B2B wholesale marketplace?",
     answer: "Yes. DMD Gold includes a full B2B eCommerce platform where your retailers get a Flipkart-like buying experience. They can browse your digital catalogue with advanced filters, save favourites to wishlists, add items to cart, complete multi-step checkout with purchase order support, track orders, rate & review products, and download GST-compliant invoices — all from their browser or mobile device."
+  },
+  {
+    question: "Is DMD Gold easy to use for jewellers without computer knowledge?",
+    answer: "Yes. DMD Gold is made only for the jewellery industry and has a deliberately simple screen, so shop owners, family members and counter staff can use it without any technical background. Everything uses jewellery terms — gold rate, purity, making charges, karigar, HUID — instead of accounting jargon, and our team supports you on phone and WhatsApp."
   },
   {
     question: "What makes DMD Gold different from other jewellery software in India?",
@@ -121,7 +129,7 @@ export default function FAQ() {
             Everything About <span className="italic text-[#C6A87C]">DMD Gold</span> Jewellery Software
           </h3>
           <p className="text-gray-500 max-w-xl mx-auto text-base leading-relaxed">
-            Have questions about India&apos;s leading jewellery management platform? Find your answers below.
+            Have questions about DMD Gold jewellery software? Find your answers below.
           </p>
         </motion.div>
 

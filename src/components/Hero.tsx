@@ -34,57 +34,41 @@ export default function Hero() {
       <div className="relative h-full w-full flex flex-col items-center pt-24 z-10 pointer-events-none mb-4">
         <div className="text-center space-y-4">
 
-          {/* SEO H1 — always visible to crawlers regardless of JS animation state */}
-          <h1 className="sr-only">DMD Gold — India&apos;s #1 Jewellery Software for Billing, Inventory &amp; B2B</h1>
-
-          {/* SUBTITLE - DESKTOP ONLY */}
-          <h2
+          {/* EYEBROW */}
+          <p
             className={`
-              hidden md:block
-              text-[#8B6220] text-xs md:text-sm font-bold tracking-[0.3em] uppercase
-              transition-all duration-700 ease-out 
+              text-[#8B6220] text-[10px] md:text-sm font-bold tracking-[0.3em] uppercase
+              transition-all duration-700 ease-out
               ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
             `}
-            // Quick 100ms delay
             style={{ transitionDelay: '100ms', willChange: 'transform, opacity' }}
           >
-            All-In-One Solution
-          </h2>
+            Built by a Jeweller, for Jewellers
+          </p>
 
-          {/* MAIN TITLE - DESKTOP ONLY */}
-          <p
-            aria-hidden="true"
+          {/* MAIN TITLE — the page's only H1 */}
+          <h1
             className={`
-              
               text-[#2C2C2C] text-[2.70rem] md:text-6xl font-serif font-medium leading-tight
               transition-all duration-700 ease-out
               ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
             `}
-            // Tighter stagger (250ms)
             style={{ transitionDelay: '250ms', willChange: 'transform, opacity' }}
           >
-            Managing Your <span className="italic text-[#8B6220]">Jewelry Business</span> <br className="hidden md:block" /> Just Got Simpler.
-          </p>
+            Managing Your <span className="italic text-[#8B6220]">Jewellery Business</span> <br className="hidden md:block" /> Just Got Simpler.
+          </h1>
 
-          {/* MOBILE ONLY SUBHEADING */}
+          {/* SUBLINE - ALL BREAKPOINTS */}
           <div
             className={`
-              md:hidden
-              text-[#2C2C2C] font-serif
-              transition-all duration-700 ease-out p-2
-              ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-            `}
-            style={{ transitionDelay: '150ms' }}
-          >
-            <p className="text-gray-500 text-sm">From tracking gold grams to instant GST bills—DMD Gold: easy software by jewelers, for jewelers.</p>
-
-          </div>
-
-          <p className={`hidden lg:block text-gray-500 max-w-2xl mx-auto leading-relaxed leading-tight
+              text-gray-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed px-2
               transition-all duration-700 ease-out
               ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-            `}>From tracking gold grams to instant E-invoices and GST bill, DMD Gold: easy software by jewelers, for jewelers.</p>
-
+            `}
+            style={{ transitionDelay: '400ms' }}
+          >
+            <p>From tracking gold grams to instant E-invoices and GST bills — billing, stock, karigars and wholesale orders in one software.</p>
+          </div>
 
         </div>
       </div>

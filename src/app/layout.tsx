@@ -4,6 +4,7 @@ import "./globals.css";
 import Script from "next/script";
 import ChatBot from "@/components/ChatBot";
 import DemoModal from "@/components/DemoModal";
+import { PROFILE_URLS } from '@/lib/constants';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,10 +19,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.dmdgold.com"),
   title: {
-    default: "DMD Gold — #1 Jewellery Software in India | Billing, Inventory & B2B Platform",
+    default: "DMD Gold — Jewellery Software for Billing, Inventory & B2B | Built by a Jeweller",
     template: "%s | DMD Gold",
   },
-  description: "DMD Gold is India's leading jewellery management software — built in Pune for Indian jewellers. GST billing, inventory, karigar tracking, B2B wholesale, E-Invoice & more. Free demo.",
+  description: "DMD Gold is jewellery management software built by a jeweller, for jewellers — in Pune. GST billing, inventory, karigar tracking, B2B wholesale, E-Invoice & HUID. Trusted by 500+ shops. Free demo.",
   keywords: [
     "jewellery software", "jewellery software india", "jewellery software pune",
     "jewelry software", "dmd gold", "dmd", "gold software india",
@@ -63,22 +64,13 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://www.dmdgold.com",
     siteName: "DMD Gold",
-    title: "DMD Gold — #1 Jewellery Software in India | Billing, Inventory & B2B",
-    description: "India's leading jewellery management software. GST billing, inventory, karigar tracking, B2B wholesale, E-Invoice & more. Built in Pune for Indian jewellers.",
-    images: [
-      {
-        url: "https://www.dmdgold.com/images/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "DMD Gold — India's #1 Jewellery Software for Billing, Inventory & B2B",
-      },
-    ],
+    title: "DMD Gold — Jewellery Software Built by a Jeweller | Billing, Inventory & B2B",
+    description: "Jewellery software trusted by 500+ shops. GST billing, inventory, karigar tracking, B2B wholesale, E-Invoice & more. Built in Pune by a jeweller.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DMD Gold — #1 Jewellery Software in India",
-    description: "India's leading jewellery management software. GST billing, inventory, karigar tracking, B2B wholesale & more. Built in Pune.",
-    images: ["https://www.dmdgold.com/images/logo.png"],
+    title: "DMD Gold — Jewellery Software Built by a Jeweller",
+    description: "Jewellery software trusted by 500+ shops. GST billing, inventory, karigar tracking, B2B wholesale & more. Built in Pune.",
   },
 };
 
@@ -95,7 +87,7 @@ export default function RootLayout({
       "alternateName": "DMD Green Tech",
       "url": "https://www.dmdgold.com",
       "logo": "https://www.dmdgold.com/images/logo.png",
-      "description": "India's leading jewellery management software — built in Pune for Indian jewellers.",
+      "description": "Jewellery management software built by a jeweller, for Indian jewellers — in Pune.",
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+91-9371123699",
@@ -111,7 +103,7 @@ export default function RootLayout({
         "postalCode": "412207",
         "addressCountry": "IN"
       },
-      "sameAs": []
+      "sameAs": PROFILE_URLS
     },
     {
       "@context": "https://schema.org",
@@ -151,22 +143,37 @@ export default function RootLayout({
       "name": "DMD Gold",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "description": "India's #1 jewellery management software. Multi-category inventory, GST-compliant billing & POS, karigar tracking, B2B wholesale marketplace, E-Invoice, HUID tracking — all-in-one platform built in Pune for Indian jewellers.",
+      "description": "Jewellery management software built by a jeweller. Multi-category inventory, GST-compliant billing & POS, karigar tracking, B2B wholesale marketplace, E-Invoice, HUID tracking — all-in-one platform built in Pune for Indian jewellers.",
       "url": "https://www.dmdgold.com",
       "publisher": {
         "@type": "Organization",
         "name": "DMD Green Tech",
         "logo": "https://www.dmdgold.com/images/logo.png"
       },
-      "offers": {
-        "@type": "Offer",
-        "availability": "https://schema.org/InStock",
-        "url": "https://www.dmdgold.com/plans"
-      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Retailer Edition",
+          "price": "6000",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.dmdgold.com/pricing"
+        },
+        {
+          "@type": "Offer",
+          "name": "Wholesaler Edition",
+          "price": "12000",
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "url": "https://www.dmdgold.com/pricing"
+        }
+      ],
       "featureList": [
         "Multi-category jewellery inventory management",
         "GST-compliant billing & POS",
         "Karigar / artisan management",
+        "Custom order management with karigar job cards & customer receipts",
+        "Purchase history records",
         "B2B eCommerce wholesale marketplace",
         "E-Invoice & E-Way bill generation",
         "HUID hallmark tracking",
@@ -181,12 +188,7 @@ export default function RootLayout({
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "DMD Gold",
-      "url": "https://www.dmdgold.com",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.dmdgold.com/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
+      "url": "https://www.dmdgold.com"
     }
   ];
 

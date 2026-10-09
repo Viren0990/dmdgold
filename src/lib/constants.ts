@@ -3,7 +3,7 @@ export const pricingData = {
     {
       id: 'retailer-edition',
       name: 'Retailer Edition',
-      badge: 'B2C SHOPS',
+      badge: 'RETAIL SHOWROOMS',
       tagline: 'Complete software for jewellery retailers',
       price: '₹6,000',
       pricePaise: 600000,
@@ -17,6 +17,8 @@ export const pricingData = {
         "Hallmarking (HUID) tag tracking",
         "Old-gold exchange & GST invoicing",
         "Customer and Karigar management",
+        "Custom orders — karigar job cards & customer receipts",
+        "Purchase history — what you bought, from whom",
         "Quotation desk and management",
         "Works with DMD barcode printers & scanners",
         "Phone & remote support"
@@ -26,7 +28,7 @@ export const pricingData = {
     {
       id: 'wholesaler-edition',
       name: 'Wholesaler Edition',
-      badge: 'B2B BUSINESSES',
+      badge: 'WHOLESALERS & MANUFACTURERS',
       tagline: 'For wholesalers & manufacturers',
       price: '₹12,000',
       pricePaise: 1200000,
@@ -40,6 +42,8 @@ export const pricingData = {
         "Bulk invoicing & GST reports",
         "Job-work & making-charge management",
         "Customer and Karigar management",
+        "Custom orders — karigar job cards & customer receipts",
+        "Purchase history — what you bought, from whom",
         "B2B marketplace — receive orders online",
         "Enrol your retailers free on the DMD platform",
         "Excel Support & Priority support"
@@ -79,3 +83,34 @@ export const ACCESSORIES = [
   { id: 'einvoice_5000', name: '5,000 e-invoices pack (₹2.25/inv)', pricePaise: 1125000, unit: 'pack', type: 'einvoice' },
   { id: 'einvoice_10000', name: '10,000 e-invoices pack (₹1.95/inv)', pricePaise: 1950000, unit: 'pack', type: 'einvoice' },
 ];
+
+export const FOUNDER = {
+  name: 'Dhanaji Macchindra Dabade',
+  role: 'Founder, DMD Gold',
+  photo: '/images/pp.webp',
+  quote: 'I spent 25 years behind the counter, in the karkhana and on the road to wholesale markets. DMD Gold is the software I wished I had as a jeweller.',
+};
+
+export const TRUST_STATS = [
+  { number: '25+', label: 'Years of Industry Experience' },
+  { number: '500+', label: 'Shops Powered' },
+  { number: '10M+', label: 'Inventory Items Tracked' },
+  { number: '24/7', label: 'Dedicated Support' },
+];
+
+export type Testimonial = {
+  shop: string;
+  city: string;
+  owner: string;
+  photo?: string;
+  result: string;
+  quote: string;
+};
+
+// Real customer stories only — the homepage section stays hidden while this is empty.
+export const TESTIMONIALS: Testimonial[] = [];
+
+// Official profiles on other sites (Google Business Profile, SoftwareSuggest, Capterra, G2,
+// IndiaMART, Techjockey, Instagram, YouTube, LinkedIn…). Add each URL once the listing is live —
+// it is published as the Organization "sameAs" so Google and AI assistants link them to DMD Gold.
+export const PROFILE_URLS: string[] = [];
