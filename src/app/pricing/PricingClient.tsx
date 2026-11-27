@@ -71,6 +71,30 @@ const PackageCard = ({
         </p>
 
         <div className="pt-5 pb-2">
+          {pkg.originalPrice && (
+            <div className="mb-3">
+              {/* Engraved-style offer rule */}
+              <div className="flex items-center gap-3 mb-2">
+                <span className="flex-1 h-px bg-gradient-to-r from-transparent to-[#D4B888]/60" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#D4B888]">
+                  Limited Time Offer
+                </span>
+                <span className="flex-1 h-px bg-gradient-to-l from-transparent to-[#D4B888]/60" />
+              </div>
+
+              {/* Was: one-time licence, slashed */}
+              <div className="flex items-baseline justify-center gap-2">
+                <span className="relative inline-block px-1">
+                  <span className="font-serif text-xl text-gray-500">{pkg.originalPrice}</span>
+                  <span
+                    aria-hidden
+                    className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] rounded-full bg-[#D4B888]"
+                  />
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500">one-time</span>
+              </div>
+            </div>
+          )}
           <div className="flex items-start justify-center gap-1">
             <span className={`text-2xl lg:text-3xl font-bold mt-1 ${pkg.highlight ? 'text-[#D4B888]' : 'text-[#C6A87C]'}`}>
               ₹
